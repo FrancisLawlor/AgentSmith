@@ -1,0 +1,1 @@
+{"rounds": [{"number": 0,"type": "prisonersdilemma"},{"number": 1,"type": "minoritygame"}],"agents": [{"id": 0,"strategy": "bestplay"}, {"id": 1,"strategy": "random"}]}
