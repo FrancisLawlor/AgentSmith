@@ -1,0 +1,25 @@
+package agents;
+
+agent Player {
+	module Cartago cartago;
+	module System S;
+	module Math M;
+	module Prelude P;
+	module Console console;
+	
+	types player {
+		formula result(int);
+		formula strategy(string);
+	}
+	
+	rule +!main([string strategy]) {
+		console.println(strategy);
+		!setup();
+	}
+	
+	rule +!setup() {
+		cartago.link();
+		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
+}
