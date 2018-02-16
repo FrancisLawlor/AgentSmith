@@ -6,20 +6,25 @@ import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import tournament.rounds.Round;
 
 public class DashBoardScene extends Scene {
 	DashBoardPane dashBoardPane;
 	
 	public DashBoardScene(DashBoardPane dashBoardPane) {
-		super(dashBoardPane, GUIDimensions.mainWindowWidth, GUIDimensions.mainWindowHeight);
+		super(dashBoardPane, GUIDimensions.MAIN_WINDOW_WIDTH, GUIDimensions.MAIN_WINDOW_HEIGHT);
 		this.dashBoardPane = dashBoardPane;
 	}
 	
-	public Button getRefreshButton() {
-		return this.dashBoardPane.getRefreshButton();
+	public Button getPlayButton() {
+		return this.dashBoardPane.getPlayButton();
 	}
 	
-	public ListView<AgentInfo> getListView() {
-		return this.dashBoardPane.getListView();
+	public ListView<AgentInfo> getAgentListView() {
+		return this.dashBoardPane.getAgentListView();
+	}
+	
+	public ListView<Round> getRoundListView() {
+		return this.dashBoardPane.getRoundListView();
 	}
 }

@@ -31,9 +31,9 @@ agent TournamentConfigurator {
     rule $cartago.signal(string id, numberOfRounds(int rounds)) {
 		console.println("number of rounds: " + rounds);
 	}
-	
+
 	rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
-		S.createAgent(agentId, "agents.astra.Player");
+		S.createAgent(agentId, "agents.Player");
 		S.setMainGoal(agentId, [agentStrategy]);
 		console.println("created agent: " + agentId);
 	}

@@ -304,10 +304,10 @@ public class TournamentConfigurator extends ASTRAClass {
 				"agents.TournamentConfigurator", new int[] {35,87,39,5},
 				new Statement[] {
 					new ModuleCall("S",
-						"agents.TournamentConfigurator", new int[] {36,8,36,53},
+						"agents.TournamentConfigurator", new int[] {36,8,36,47},
 						new Predicate("createAgent", new Term[] {
 							new Variable(Type.STRING, "agentId"),
-							Primitive.newPrimitive("agents.astra.Player")
+							Primitive.newPrimitive("agents.Player")
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {

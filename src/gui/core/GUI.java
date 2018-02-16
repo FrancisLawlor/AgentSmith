@@ -5,6 +5,7 @@ import gui.panes.DashBoardPane;
 import gui.scenes.DashBoardScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import tournament.rounds.Round;
 
 public class GUI {
 	private DashBoardScene dashBoardScene;
@@ -12,8 +13,9 @@ public class GUI {
 	
 	public GUI(SceneContainerStage containerStage) {
 	    ObservableList<AgentInfo> agentData = FXCollections.observableArrayList();
+	    ObservableList<Round> roundData = FXCollections.observableArrayList();
 		
-		this.dashBoardPane = new DashBoardPane(agentData);
+		this.dashBoardPane = new DashBoardPane(agentData, roundData);
 
 		this.dashBoardScene = new DashBoardScene(this.dashBoardPane);
 	}

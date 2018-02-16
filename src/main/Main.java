@@ -2,7 +2,6 @@ package main;
 
 import java.io.IOException;
 
-import tournament.core.Tournament;
 import tournament.core.TournamentConfigurator;
 
 public class Main {
