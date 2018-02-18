@@ -80,13 +80,13 @@ public class DashBoardPane extends BorderPane {
 	    leftBarContent.setSpacing(8);
 	    
 	    Button loadTournamentButton = new Button(GUIText.LOAD_TOURNAMENT);
-	    Button saveTournament = new Button(GUIText.SAVE_TOURNAMENT);
+	    Button saveTournamentButton = new Button(GUIText.SAVE_TOURNAMENT);
 	    
 	    this.loadTournamentButton = loadTournamentButton;
-	    this.saveTournamentButton = saveTournament;
+	    this.saveTournamentButton = saveTournamentButton;
 	    
         leftBarContent.getChildren().add(loadTournamentButton);
-        leftBarContent.getChildren().add(saveTournament);
+        leftBarContent.getChildren().add(saveTournamentButton);
 	    
 	    return leftBarContent;
 	}
@@ -155,9 +155,9 @@ public class DashBoardPane extends BorderPane {
 	
 	private BorderPane configureRightBar() {
 		BorderPane rightBarContent = new BorderPane();
-		rightBarContent.setPadding(new Insets(10));
+		rightBarContent.setPadding(new Insets(GUIDimensions.START_TOURNAMENT_BUTTON_INSETS));
 	    
-	    Button playButton = new Button(GUIText.PLAY);
+	    Button playButton = new Button(GUIText.START_TOURNAMENT_BUTTON);
 	    rightBarContent.setBottom(playButton);
 	    this.playButton = playButton;
         

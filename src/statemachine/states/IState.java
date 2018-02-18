@@ -1,7 +1,7 @@
 package statemachine.states;
 
-import statemachine.utils.StateName;
+import statemachine.utils.StateParameters;
 
 public interface IState {
-	void execute(StateName param);
+	void execute(StateParameters param);
 }

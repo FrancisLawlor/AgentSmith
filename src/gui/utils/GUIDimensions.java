@@ -13,4 +13,8 @@ public class GUIDimensions {
 	public static final double LISTVIEW_LABEL_LEFT_PADDING = 1;
 	public static final double DASHBOARD_VBOX_SPACING = 8;
 	public static final double DASHBOARD_LISTVIEW_LABEL_FONT_SIZE = 15;
+	public static final double START_TOURNAMENT_BUTTON_INSETS = 10;
+	public static final double CREATE_AGENT_BUTTON_INSETS = 10;
+	public static final double CREATE_ROUND_BUTTON_INSETS = 10;
+	public static final double PROGRESS_INDICATOR_MAX_DIMENSION = 300;
 }

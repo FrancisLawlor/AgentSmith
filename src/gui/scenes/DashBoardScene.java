@@ -27,4 +27,20 @@ public class DashBoardScene extends Scene {
 	public ListView<Round> getRoundListView() {
 		return this.dashBoardPane.getRoundListView();
 	}
+	
+	public Button getLoadTournamentButton() {
+		return this.dashBoardPane.getLoadTournamentButton();
+	}
+	
+	public Button getSaveTournamentButton() {
+		return this.dashBoardPane.getSaveTournamentButton();
+	}
+	
+	public Button getAddAgentButton() {
+		return this.dashBoardPane.getAddAgentButton();
+	}
+	
+	public Button getAddRoundButton() {
+		return this.dashBoardPane.getAddRoundButton();
+	}
 }

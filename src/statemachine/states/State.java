@@ -1,9 +1,9 @@
 package statemachine.states;
 
-import statemachine.utils.StateName;
+import statemachine.utils.StateParameters;
 
 public class State implements IState {
-	public void execute(StateName param) {
+	public void execute(StateParameters init) {
 		
 	}
 }
