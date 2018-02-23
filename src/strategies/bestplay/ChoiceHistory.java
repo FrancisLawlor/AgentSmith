@@ -3,32 +3,32 @@ package strategies.bestplay;
 import java.util.LinkedList;
 
 public class ChoiceHistory {
-    private LinkedList<Integer> choiceHistory;
+    private LinkedList<Integer> choiceHistoryList;
     private int choiceHistoryLength;
 
     public ChoiceHistory(int choiceHistoryLength) {
-        this.choiceHistory = new LinkedList<>();
+        this.choiceHistoryList = new LinkedList<>();
         this.choiceHistoryLength = choiceHistoryLength;
     }
 
     public void updateChoiceHistory(int i) {
-        if (choiceHistory.size() < choiceHistoryLength) {
-            this.choiceHistory.add(i);
+        if (this.choiceHistoryList.size() < this.choiceHistoryLength) {
+            this.choiceHistoryList.add(i);
         } else {
-            this.choiceHistory.removeFirst();
-            this.choiceHistory.add(i);
+            this.choiceHistoryList.removeFirst();
+            this.choiceHistoryList.add(i);
         }
     }
 
     public LinkedList<Integer> getPreviousMChoices() throws InsufficientHistoryException {
-        if (choiceHistory.size() < choiceHistoryLength) {
+        if (choiceHistoryList.size() < choiceHistoryLength) {
             throw new InsufficientHistoryException();
         }
-        return this.choiceHistory;
+        return this.choiceHistoryList;
     }
 
     public boolean isShorterThanM() {
-        return this.choiceHistory.size() < this.choiceHistoryLength;
+        return this.choiceHistoryList.size() < this.choiceHistoryLength;
     }
 
     public int getChoiceHistoryLength() {

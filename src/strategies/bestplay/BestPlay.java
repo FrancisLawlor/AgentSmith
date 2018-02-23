@@ -9,17 +9,17 @@ public class BestPlay extends Strategy {
 	private static final int NUMBER_OF_CHOICES = 2;
 	private static final int BID_MINUS_ONE = -1;
 	private static final int BID_ONE = 1;
+	private static final String WINNING_CHOICE = "WINNING_CHOICE";
 	
 	private ChoiceHistory choiceHistory;
-	private int[] strategy;
+	private int[] strategyVector;
 
-	public BestPlay(int numberOfChoices) {
-		super(numberOfChoices);
-		ChoiceHistory choiceHistory = new ChoiceHistory(numberOfChoices);
-		this.strategy = generateStrategy(choiceHistory.getChoiceHistoryLength());
+	public BestPlay() {
+		this.choiceHistory = new ChoiceHistory(NUMBER_OF_CHOICES);
+		this.strategyVector = generateStrategyVector(choiceHistory.getChoiceHistoryLength());
 	}
 
-	private int[] generateStrategy(int m) {
+	private int[] generateStrategyVector(int m) {
 		int numberOfInputs = (int) Math.pow(NUMBER_OF_CHOICES, m);
 		int[] output = new int[numberOfInputs];
 
@@ -28,9 +28,9 @@ public class BestPlay extends Strategy {
 
 			// TO_DO make more generalisable
 			if (randomChoice == 0) {
-				output[i] = -1;
+				output[i] = BID_MINUS_ONE;
 			} else {
-				output[i] = 1;
+				output[i] = BID_ONE;
 			}
 		}
 
@@ -40,13 +40,11 @@ public class BestPlay extends Strategy {
 	@Override
 	public int generateChoice(HashMap<String, Object> strategyResources) {
 		if (choiceHistory.isShorterThanM()) {
-			int randomChoice = (int) (Math.random() * this.numberOfChoices);
+			int randomChoice = (int) (Math.random() * NUMBER_OF_CHOICES);
 
 			if (randomChoice == 0) {
-				choiceHistory.updateChoiceHistory(BID_MINUS_ONE);
 				return BID_MINUS_ONE;
 			} else {
-				choiceHistory.updateChoiceHistory(BID_ONE);
 				return BID_ONE;
 			}
 		} else {
@@ -66,12 +64,14 @@ public class BestPlay extends Strategy {
 					strategyIndex += Math.pow(NUMBER_OF_CHOICES, choiceHistory.getChoiceHistoryLength() - 1 - i);
 				}
 			}
-
-			int choice = strategy[strategyIndex];
-
-			choiceHistory.updateChoiceHistory(choice);
-
-			return choice;
+			
+			return strategyVector[strategyIndex];
+		}
+	}
+	
+	public void updateStrategy(String key, int value) {
+		if (key.equals(WINNING_CHOICE)) {
+			choiceHistory.updateChoiceHistory(value);
 		}
 	}
 }

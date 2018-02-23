@@ -24,4 +24,5 @@ public class GUIText {
 	public static final String GAME_MENU_BUTTON_LABEL = "Select a game";
 	public static final String TOURNAMENT_PLAYING_TEXT = "Waiting for tournament to finish...";
 	public static final String CREATE_AGENT_HEADING = "Create Agent";
+	public static final String CREATE_ROUND_HEADING = "Create Round";
 }

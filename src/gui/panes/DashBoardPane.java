@@ -140,7 +140,7 @@ public class DashBoardPane extends BorderPane {
 							setGraphic(null);
 						}
 						if (item != null) {
-							VBox vBox = new VBox(new Text(item.getGame().getId()), new Text(item.getGame().getId()));
+							VBox vBox = new VBox(new Text("game"), new Text("game"));
 							HBox hBox = new HBox(new Label("[Graphic]"), vBox);
 							hBox.setSpacing(10);
 							setGraphic(hBox);

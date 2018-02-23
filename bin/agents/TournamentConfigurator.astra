@@ -28,7 +28,7 @@ agent TournamentConfigurator {
          console.println("Tournament Created");
     }  
         
-    rule $cartago.signal(string id, numberOfRounds(int rounds)) {
+    rule $cartago.signal(string id, 	numberOfRounds(int rounds)) {
 		console.println("number of rounds: " + rounds);
 	}
 

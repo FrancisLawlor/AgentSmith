@@ -3,23 +3,57 @@ package agents;
 agent Player {
 	module Cartago cartago;
 	module System S;
-	module Math M;
-	module Prelude P;
 	module Console console;
 	
 	types player {
 		formula result(int);
-		formula strategy(string);
+		formula playerAgentId(string);
+		formula payoff(float);
 	}
 	
-	rule +!main([string strategy]) {
-		console.println(strategy);
-		!setup();
-	}
-	
-	rule +!setup() {
+	rule +!connectToTournamentArtifact() {
 		cartago.link();
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
 		cartago.focus(id);
+	}
+	
+	rule +!connectToStrategyArtifact() {
+//		console.println(S.name() + " connected to strategy.");
+		cartago.link();
+		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
+		cartago.focus(strategyId);
+	}
+	
+	rule @message(request, string id, playerAgentId(string Id)) {
+		send (agree, id, playerAgentId(Id)); 
+		!connectToTournamentArtifact();
+		cartago.getNumberOfOptions(Id);
+	}
+	
+	rule $cartago.signal(string id, numberOfOptions(string agentId, int num)) {
+		if (agentId == S.name()) {
+			!connectToStrategyArtifact();
+			cartago.getGuess(S.name(), num);
+		}
+	}
+	
+	rule $cartago.signal(string id, generatedGuess(string agentId, int guess)) {
+		if (agentId == S.name()) {
+			console.println(agentId + ": guess: " + guess);
+			cartago.playGame(agentId, guess);
+		}
+	}
+	
+	rule $cartago.signal(string id, gameFinished(string agentId, float payoff)) {
+		if (agentId == S.name()) {
+			console.println(id + " " + agentId + ": payoff - " + payoff);
+			cartago.receivedPayoff();
+		}
+	}
+	
+	rule $cartago.signal(string id, sendUpdateKeyValuePair(string updateDataKey, int updateDataValue)) {
+		console.println(id + " " + updateDataKey + ": " + updateDataValue);
+		!connectToStrategyArtifact();
+		cartago.updateStrategy(S.name(), updateDataKey, updateDataValue);
 	}
 }

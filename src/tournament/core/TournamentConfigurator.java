@@ -37,9 +37,9 @@ public class TournamentConfigurator extends Artifact {
 	
 	@OPERATION
 	public void createAgents() {
-		System.out.println(tournament.getAgents().get(0).getStrategy());
 		synchronized (lock) {
 			for (int i = 0; i < tournament.getAgents().size(); i++) {
+				System.out.println("strategy: " + tournament.getAgents().get(i).getStrategy());
 				signal("createAgent", tournament.getAgents().get(i).getId(), tournament.getAgents().get(i).getStrategy());
 			}
 		}

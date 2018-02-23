@@ -1,7 +1,7 @@
 package statemachine.states;
 
+
 import agents.info.AgentInfo;
-import games.minoritygame.MinorityGame;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
@@ -66,7 +66,7 @@ public class DashboardState extends State {
 		sceneContainerStage.setTitle(GUIText.DASHBOARD);	
 		
 		gui.getDashBoardScene().getAgentListView().getItems().add(new AgentInfo("james", "bestplay"));
-		gui.getDashBoardScene().getRoundListView().getItems().add(new Round(new MinorityGame("game")));
+		gui.getDashBoardScene().getRoundListView().getItems().add(new Round());
 	}
 
 	private void clickLoad() {

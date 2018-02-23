@@ -1,0 +1,57 @@
+package agents;
+
+agent GameMaster {
+	module Cartago cartago;
+	module Console console;
+	module System system;
+	
+	types actions {
+		formula playerAgentId(string);
+		formula curr(int, string);
+	}
+	
+	rule +!main(list args) {
+		cartago.startService();
+		cartago.link();
+		
+		!setupTournamentArtifact(cartago.ArtifactId tournamentArtifact);
+		cartago.lookupArtifact("tournament", cartago.ArtifactId tournamentId);
+		cartago.focus(tournamentId);
+		
+		!setupStrategyArtifact(cartago.ArtifactId strategyArtifact);
+		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
+		cartago.focus(strategyId);
+		
+		cartago.operation(tournamentId, configureTournament("configuration/config.json"));
+		cartago.operation(strategyId, populateStrategiesMap("configuration/config.json"));
+		cartago.createAgents();
+				
+		int i = 0;
+		
+		while (i < 5) {
+			string idString = i + "";
+			send(request, idString, playerAgentId(idString));
+			i = i + 1;
+        }
+	}
+	
+	rule +!setupTournamentArtifact(cartago.ArtifactId C) {
+		cartago.makeArtifact("tournament", "tournament.core.TournamentArtifact", cartago.params([]), C);
+		console.println("Tournament artifact Created");
+    }
+    
+    rule +!setupStrategyArtifact(cartago.ArtifactId strategiesArtifact) {
+		cartago.makeArtifact("strategy", "strategies.core.StrategiesArtifact", cartago.params([]), strategiesArtifact);
+		console.println("Strategy artifact Created");
+    }  
+        
+    rule $cartago.signal(string id, 	numberOfOptions(int options)) {
+		console.println("number of options: " + options);
+	}
+	
+	rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
+		system.createAgent(agentId, "agents.Player");
+		system.setMainGoal(agentId, [agentStrategy]);
+		console.println("created agent: " + agentId);
+	}
+}

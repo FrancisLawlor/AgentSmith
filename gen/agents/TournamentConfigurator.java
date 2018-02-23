@@ -234,7 +234,7 @@ public class TournamentConfigurator extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.TournamentConfigurator", new int[] {31,9,31,65},
+			"agents.TournamentConfigurator", new int[] {31,9,31,69},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -254,7 +254,7 @@ public class TournamentConfigurator extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.TournamentConfigurator", new int[] {31,64,33,5},
+				"agents.TournamentConfigurator", new int[] {31,68,33,5},
 				new Statement[] {
 					new ModuleCall("console",
 						"agents.TournamentConfigurator", new int[] {32,8,32,54},
