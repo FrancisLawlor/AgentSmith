@@ -11,6 +11,11 @@ agent Player {
 		formula payoff(float);
 	}
 	
+	rule +!main(list args) {
+		!connectToTournamentArtifact();
+		!connectToStrategyArtifact();
+	}
+		
 	rule +!connectToTournamentArtifact() {
 		cartago.link();
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
@@ -18,42 +23,46 @@ agent Player {
 	}
 	
 	rule +!connectToStrategyArtifact() {
-//		console.println(S.name() + " connected to strategy.");
 		cartago.link();
 		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
 		cartago.focus(strategyId);
 	}
 	
-	rule @message(request, string id, playerAgentId(string Id)) {
-		send (agree, id, playerAgentId(Id)); 
-		!connectToTournamentArtifact();
-		cartago.getNumberOfOptions(Id);
+	rule @message(request, string id, playerAgentId(string agentId)) {
+//		console.println("Request sent to agent with id " + agentId + ".");
+		cartago.getNumberOfOptions(agentId);
 	}
 	
-	rule $cartago.signal(string id, numberOfOptions(string agentId, int num)) {
+	rule $cartago.signal(string id, numberOfOptions(string agentId, int amountOfOptions)) {
 		if (agentId == S.name()) {
-			!connectToStrategyArtifact();
-			cartago.getGuess(S.name(), num);
+//			console.println("Agent with id " + agentId + " has received the amount of options which is " + amountOfOptions + ".");
+			cartago.getGuess(S.name(), amountOfOptions);
 		}
 	}
 	
 	rule $cartago.signal(string id, generatedGuess(string agentId, int guess)) {
 		if (agentId == S.name()) {
-			console.println(agentId + ": guess: " + guess);
+//			console.println(agentId + "\'s generated guess: " + guess);
 			cartago.playGame(agentId, guess);
 		}
 	}
 	
 	rule $cartago.signal(string id, gameFinished(string agentId, float payoff)) {
 		if (agentId == S.name()) {
-			console.println(id + " " + agentId + ": payoff - " + payoff);
+//			console.println("Agent with id " + agentId + "\'s' payoff: " + payoff);
 			cartago.receivedPayoff();
 		}
 	}
 	
 	rule $cartago.signal(string id, sendUpdateKeyValuePair(string updateDataKey, int updateDataValue)) {
-		console.println(id + " " + updateDataKey + ": " + updateDataValue);
-		!connectToStrategyArtifact();
+//		console.println("Received <" + updateDataKey + ", " + updateDataValue + ">");
 		cartago.updateStrategy(S.name(), updateDataKey, updateDataValue);
+	}
+	
+	rule $cartago.signal(string id, updateReceived(string agentId)) {
+		if (agentId == S.name()) {
+//			console.println("Strategy update by " + agentId + " has been received.");
+			send (request, "main", playerAgentId("main"));
+		}
 	}
 }

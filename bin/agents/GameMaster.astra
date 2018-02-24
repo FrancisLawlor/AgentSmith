@@ -8,6 +8,8 @@ agent GameMaster {
 	types actions {
 		formula playerAgentId(string);
 		formula curr(int, string);
+		formula tournamentId(string, cartago.ArtifactId);
+		formula strategyId(string, cartago.ArtifactId);
 	}
 	
 	rule +!main(list args) {
@@ -25,14 +27,8 @@ agent GameMaster {
 		cartago.operation(tournamentId, configureTournament("configuration/config.json"));
 		cartago.operation(strategyId, populateStrategiesMap("configuration/config.json"));
 		cartago.createAgents();
-				
-		int i = 0;
 		
-		while (i < 5) {
-			string idString = i + "";
-			send(request, idString, playerAgentId(idString));
-			i = i + 1;
-        }
+		cartago.newRound();
 	}
 	
 	rule +!setupTournamentArtifact(cartago.ArtifactId C) {
@@ -43,15 +39,32 @@ agent GameMaster {
     rule +!setupStrategyArtifact(cartago.ArtifactId strategiesArtifact) {
 		cartago.makeArtifact("strategy", "strategies.core.StrategiesArtifact", cartago.params([]), strategiesArtifact);
 		console.println("Strategy artifact Created");
-    }  
-        
-    rule $cartago.signal(string id, 	numberOfOptions(int options)) {
-		console.println("number of options: " + options);
-	}
-	
-	rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
+    }
+    
+    rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
 		system.createAgent(agentId, "agents.Player");
 		system.setMainGoal(agentId, [agentStrategy]);
 		console.println("created agent: " + agentId);
+	}
+	
+    rule $cartago.signal(string id, startNewRound(int numberOfAgents)) {
+//    		console.println("New round started with " + numberOfAgents + " agents.");
+    			
+		int i = 0;
+		
+		while (i < numberOfAgents) {
+			string idString = i + "";
+			send(request, idString, playerAgentId(idString));
+			i = i + 1;
+        }        
+	}
+	
+	rule @message(request, string id, playerAgentId(string agentId)) {	
+//		console.println("Agent with id " + agentId + " has received the request for a new round.");
+		cartago.newRound();
+	}
+	
+	rule $cartago.signal(string id, endTournament()) {
+		console.println("Tournament is over lads");
 	}
 }

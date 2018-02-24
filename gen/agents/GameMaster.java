@@ -20,7 +20,7 @@ public class GameMaster extends ASTRAClass {
 	public GameMaster() {
 		setParents(new Class[] {astra.lang.Agent.class});
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {13,9,13,28},
+			"agents.GameMaster", new int[] {15,9,15,28},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("main", new Term[] {
@@ -30,10 +30,10 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {13,27,36,5},
+				"agents.GameMaster", new int[] {15,27,32,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {14,8,14,30},
+						"agents.GameMaster", new int[] {16,8,16,30},
 						new Predicate("startService", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -47,7 +47,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {15,8,15,22},
+						"agents.GameMaster", new int[] {17,8,17,22},
 						new Predicate("link", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -61,7 +61,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new Subgoal(
-						"agents.GameMaster", new int[] {17,8,36,5},
+						"agents.GameMaster", new int[] {19,8,32,5},
 						new Goal(
 							new Predicate("setupTournamentArtifact", new Term[] {
 								new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentArtifact",false)
@@ -69,7 +69,7 @@ public class GameMaster extends ASTRAClass {
 						)
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {18,8,18,77},
+						"agents.GameMaster", new int[] {20,8,20,77},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("tournament"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentId",false)
@@ -88,7 +88,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {19,8,19,35},
+						"agents.GameMaster", new int[] {21,8,21,35},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentId")
 						}),
@@ -106,7 +106,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new Subgoal(
-						"agents.GameMaster", new int[] {21,8,36,5},
+						"agents.GameMaster", new int[] {23,8,32,5},
 						new Goal(
 							new Predicate("setupStrategyArtifact", new Term[] {
 								new Variable(new ObjectType(cartago.ArtifactId.class), "strategyArtifact",false)
@@ -114,7 +114,7 @@ public class GameMaster extends ASTRAClass {
 						)
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {22,8,22,73},
+						"agents.GameMaster", new int[] {24,8,24,73},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("strategy"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "strategyId",false)
@@ -133,7 +133,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {23,8,23,33},
+						"agents.GameMaster", new int[] {25,8,25,33},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "strategyId")
 						}),
@@ -151,7 +151,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {25,8,25,89},
+						"agents.GameMaster", new int[] {27,8,27,89},
 						new Predicate("operation", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentId"),
 							new Funct("configureTournament", new Term[] {
@@ -172,7 +172,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {26,8,26,89},
+						"agents.GameMaster", new int[] {28,8,28,89},
 						new Predicate("operation", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "strategyId"),
 							new Funct("populateStrategiesMap", new Term[] {
@@ -193,7 +193,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {27,8,27,30},
+						"agents.GameMaster", new int[] {29,8,29,30},
 						new Predicate("createAgents", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -208,51 +208,27 @@ public class GameMaster extends ASTRAClass {
 							}
 						}
 					),
-					new Declaration(
-						new Variable(Type.INTEGER, "i"),
-						"agents.GameMaster", new int[] {29,8,36,5},
-						Primitive.newPrimitive(0)
-					),
-					new While(
-						"agents.GameMaster", new int[] {31,8,36,5},
-						new Comparison("<",
-							new Variable(Type.INTEGER, "i"),
-							Primitive.newPrimitive(5)
-						),
-						new Block(
-							"agents.GameMaster", new int[] {31,21,35,9},
-							new Statement[] {
-								new Declaration(
-									new Variable(Type.STRING, "idString"),
-									"agents.GameMaster", new int[] {32,12,35,9},
-									Operator.newOperator('+',
-										new Variable(Type.INTEGER, "i"),
-										Primitive.newPrimitive("")
-									)
-								),
-								new Send("agents.GameMaster", new int[] {33,12,33,60},
-									new Performative("request"),
-									new Variable(Type.STRING, "idString"),
-									new Predicate("playerAgentId", new Term[] {
-										new Variable(Type.STRING, "idString")
-									})
-								),
-								new Assignment(
-									new Variable(Type.INTEGER, "i"),
-									"agents.GameMaster", new int[] {34,12,35,9},
-									Operator.newOperator('+',
-										new Variable(Type.INTEGER, "i"),
-										Primitive.newPrimitive(1)
-									)
-								)
+					new ModuleCall("cartago",
+						"agents.GameMaster", new int[] {31,8,31,26},
+						new Predicate("newRound", new Term[] {}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
 							}
-						)
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
 					)
 				}
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {38,9,38,58},
+			"agents.GameMaster", new int[] {34,9,34,58},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("setupTournamentArtifact", new Term[] {
@@ -262,10 +238,10 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {38,57,41,5},
+				"agents.GameMaster", new int[] {34,57,37,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {39,8,39,103},
+						"agents.GameMaster", new int[] {35,8,35,103},
 						new Predicate("makeArtifact", new Term[] {
 							Primitive.newPrimitive("tournament"),
 							Primitive.newPrimitive("tournament.core.TournamentArtifact"),
@@ -304,7 +280,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.GameMaster", new int[] {40,8,40,54},
+						"agents.GameMaster", new int[] {36,8,36,54},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("Tournament artifact Created")
 						}),
@@ -324,7 +300,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {43,9,43,73},
+			"agents.GameMaster", new int[] {39,9,39,73},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("setupStrategyArtifact", new Term[] {
@@ -334,10 +310,10 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {43,72,46,5},
+				"agents.GameMaster", new int[] {39,72,42,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {44,8,44,118},
+						"agents.GameMaster", new int[] {40,8,40,118},
 						new Predicate("makeArtifact", new Term[] {
 							Primitive.newPrimitive("strategy"),
 							Primitive.newPrimitive("strategies.core.StrategiesArtifact"),
@@ -376,7 +352,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.GameMaster", new int[] {45,8,45,52},
+						"agents.GameMaster", new int[] {41,8,41,52},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("Strategy artifact Created")
 						}),
@@ -396,53 +372,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {48,9,48,71},
-			new ModuleEvent("cartago",
-				"$cse",
-				new Predicate("signal", new Term[] {
-					new Variable(Type.STRING, "id",false),
-					new Funct("numberOfOptions", new Term[] {
-						new Variable(Type.INTEGER, "options",false)
-					})
-				}),
-				new ModuleEventAdaptor() {
-					public Event generate(astra.core.Agent agent, Predicate predicate) {
-						return ((astra.lang.Cartago) agent.getModule("agents.GameMaster","cartago")).signal(
-							predicate.getTerm(0),
-							predicate.getTerm(1)
-						);
-					}
-				}
-			),
-			Predicate.TRUE,
-			new Block(
-				"agents.GameMaster", new int[] {48,70,50,5},
-				new Statement[] {
-					new ModuleCall("console",
-						"agents.GameMaster", new int[] {49,8,49,56},
-						new Predicate("println", new Term[] {
-							Operator.newOperator('+',
-								Primitive.newPrimitive("number of options: "),
-								new Variable(Type.INTEGER, "options")
-							)
-						}),
-						new DefaultModuleCallAdaptor() {
-							public boolean inline() {
-								return false;
-							}
-
-							public boolean invoke(Intention intention, Predicate predicate) {
-								return ((astra.lang.Console) intention.getModule("agents.GameMaster","console")).println(
-									(java.lang.String) intention.evaluate(predicate.getTerm(0))
-								);
-							}
-						}
-					)
-				}
-			)
-		));
-		addRule(new Rule(
-			"agents.GameMaster", new int[] {52,9,52,88},
+			"agents.GameMaster", new int[] {44,9,44,88},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -463,10 +393,10 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {52,87,56,5},
+				"agents.GameMaster", new int[] {44,87,48,5},
 				new Statement[] {
 					new ModuleCall("system",
-						"agents.GameMaster", new int[] {53,8,53,52},
+						"agents.GameMaster", new int[] {45,8,45,52},
 						new Predicate("createAgent", new Term[] {
 							new Variable(Type.STRING, "agentId"),
 							Primitive.newPrimitive("agents.Player")
@@ -485,7 +415,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("system",
-						"agents.GameMaster", new int[] {54,8,54,52},
+						"agents.GameMaster", new int[] {46,8,46,52},
 						new Predicate("setMainGoal", new Term[] {
 							new Variable(Type.STRING, "agentId"),
 							new ListTerm(new Term[] {
@@ -506,12 +436,151 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.GameMaster", new int[] {55,8,55,52},
+						"agents.GameMaster", new int[] {47,8,47,52},
 						new Predicate("println", new Term[] {
 							Operator.newOperator('+',
 								Primitive.newPrimitive("created agent: "),
 								new Variable(Type.STRING, "agentId")
 							)
+						}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return false;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Console) intention.getModule("agents.GameMaster","console")).println(
+									(java.lang.String) intention.evaluate(predicate.getTerm(0))
+								);
+							}
+						}
+					)
+				}
+			)
+		));
+		addRule(new Rule(
+			"agents.GameMaster", new int[] {50,9,50,72},
+			new ModuleEvent("cartago",
+				"$cse",
+				new Predicate("signal", new Term[] {
+					new Variable(Type.STRING, "id",false),
+					new Funct("startNewRound", new Term[] {
+						new Variable(Type.INTEGER, "numberOfAgents",false)
+					})
+				}),
+				new ModuleEventAdaptor() {
+					public Event generate(astra.core.Agent agent, Predicate predicate) {
+						return ((astra.lang.Cartago) agent.getModule("agents.GameMaster","cartago")).signal(
+							predicate.getTerm(0),
+							predicate.getTerm(1)
+						);
+					}
+				}
+			),
+			Predicate.TRUE,
+			new Block(
+				"agents.GameMaster", new int[] {50,71,60,5},
+				new Statement[] {
+					new Declaration(
+						new Variable(Type.INTEGER, "i"),
+						"agents.GameMaster", new int[] {53,8,60,5},
+						Primitive.newPrimitive(0)
+					),
+					new While(
+						"agents.GameMaster", new int[] {55,8,60,5},
+						new Comparison("<",
+							new Variable(Type.INTEGER, "i"),
+							new Variable(Type.INTEGER, "numberOfAgents")
+						),
+						new Block(
+							"agents.GameMaster", new int[] {55,35,59,9},
+							new Statement[] {
+								new Declaration(
+									new Variable(Type.STRING, "idString"),
+									"agents.GameMaster", new int[] {56,12,59,9},
+									Operator.newOperator('+',
+										new Variable(Type.INTEGER, "i"),
+										Primitive.newPrimitive("")
+									)
+								),
+								new Send("agents.GameMaster", new int[] {57,12,57,60},
+									new Performative("request"),
+									new Variable(Type.STRING, "idString"),
+									new Predicate("playerAgentId", new Term[] {
+										new Variable(Type.STRING, "idString")
+									})
+								),
+								new Assignment(
+									new Variable(Type.INTEGER, "i"),
+									"agents.GameMaster", new int[] {58,12,59,9},
+									Operator.newOperator('+',
+										new Variable(Type.INTEGER, "i"),
+										Primitive.newPrimitive(1)
+									)
+								)
+							}
+						)
+					)
+				}
+			)
+		));
+		addRule(new Rule(
+			"agents.GameMaster", new int[] {62,9,62,70},
+			new MessageEvent(
+				new Performative("request"),
+				new Variable(Type.STRING, "id",false),
+				new Predicate("playerAgentId", new Term[] {
+					new Variable(Type.STRING, "agentId",false)
+				})
+			),
+			Predicate.TRUE,
+			new Block(
+				"agents.GameMaster", new int[] {62,69,65,5},
+				new Statement[] {
+					new ModuleCall("cartago",
+						"agents.GameMaster", new int[] {64,8,64,26},
+						new Predicate("newRound", new Term[] {}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					)
+				}
+			)
+		));
+		addRule(new Rule(
+			"agents.GameMaster", new int[] {67,9,67,54},
+			new ModuleEvent("cartago",
+				"$cse",
+				new Predicate("signal", new Term[] {
+					new Variable(Type.STRING, "id",false),
+					new Funct("endTournament", new Term[] {})
+				}),
+				new ModuleEventAdaptor() {
+					public Event generate(astra.core.Agent agent, Predicate predicate) {
+						return ((astra.lang.Cartago) agent.getModule("agents.GameMaster","cartago")).signal(
+							predicate.getTerm(0),
+							predicate.getTerm(1)
+						);
+					}
+				}
+			),
+			Predicate.TRUE,
+			new Block(
+				"agents.GameMaster", new int[] {67,53,69,5},
+				new Statement[] {
+					new ModuleCall("console",
+						"agents.GameMaster", new int[] {68,8,68,50},
+						new Predicate("println", new Term[] {
+							Primitive.newPrimitive("Tournament is over lads")
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {

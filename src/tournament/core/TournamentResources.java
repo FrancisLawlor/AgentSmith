@@ -10,5 +10,6 @@ public class TournamentResources {
 	public static final String SEND_PAYOFF = "sendPayoff";
 	public static final String GAME_FINISHED = "gameFinished";
 	public static final String SEND_UPDATE_KEY_VALUE_PAIR = "sendUpdateKeyValuePair";
-
+	public static final String START_NEW_ROUND = "startNewRound";
+	public static final String END_TOURNAMENT = "endTournament";
 }

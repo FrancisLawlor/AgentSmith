@@ -10,13 +10,8 @@ import java.util.Map;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import cartago.AgentBodyArtifact;
-import cartago.AgentId;
 import cartago.Artifact;
 import cartago.OPERATION;
-import cartago.security.AgentCredential;
-import cartago.util.agent.Agent;
 
 public class TournamentArtifact extends Artifact{
 	private Tournament tournament;
@@ -25,7 +20,8 @@ public class TournamentArtifact extends Artifact{
 	private Map<String, Integer> currentGuesses = new HashMap<String, Integer>();
 	private Map<String, Float> currentPayoffs = new HashMap<String, Float>();
 	private int numberOfReceivedPayoffs = 0;
-	private Map<String, Integer> updateStrategyData = new HashMap<String, Integer>();
+	private int numberOfAgentsFinishedUpdatingStrategies = 0;
+	private int currentNumberOfGuesses = 0;
 
 	@OPERATION
 	public void configureTournament(String configFilePath) throws IOException {
@@ -59,6 +55,29 @@ public class TournamentArtifact extends Artifact{
 	}
 	
 	@OPERATION
+	public void newRound() {
+		synchronized (lock) {
+			if (this.currentRound < this.tournament.getRounds().size()) {
+				if (this.currentRound == 0) {
+					signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size());
+				} else {
+					numberOfAgentsFinishedUpdatingStrategies++;
+					if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
+						signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size());
+						numberOfAgentsFinishedUpdatingStrategies = 0;
+					}
+				}
+			} else {
+				numberOfAgentsFinishedUpdatingStrategies++;
+				if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
+					signal(TournamentResources.END_TOURNAMENT);
+					numberOfAgentsFinishedUpdatingStrategies = 0;
+				}
+			}
+		}
+	}
+	
+	@OPERATION
 	public void getNumberOfOptions(String agentId) {
 		synchronized (lock) {
 			signal(TournamentResources.NUMBER_OF_OPTIONS, agentId, tournament.getRounds().get(currentRound).getGame().getNumberOfOptions());
@@ -68,67 +87,34 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void playGame(String agentId, int bid) {
 		synchronized (lock) {
-			currentGuesses.put(agentId, bid);
+			this.currentGuesses.put(agentId, bid);
+			this.currentNumberOfGuesses++;
 			
-			if (currentGuesses.size() == tournament.getAgents().size()) {
+			if (currentNumberOfGuesses == tournament.getAgents().size()) {
 				this.currentPayoffs = tournament.getRounds().get(currentRound).getGame().play(currentGuesses);
 				
-				int i = 0;
 				for (String id: currentPayoffs.keySet()) {
 					signal(TournamentResources.GAME_FINISHED, id, this.currentPayoffs.get(id));
-					System.out.println(i++ + " " + id);
 				}
-			}			
+				
+				this.currentNumberOfGuesses = 0;
+			}		
 		}
 	}
 	
 	@OPERATION void receivedPayoff() {
-		this.numberOfReceivedPayoffs++;
-		
-		if (numberOfReceivedPayoffs == tournament.getAgents().size()) {
-			numberOfReceivedPayoffs = 0;
-			
-			System.out.println("all received");
-			
-			Map<String, Integer> updateDataMap = this.tournament.getRounds().get(currentRound).getGame().getUpdateStrategyData(this.currentGuesses);
-			
-			for (String updateKey: updateDataMap.keySet()) {
-				signal(TournamentResources.SEND_UPDATE_KEY_VALUE_PAIR, updateKey, updateDataMap.get(updateKey));
-				System.out.println(updateKey + ": " + updateDataMap.get(updateKey));
-			}
-		}
-	}
-	
-	@OPERATION
-	public void getNumberOfAgents() {
 		synchronized (lock) {
-			signal(TournamentResources.NUMBER_OF_AGENTS, tournament.getAgents().size());
-		}
-	}
-	
-	@OPERATION
-	public void getPayoff(String agentId) {
-		synchronized (lock) {
-			signal(TournamentResources.SEND_PAYOFF, agentId, this.currentPayoffs.get(agentId));
-		}
-	}
-	
-	@OPERATION
-	public void updateStrategies() {
-		synchronized (lock) {
-			if (numberOfReceivedPayoffs == tournament.getAgents().size()) {
-				this.updateStrategyData = tournament.getRounds().get(currentRound).getGame().getUpdateStrategyData(currentGuesses);
-			}
+			this.numberOfReceivedPayoffs++;
 			
-			signal(TournamentResources.TOURNAMENT_MANAGER_AGENT_ID);
-		}
-	}
-	
-	@OPERATION
-	public void getStrategyUpdateData() {
-		synchronized (lock) {
-			for (String dataId: this.updateStrategyData.keySet()) {
-				signal(TournamentResources.STRATEGY_UPDATE, dataId, this.updateStrategyData.get(dataId));
+			if (this.numberOfReceivedPayoffs == this.tournament.getAgents().size()) {
+				Map<String, Integer> updateDataMap = this.tournament.getRounds().get(this.currentRound).getGame().getUpdateStrategyData(this.currentGuesses);
+				
+				for (String updateKey: updateDataMap.keySet()) {
+					signal(TournamentResources.SEND_UPDATE_KEY_VALUE_PAIR, updateKey, updateDataMap.get(updateKey));
+				}
+				
+				this.numberOfReceivedPayoffs = 0;
+				this.currentRound++;
 			}
 		}
 	}

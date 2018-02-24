@@ -29,7 +29,7 @@ public class StrategiesArtifact extends Artifact {
 		String tournamentJsonString = bufferedReader.readLine();		
 		bufferedReader.close();
 		
-		this.tournament =  gsonUtility.fromJson(tournamentJsonString, Tournament.class);
+		this.tournament = gsonUtility.fromJson(tournamentJsonString, Tournament.class);
 		
 		for (int i = 0; i < tournament.getAgents().size(); i++) {
 			Strategy strategy = (Strategy) Class.forName(tournament.getAgents().get(i).getStrategy()).newInstance();
@@ -40,7 +40,7 @@ public class StrategiesArtifact extends Artifact {
 	@OPERATION
 	public void getGuess(String agentId, int numberOfOptions) {
 		synchronized (lock) {
-			signal(StrategiesResources.GUESS, agentId, playerStrategies.get(agentId).generateChoice(null));
+			signal(StrategiesResources.GENERATED_GUESS, agentId, playerStrategies.get(agentId).generateChoice(null));
 		}
 	}
 	
@@ -48,6 +48,7 @@ public class StrategiesArtifact extends Artifact {
 	public void updateStrategy(String agentId, String dataKey, int dataValue) {
 		synchronized (lock) {
 			playerStrategies.get(agentId).updateStrategy(dataKey, dataValue);
+			signal(StrategiesResources.UPDATE_RECEIVED, agentId);
 		}
 	}
 }
