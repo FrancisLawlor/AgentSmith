@@ -3,6 +3,8 @@ package strategies.core;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ public class StrategiesArtifact extends Artifact {
 	private Tournament tournament;
 
 	@OPERATION
-	public void populateStrategiesMap(String configFilePath) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public void populateStrategiesMap(String configFilePath) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, IllegalArgumentException, InvocationTargetException {
 		Gson gsonUtility = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
@@ -32,7 +34,9 @@ public class StrategiesArtifact extends Artifact {
 		this.tournament = gsonUtility.fromJson(tournamentJsonString, Tournament.class);
 		
 		for (int i = 0; i < tournament.getAgents().size(); i++) {
-			Strategy strategy = (Strategy) Class.forName(tournament.getAgents().get(i).getStrategy()).newInstance();
+			Class<?> strategyClass = Class.forName(tournament.getAgents().get(i).getStrategy());
+			Constructor<?> strategyConstructor = strategyClass.getConstructors()[0];
+		    Strategy strategy = (Strategy) strategyConstructor.newInstance(new Object[] {2, 8});
 			playerStrategies.put(tournament.getAgents().get(i).getId(), strategy);
 		}
 	}

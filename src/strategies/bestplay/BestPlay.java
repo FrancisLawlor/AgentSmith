@@ -13,8 +13,9 @@ public class BestPlay extends Strategy {
 	private int[] strategyVector;
 	private int numberOfChoices;
 
-	public BestPlay(int numberOfChoices) {
-		this.choiceHistory = new ChoiceHistory(numberOfChoices);
+	public BestPlay(int numberOfChoices, int historyLength) {
+		this.numberOfChoices = numberOfChoices;
+		this.choiceHistory = new ChoiceHistory(historyLength);
 		this.strategyVector = generateStrategyVector(choiceHistory.getChoiceHistoryLength());
 	}
 
@@ -35,7 +36,7 @@ public class BestPlay extends Strategy {
 	public int generateChoice(HashMap<String, Object> strategyResources) {
 		if (choiceHistory.isShorterThanM()) {
 			int randomChoice = (int) (Math.random() * this.numberOfChoices);
-
+			
 			return MinorityGameInputMapper.mapInput(randomChoice);
 		} else {
 			LinkedList<Integer> previousMChoices = null;
@@ -53,7 +54,8 @@ public class BestPlay extends Strategy {
 				strategyIndex += strategyVector[choiceHistory.getChoiceHistoryLength() - 1 - i] * Math.pow(this.numberOfChoices, i);
 			}
 			
-			return strategyVector[strategyIndex];
+			System.out.println("strategyIndex: " + strategyIndex);
+			return MinorityGameInputMapper.mapInput(strategyVector[strategyIndex]);
 		}
 	}
 	
