@@ -47,9 +47,9 @@ agent GameMaster {
 		console.println("created agent: " + agentId);
 	}
 	
-    rule $cartago.signal(string id, startNewRound(int numberOfAgents)) {
+    rule $cartago.signal(string id, startNewRound(int numberOfAgents, int numberOfRounds)) {
 //    		console.println("New round started with " + numberOfAgents + " agents.");
-    			
+    		console.println("Starting round " + numberOfRounds + " !");
 		int i = 0;
 		
 		while (i < numberOfAgents) {
@@ -65,6 +65,6 @@ agent GameMaster {
 	}
 	
 	rule $cartago.signal(string id, endTournament()) {
-		console.println("Tournament is over lads");
+		console.println("Tournament is over.");
 	}
 }

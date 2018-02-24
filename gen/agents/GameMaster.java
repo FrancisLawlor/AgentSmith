@@ -459,13 +459,14 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {50,9,50,72},
+			"agents.GameMaster", new int[] {50,9,50,92},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
 					new Variable(Type.STRING, "id",false),
 					new Funct("startNewRound", new Term[] {
-						new Variable(Type.INTEGER, "numberOfAgents",false)
+						new Variable(Type.INTEGER, "numberOfAgents",false),
+						new Variable(Type.INTEGER, "numberOfRounds",false)
 					})
 				}),
 				new ModuleEventAdaptor() {
@@ -479,8 +480,31 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {50,71,60,5},
+				"agents.GameMaster", new int[] {50,91,60,5},
 				new Statement[] {
+					new ModuleCall("console",
+						"agents.GameMaster", new int[] {52,12,52,70},
+						new Predicate("println", new Term[] {
+							Operator.newOperator('+',
+								Primitive.newPrimitive("Starting round "),
+								Operator.newOperator('+',
+									new Variable(Type.INTEGER, "numberOfRounds"),
+									Primitive.newPrimitive(" !")
+								)
+							)
+						}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return false;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Console) intention.getModule("agents.GameMaster","console")).println(
+									(java.lang.String) intention.evaluate(predicate.getTerm(0))
+								);
+							}
+						}
+					),
 					new Declaration(
 						new Variable(Type.INTEGER, "i"),
 						"agents.GameMaster", new int[] {53,8,60,5},
@@ -578,9 +602,9 @@ public class GameMaster extends ASTRAClass {
 				"agents.GameMaster", new int[] {67,53,69,5},
 				new Statement[] {
 					new ModuleCall("console",
-						"agents.GameMaster", new int[] {68,8,68,50},
+						"agents.GameMaster", new int[] {68,8,68,46},
 						new Predicate("println", new Term[] {
-							Primitive.newPrimitive("Tournament is over lads")
+							Primitive.newPrimitive("Tournament is over.")
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {

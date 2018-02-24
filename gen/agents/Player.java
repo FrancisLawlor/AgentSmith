@@ -338,6 +338,29 @@ public class Player extends ASTRAClass {
 						new Block(
 							"agents.Player", new int[] {44,33,47,9},
 							new Statement[] {
+								new ModuleCall("console",
+									"agents.Player", new int[] {45,12,45,70},
+									new Predicate("println", new Term[] {
+										Operator.newOperator('+',
+											new Variable(Type.STRING, "agentId"),
+											Operator.newOperator('+',
+												Primitive.newPrimitive("\'s generated guess: "),
+												new Variable(Type.INTEGER, "guess")
+											)
+										)
+									}),
+									new DefaultModuleCallAdaptor() {
+										public boolean inline() {
+											return false;
+										}
+
+										public boolean invoke(Intention intention, Predicate predicate) {
+											return ((astra.lang.Console) intention.getModule("agents.Player","console")).println(
+												(java.lang.String) intention.evaluate(predicate.getTerm(0))
+											);
+										}
+									}
+								),
 								new ModuleCall("cartago",
 									"agents.Player", new int[] {46,12,46,44},
 									new Predicate("playGame", new Term[] {

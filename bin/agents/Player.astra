@@ -42,7 +42,7 @@ agent Player {
 	
 	rule $cartago.signal(string id, generatedGuess(string agentId, int guess)) {
 		if (agentId == S.name()) {
-//			console.println(agentId + "\'s generated guess: " + guess);
+			console.println(agentId + "\'s generated guess: " + guess);
 			cartago.playGame(agentId, guess);
 		}
 	}

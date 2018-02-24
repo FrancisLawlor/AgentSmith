@@ -3,52 +3,43 @@ package strategies.bestplay;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import games.minoritygame.MinorityGameInputMapper;
 import strategies.core.Strategy;
 
 public class BestPlay extends Strategy {
-	private static final int NUMBER_OF_CHOICES = 2;
-	private static final int BID_MINUS_ONE = -1;
-	private static final int BID_ONE = 1;
 	private static final String WINNING_CHOICE = "WINNING_CHOICE";
 	
 	private ChoiceHistory choiceHistory;
 	private int[] strategyVector;
+	private int numberOfChoices;
 
-	public BestPlay() {
-		this.choiceHistory = new ChoiceHistory(NUMBER_OF_CHOICES);
+	public BestPlay(int numberOfChoices) {
+		this.choiceHistory = new ChoiceHistory(numberOfChoices);
 		this.strategyVector = generateStrategyVector(choiceHistory.getChoiceHistoryLength());
 	}
 
 	private int[] generateStrategyVector(int m) {
-		int numberOfInputs = (int) Math.pow(NUMBER_OF_CHOICES, m);
-		int[] output = new int[numberOfInputs];
+		int sizeOfStrategyVector = (int) Math.pow(this.numberOfChoices, m);
+		int[] strategyVector = new int[sizeOfStrategyVector];
 
-		for (int i = 0; i < numberOfInputs; i++) {
-			int randomChoice = (int) (Math.random() * NUMBER_OF_CHOICES);
+		for (int i = 0; i < sizeOfStrategyVector; i++) {
+			int randomChoice = (int) (Math.random() * this.numberOfChoices);
 
-			// TO_DO make more generalisable
-			if (randomChoice == 0) {
-				output[i] = BID_MINUS_ONE;
-			} else {
-				output[i] = BID_ONE;
-			}
+			strategyVector[i] = randomChoice;
 		}
 
-		return output;
+		return strategyVector;
 	}
 
 	@Override
 	public int generateChoice(HashMap<String, Object> strategyResources) {
 		if (choiceHistory.isShorterThanM()) {
-			int randomChoice = (int) (Math.random() * NUMBER_OF_CHOICES);
+			int randomChoice = (int) (Math.random() * this.numberOfChoices);
 
-			if (randomChoice == 0) {
-				return BID_MINUS_ONE;
-			} else {
-				return BID_ONE;
-			}
+			return MinorityGameInputMapper.mapInput(randomChoice);
 		} else {
 			LinkedList<Integer> previousMChoices = null;
+			
 			try {
 				previousMChoices = choiceHistory.getPreviousMChoices();
 			} catch (InsufficientHistoryException e) {
@@ -56,13 +47,10 @@ public class BestPlay extends Strategy {
 			}
 
 			int strategyIndex = 0;
-
+			
+			// n-ary mapping to array index
 			for (int i = 0; i < choiceHistory.getChoiceHistoryLength(); i++) {
-				int choice = previousMChoices.get(i);
-
-				if (choice == 1) {
-					strategyIndex += Math.pow(NUMBER_OF_CHOICES, choiceHistory.getChoiceHistoryLength() - 1 - i);
-				}
+				strategyIndex += strategyVector[choiceHistory.getChoiceHistoryLength() - 1 - i] * Math.pow(this.numberOfChoices, i);
 			}
 			
 			return strategyVector[strategyIndex];
