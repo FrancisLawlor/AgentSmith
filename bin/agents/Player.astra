@@ -14,6 +14,7 @@ agent Player {
 	rule +!main(list args) {
 		!connectToTournamentArtifact();
 		!connectToStrategyArtifact();
+		!connectToScoreBoardArtifact();
 	}
 		
 	rule +!connectToTournamentArtifact() {
@@ -26,6 +27,12 @@ agent Player {
 		cartago.link();
 		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
 		cartago.focus(strategyId);
+	}
+	
+	rule +!connectToScoreBoardArtifact() {
+		cartago.link();
+		cartago.lookupArtifact("score_board", cartago.ArtifactId scoreBoardId);
+		cartago.focus(scoreBoardId);
 	}
 	
 	rule @message(request, string id, playerAgentId(string agentId)) {
@@ -44,6 +51,7 @@ agent Player {
 		if (agentId == S.name()) {
 			console.println(agentId + "\'s generated guess: " + guess);
 			cartago.playGame(agentId, guess);
+			cartago.recordBid(agentId, guess);
 		}
 	}
 	
@@ -51,6 +59,7 @@ agent Player {
 		if (agentId == S.name()) {
 //			console.println("Agent with id " + agentId + "\'s' payoff: " + payoff);
 			cartago.receivedPayoff();
+			cartago.recordPayoff(agentId, payoff);
 		}
 	}
 	

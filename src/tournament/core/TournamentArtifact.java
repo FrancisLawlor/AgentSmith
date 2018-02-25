@@ -59,11 +59,11 @@ public class TournamentArtifact extends Artifact{
 		synchronized (lock) {
 			if (this.currentRound < this.tournament.getRounds().size()) {
 				if (this.currentRound == 0) {
-					signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), currentRound);
+					signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), this.tournament.getRounds().size());
 				} else {
 					numberOfAgentsFinishedUpdatingStrategies++;
 					if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
-						signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), currentRound);
+						signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), this.tournament.getRounds().size());
 						numberOfAgentsFinishedUpdatingStrategies = 0;
 					}
 				}

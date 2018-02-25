@@ -7,9 +7,8 @@ agent GameMaster {
 	
 	types actions {
 		formula playerAgentId(string);
-		formula curr(int, string);
-		formula tournamentId(string, cartago.ArtifactId);
-		formula strategyId(string, cartago.ArtifactId);
+		formula numberOfRounds(int);
+		formula numberOfAgents(int);
 	}
 	
 	rule +!main(list args) {
@@ -17,29 +16,51 @@ agent GameMaster {
 		cartago.link();
 		
 		!setupTournamentArtifact(cartago.ArtifactId tournamentArtifact);
-		cartago.lookupArtifact("tournament", cartago.ArtifactId tournamentId);
-		cartago.focus(tournamentId);
+		!connectToTournamentArtifact();
 		
 		!setupStrategyArtifact(cartago.ArtifactId strategyArtifact);
-		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
-		cartago.focus(strategyId);
+		!connectToStrategyArtifact();
 		
-		cartago.operation(tournamentId, configureTournament("configuration/config.json"));
-		cartago.operation(strategyId, populateStrategiesMap("configuration/config.json"));
+		!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact);
+		!connectToScoreBoardArtifact();
+		
+		cartago.configureTournament("configuration/config.json");
+		cartago.populateStrategiesMap("configuration/config.json");
 		cartago.createAgents();
 		
+		cartago.createNewRoundScoreRecorder(5, 5);
 		cartago.newRound();
 	}
 	
-	rule +!setupTournamentArtifact(cartago.ArtifactId C) {
-		cartago.makeArtifact("tournament", "tournament.core.TournamentArtifact", cartago.params([]), C);
-		console.println("Tournament artifact Created");
+	rule +!setupTournamentArtifact(cartago.ArtifactId tournamentArtifact) {
+		cartago.makeArtifact("tournament", "tournament.core.TournamentArtifact", cartago.params([]), tournamentArtifact);
+		console.println("Tournament artifact created");
     }
+    
+    rule +!connectToTournamentArtifact() {
+		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
     
     rule +!setupStrategyArtifact(cartago.ArtifactId strategiesArtifact) {
 		cartago.makeArtifact("strategy", "strategies.core.StrategiesArtifact", cartago.params([]), strategiesArtifact);
-		console.println("Strategy artifact Created");
+		console.println("Strategy artifact created");
     }
+    
+    rule +!connectToStrategyArtifact() {
+		cartago.lookupArtifact("strategy", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
+    
+    rule +!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact) {
+		cartago.makeArtifact("score_board", "games.score.ScoreBoardArtifact", cartago.params([]), scoreBoardArtifact);
+		console.println("Scoreboard artifact created");
+    }
+    
+    rule +!connectToScoreBoardArtifact() {
+		cartago.lookupArtifact("score_board", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
     
     rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
 		system.createAgent(agentId, "agents.Player");
@@ -47,9 +68,10 @@ agent GameMaster {
 		console.println("created agent: " + agentId);
 	}
 	
-    rule $cartago.signal(string id, startNewRound(int numberOfAgents, int numberOfRounds)) {
+    rule $cartago.signal(string id, startNewRound(int numberOfAgents, int num)) {
 //    		console.println("New round started with " + numberOfAgents + " agents.");
-    		console.println("Starting round " + numberOfRounds + " !");
+		+numberOfAgents(numberOfAgents);
+		+numberOfRounds(num);
 		int i = 0;
 		
 		while (i < numberOfAgents) {
@@ -61,10 +83,16 @@ agent GameMaster {
 	
 	rule @message(request, string id, playerAgentId(string agentId)) {	
 //		console.println("Agent with id " + agentId + " has received the request for a new round.");
+		query(numberOfRounds(int num));
+		query(numberOfAgents(int agentNum));
+	
+		cartago.storeCurrentRound(agentNum);
+		cartago.createNewRoundScoreRecorder(agentNum, num);
 		cartago.newRound();
 	}
 	
 	rule $cartago.signal(string id, endTournament()) {
 		console.println("Tournament is over.");
+		cartago.printTournament();
 	}
 }

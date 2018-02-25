@@ -30,25 +30,31 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {14,27,17,5},
+				"agents.Player", new int[] {14,27,18,5},
 				new Statement[] {
 					new Subgoal(
-						"agents.Player", new int[] {15,8,17,5},
+						"agents.Player", new int[] {15,8,18,5},
 						new Goal(
 							new Predicate("connectToTournamentArtifact", new Term[] {})
 						)
 					),
 					new Subgoal(
-						"agents.Player", new int[] {16,8,17,5},
+						"agents.Player", new int[] {16,8,18,5},
 						new Goal(
 							new Predicate("connectToStrategyArtifact", new Term[] {})
+						)
+					),
+					new Subgoal(
+						"agents.Player", new int[] {17,8,18,5},
+						new Goal(
+							new Predicate("connectToScoreBoardArtifact", new Term[] {})
 						)
 					)
 				}
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {19,9,19,42},
+			"agents.Player", new int[] {20,9,20,42},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("connectToTournamentArtifact", new Term[] {})
@@ -56,10 +62,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {19,41,23,5},
+				"agents.Player", new int[] {20,41,24,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {20,8,20,22},
+						"agents.Player", new int[] {21,8,21,22},
 						new Predicate("link", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -73,7 +79,7 @@ public class Player extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {21,8,21,67},
+						"agents.Player", new int[] {22,8,22,67},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("tournament"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id",false)
@@ -92,7 +98,7 @@ public class Player extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {22,8,22,25},
+						"agents.Player", new int[] {23,8,23,25},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id")
 						}),
@@ -113,7 +119,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {25,9,25,40},
+			"agents.Player", new int[] {26,9,26,40},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("connectToStrategyArtifact", new Term[] {})
@@ -121,10 +127,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {25,39,29,5},
+				"agents.Player", new int[] {26,39,30,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {26,8,26,22},
+						"agents.Player", new int[] {27,8,27,22},
 						new Predicate("link", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -138,7 +144,7 @@ public class Player extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {27,8,27,73},
+						"agents.Player", new int[] {28,8,28,73},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("strategy"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "strategyId",false)
@@ -157,7 +163,7 @@ public class Player extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {28,8,28,33},
+						"agents.Player", new int[] {29,8,29,33},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "strategyId")
 						}),
@@ -178,7 +184,72 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {31,9,31,70},
+			"agents.Player", new int[] {32,9,32,42},
+			new GoalEvent('+',
+				new Goal(
+					new Predicate("connectToScoreBoardArtifact", new Term[] {})
+				)
+			),
+			Predicate.TRUE,
+			new Block(
+				"agents.Player", new int[] {32,41,36,5},
+				new Statement[] {
+					new ModuleCall("cartago",
+						"agents.Player", new int[] {33,8,33,22},
+						new Predicate("link", new Term[] {}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return false;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).link(
+								);
+							}
+						}
+					),
+					new ModuleCall("cartago",
+						"agents.Player", new int[] {34,8,34,78},
+						new Predicate("lookupArtifact", new Term[] {
+							Primitive.newPrimitive("score_board"),
+							new Variable(new ObjectType(cartago.ArtifactId.class), "scoreBoardId",false)
+						}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					),
+					new ModuleCall("cartago",
+						"agents.Player", new int[] {35,8,35,35},
+						new Predicate("focus", new Term[] {
+							new Variable(new ObjectType(cartago.ArtifactId.class), "scoreBoardId")
+						}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					)
+				}
+			)
+		));
+		addRule(new Rule(
+			"agents.Player", new int[] {38,9,38,70},
 			new MessageEvent(
 				new Performative("request"),
 				new Variable(Type.STRING, "id",false),
@@ -188,10 +259,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {31,69,34,5},
+				"agents.Player", new int[] {38,69,41,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {33,8,33,43},
+						"agents.Player", new int[] {40,8,40,43},
 						new Predicate("getNumberOfOptions", new Term[] {
 							new Variable(Type.STRING, "agentId")
 						}),
@@ -212,7 +283,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {36,9,36,91},
+			"agents.Player", new int[] {43,9,43,91},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -233,10 +304,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {36,90,41,5},
+				"agents.Player", new int[] {43,90,48,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {37,8,41,5},
+						"agents.Player", new int[] {44,8,48,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -254,10 +325,10 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {37,33,40,9},
+							"agents.Player", new int[] {44,33,47,9},
 							new Statement[] {
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {39,12,39,55},
+									"agents.Player", new int[] {46,12,46,55},
 									new Predicate("getGuess", new Term[] {
 										new ModuleTerm("S", Type.STRING,
 											new Predicate("name", new Term[] {}),
@@ -294,7 +365,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {43,9,43,80},
+			"agents.Player", new int[] {50,9,50,80},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -315,10 +386,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {43,79,48,5},
+				"agents.Player", new int[] {50,79,56,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {44,8,48,5},
+						"agents.Player", new int[] {51,8,56,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -336,10 +407,10 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {44,33,47,9},
+							"agents.Player", new int[] {51,33,55,9},
 							new Statement[] {
 								new ModuleCall("console",
-									"agents.Player", new int[] {45,12,45,70},
+									"agents.Player", new int[] {52,12,52,70},
 									new Predicate("println", new Term[] {
 										Operator.newOperator('+',
 											new Variable(Type.STRING, "agentId"),
@@ -362,8 +433,27 @@ public class Player extends ASTRAClass {
 									}
 								),
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {46,12,46,44},
+									"agents.Player", new int[] {53,12,53,44},
 									new Predicate("playGame", new Term[] {
+										new Variable(Type.STRING, "agentId"),
+										new Variable(Type.INTEGER, "guess")
+									}),
+									new DefaultModuleCallAdaptor() {
+										public boolean inline() {
+											return true;
+										}
+
+										public boolean invoke(Intention intention, Predicate predicate) {
+											return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).auto_action(intention,evaluate(intention,predicate));
+										}
+										public boolean suppressNotification() {
+											return true;
+										}
+									}
+								),
+								new ModuleCall("cartago",
+									"agents.Player", new int[] {54,12,54,45},
+									new Predicate("recordBid", new Term[] {
 										new Variable(Type.STRING, "agentId"),
 										new Variable(Type.INTEGER, "guess")
 									}),
@@ -387,7 +477,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {50,9,50,81},
+			"agents.Player", new int[] {58,9,58,81},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -408,10 +498,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {50,80,55,5},
+				"agents.Player", new int[] {58,80,64,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {51,8,55,5},
+						"agents.Player", new int[] {59,8,64,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -429,11 +519,30 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {51,33,54,9},
+							"agents.Player", new int[] {59,33,63,9},
 							new Statement[] {
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {53,12,53,36},
+									"agents.Player", new int[] {61,12,61,36},
 									new Predicate("receivedPayoff", new Term[] {}),
+									new DefaultModuleCallAdaptor() {
+										public boolean inline() {
+											return true;
+										}
+
+										public boolean invoke(Intention intention, Predicate predicate) {
+											return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).auto_action(intention,evaluate(intention,predicate));
+										}
+										public boolean suppressNotification() {
+											return true;
+										}
+									}
+								),
+								new ModuleCall("cartago",
+									"agents.Player", new int[] {62,12,62,49},
+									new Predicate("recordPayoff", new Term[] {
+										new Variable(Type.STRING, "agentId"),
+										new Variable(Type.FLOAT, "payoff")
+									}),
 									new DefaultModuleCallAdaptor() {
 										public boolean inline() {
 											return true;
@@ -454,7 +563,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {57,9,57,104},
+			"agents.Player", new int[] {66,9,66,104},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -475,10 +584,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {57,103,60,5},
+				"agents.Player", new int[] {66,103,69,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {59,8,59,72},
+						"agents.Player", new int[] {68,8,68,72},
 						new Predicate("updateStrategy", new Term[] {
 							new ModuleTerm("S", Type.STRING,
 								new Predicate("name", new Term[] {}),
@@ -513,7 +622,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {62,9,62,69},
+			"agents.Player", new int[] {71,9,71,69},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -533,10 +642,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {62,68,67,5},
+				"agents.Player", new int[] {71,68,76,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {63,8,67,5},
+						"agents.Player", new int[] {72,8,76,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -554,9 +663,9 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {63,33,66,9},
+							"agents.Player", new int[] {72,33,75,9},
 							new Statement[] {
-								new Send("agents.Player", new int[] {65,12,65,57},
+								new Send("agents.Player", new int[] {74,12,74,57},
 									new Performative("request"),
 									Primitive.newPrimitive("main"),
 									new Predicate("playerAgentId", new Term[] {
