@@ -33,25 +33,25 @@ public class StrategiesArtifact extends Artifact {
 		
 		this.tournament = gsonUtility.fromJson(tournamentJsonString, Tournament.class);
 		
-		for (int i = 0; i < tournament.getAgents().size(); i++) {
-			Class<?> strategyClass = Class.forName(tournament.getAgents().get(i).getStrategy());
+		for (int i = 0; i < this.tournament.getAgents().size(); i++) {
+			Class<?> strategyClass = Class.forName(this.tournament.getAgents().get(i).getStrategy());
 			Constructor<?> strategyConstructor = strategyClass.getConstructors()[0];
 		    Strategy strategy = (Strategy) strategyConstructor.newInstance(new Object[] {2, 8});
-			playerStrategies.put(tournament.getAgents().get(i).getId(), strategy);
+			this.playerStrategies.put(this.tournament.getAgents().get(i).getId(), strategy);
 		}
 	}
 	
 	@OPERATION
 	public void getGuess(String agentId, int numberOfOptions) {
 		synchronized (lock) {
-			signal(StrategiesResources.GENERATED_GUESS, agentId, playerStrategies.get(agentId).generateChoice(null));
+			signal(StrategiesResources.GENERATED_GUESS, agentId, this.playerStrategies.get(agentId).generateChoice(null));
 		}
 	}
 	
 	@OPERATION
 	public void updateStrategy(String agentId, String dataKey, int dataValue) {
 		synchronized (lock) {
-			playerStrategies.get(agentId).updateStrategy(dataKey, dataValue);
+			this.playerStrategies.get(agentId).updateStrategy(dataKey, dataValue);
 			signal(StrategiesResources.UPDATE_RECEIVED, agentId);
 		}
 	}

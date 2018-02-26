@@ -10,6 +10,7 @@ import java.util.Map;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import cartago.Artifact;
 import cartago.OPERATION;
 
@@ -49,8 +50,22 @@ public class TournamentArtifact extends Artifact{
 	public void createAgents() {
 		synchronized (lock) {
 			for (int i = 0; i < tournament.getAgents().size(); i++) {
-				signal("createAgent", tournament.getAgents().get(i).getId(), tournament.getAgents().get(i).getStrategy());
+				signal(TournamentResources.CREATE_AGENT, this.tournament.getAgents().get(i).getId());
 			}
+		}
+	}
+	
+	@OPERATION
+	public void getNumberOfAgents() {
+		synchronized (lock) {
+			signal(TournamentResources.STORE_NUMBER_OF_AGENTS, this.tournament.getAgents().size());
+		}
+	}
+	
+	@OPERATION
+	public void getNumberOfRounds() {
+		synchronized (lock) {
+			signal(TournamentResources.STORE_NUMBER_OF_ROUNDS, this.tournament.getRounds().size());
 		}
 	}
 	
@@ -59,11 +74,11 @@ public class TournamentArtifact extends Artifact{
 		synchronized (lock) {
 			if (this.currentRound < this.tournament.getRounds().size()) {
 				if (this.currentRound == 0) {
-					signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), this.tournament.getRounds().size());
+					signal(TournamentResources.START_NEW_ROUND);
 				} else {
 					numberOfAgentsFinishedUpdatingStrategies++;
 					if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
-						signal(TournamentResources.START_NEW_ROUND, this.tournament.getAgents().size(), this.tournament.getRounds().size());
+						signal(TournamentResources.START_NEW_ROUND);
 						numberOfAgentsFinishedUpdatingStrategies = 0;
 					}
 				}
@@ -80,7 +95,7 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void getNumberOfOptions(String agentId) {
 		synchronized (lock) {
-			signal(TournamentResources.NUMBER_OF_OPTIONS, agentId, tournament.getRounds().get(currentRound).getGame().getNumberOfOptions());
+			signal(TournamentResources.NUMBER_OF_OPTIONS, agentId, this.tournament.getRounds().get(this.currentRound).getGame().getNumberOfOptions());
 		}
 	}
 	
@@ -90,10 +105,10 @@ public class TournamentArtifact extends Artifact{
 			this.currentGuesses.put(agentId, bid);
 			this.currentNumberOfGuesses++;
 			
-			if (currentNumberOfGuesses == tournament.getAgents().size()) {
-				this.currentPayoffs = tournament.getRounds().get(currentRound).getGame().play(currentGuesses);
+			if (this.currentNumberOfGuesses == this.tournament.getAgents().size()) {
+				this.currentPayoffs = this.tournament.getRounds().get(this.currentRound).getGame().play(this.currentGuesses);
 				
-				for (String id: currentPayoffs.keySet()) {
+				for (String id: this.currentPayoffs.keySet()) {
 					signal(TournamentResources.GAME_FINISHED, id, this.currentPayoffs.get(id));
 				}
 				
@@ -102,7 +117,8 @@ public class TournamentArtifact extends Artifact{
 		}
 	}
 	
-	@OPERATION void receivedPayoff() {
+	@OPERATION 
+	public void receivedPayoff() {
 		synchronized (lock) {
 			this.numberOfReceivedPayoffs++;
 			

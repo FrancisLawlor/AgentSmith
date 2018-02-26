@@ -41,12 +41,12 @@ public class RoundCreationState extends State {
 	}
 
 	private void clickBack() {
-		stateMachine.setCurrentState(StateName.DASHBOARD);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.DASHBOARD);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 
 	private void init() {
-		sceneContainerStage.changeScene(gui.getRoundCreationScene());
-		sceneContainerStage.setTitle(GUIText.CREATE_ROUND_HEADING);	
+		this.sceneContainerStage.changeScene(gui.getRoundCreationScene());
+		this.sceneContainerStage.setTitle(GUIText.CREATE_ROUND_HEADING);	
 	}
 }

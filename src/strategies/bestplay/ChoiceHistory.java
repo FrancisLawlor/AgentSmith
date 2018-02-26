@@ -21,7 +21,7 @@ public class ChoiceHistory {
     }
 
     public LinkedList<Integer> getPreviousMChoices() throws InsufficientHistoryException {
-        if (choiceHistoryList.size() < choiceHistoryLength) {
+        if (this.choiceHistoryList.size() < this.choiceHistoryLength) {
             throw new InsufficientHistoryException();
         }
         return this.choiceHistoryList;

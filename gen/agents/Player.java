@@ -642,10 +642,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {71,68,76,5},
+				"agents.Player", new int[] {71,68,77,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {72,8,76,5},
+						"agents.Player", new int[] {72,8,77,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -663,7 +663,7 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {72,33,75,9},
+							"agents.Player", new int[] {72,33,76,9},
 							new Statement[] {
 								new Send("agents.Player", new int[] {74,12,74,57},
 									new Performative("request"),
@@ -671,6 +671,22 @@ public class Player extends ASTRAClass {
 									new Predicate("playerAgentId", new Term[] {
 										Primitive.newPrimitive("main")
 									})
+								),
+								new ModuleCall("cartago",
+									"agents.Player", new int[] {75,12,75,37},
+									new Predicate("testSingleAgent", new Term[] {}),
+									new DefaultModuleCallAdaptor() {
+										public boolean inline() {
+											return true;
+										}
+
+										public boolean invoke(Intention intention, Predicate predicate) {
+											return ((astra.lang.Cartago) intention.getModule("agents.Player","cartago")).auto_action(intention,evaluate(intention,predicate));
+										}
+										public boolean suppressNotification() {
+											return true;
+										}
+									}
 								)
 							}
 						)

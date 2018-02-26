@@ -16,7 +16,7 @@ public class ListViewEventHandler implements EventHandler<MouseEvent> {
 	
 	@Override
 	public void handle(MouseEvent event) {
-		stateMachine.execute(stateParameter);
+		this.stateMachine.execute(stateParameter);
 	}
 	
 }

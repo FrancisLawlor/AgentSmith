@@ -12,4 +12,8 @@ public class TournamentResources {
 	public static final String SEND_UPDATE_KEY_VALUE_PAIR = "sendUpdateKeyValuePair";
 	public static final String START_NEW_ROUND = "startNewRound";
 	public static final String END_TOURNAMENT = "endTournament";
+	public static final String STORE_NUMBER_OF_AGENTS = "storeNumberOfAgents";
+	public static final String STORE_NUMBER_OF_ROUNDS = "storeNumberOfRounds";
+	public static final String CREATE_AGENT = "createAgent";
+	public static final String REQUEST_NEW_ROUND = "requestNewRound";
 }

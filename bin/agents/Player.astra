@@ -72,6 +72,7 @@ agent Player {
 		if (agentId == S.name()) {
 //			console.println("Strategy update by " + agentId + " has been received.");
 			send (request, "main", playerAgentId("main"));
+			cartago.testSingleAgent();
 		}
 	}
 }

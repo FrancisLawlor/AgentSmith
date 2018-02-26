@@ -63,13 +63,13 @@ public class MinorityGame extends Game {
 
 	@Override
 	public int getNumberOfOptions() {
-		return NUMBER_OF_OPTIONS;
+		return this.NUMBER_OF_OPTIONS;
 	}
 
 	@Override
 	public Map<String, Integer> getUpdateStrategyData(Map<String, Integer> inputData) {
 		Map<String, Integer> updateStrategyData = new HashMap<String, Integer>();
-		updateStrategyData.put(WINNING_CHOICE, getWinningChoice(inputData));
+		updateStrategyData.put(this.WINNING_CHOICE, getWinningChoice(inputData));
 		
 		return updateStrategyData;
 	}

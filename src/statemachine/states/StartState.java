@@ -27,26 +27,26 @@ public class StartState extends State {
 	}
 	
 	private void configureButtons() {
-		gui.getDashBoardScene().getLoadTournamentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_LOAD, stateMachine));
-		gui.getDashBoardScene().getSaveTournamentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_SAVE, stateMachine));
-		gui.getDashBoardScene().getAddAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_AGENT, stateMachine));
-		gui.getDashBoardScene().getAddRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_ADD_ROUND, stateMachine));
-		gui.getDashBoardScene().getPlayButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_START_TOURNAMENT, stateMachine));
-		gui.getDashBoardScene().getAgentListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_AGENTS_LISTVIEW, stateMachine));
-		gui.getDashBoardScene().getRoundListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_ROUNDS_LISTVIEW, stateMachine));
-		gui.getAgentCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
-		gui.getAgentCreationScene().getCreateAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_AGENT, stateMachine));
-		gui.getRoundCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
-		gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_ROUND, stateMachine));
+		this.gui.getDashBoardScene().getLoadTournamentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_LOAD, stateMachine));
+		this.gui.getDashBoardScene().getSaveTournamentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_SAVE, stateMachine));
+		this.gui.getDashBoardScene().getAddAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_AGENT, stateMachine));
+		this.gui.getDashBoardScene().getAddRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_ADD_ROUND, stateMachine));
+		this.gui.getDashBoardScene().getPlayButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_START_TOURNAMENT, stateMachine));
+		this.gui.getDashBoardScene().getAgentListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_AGENTS_LISTVIEW, stateMachine));
+		this.gui.getDashBoardScene().getRoundListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_ROUNDS_LISTVIEW, stateMachine));
+		this.gui.getAgentCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
+		this.gui.getAgentCreationScene().getCreateAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_AGENT, stateMachine));
+		this.gui.getRoundCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
+		this.gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_ROUND, stateMachine));
 	}
 
 	@Override
 	public void execute(StateParameters param) {
 //		String[] params = {};
 //		TournamentConfigurator.main(params);
-		stateMachine.setCurrentState(StateName.DASHBOARD);
-		sceneContainerStage.setTitle(GUIText.DASHBOARD);
-		stateMachine.execute(StateParameters.INIT);
-		sceneContainerStage.show();
+		this.stateMachine.setCurrentState(StateName.DASHBOARD);
+		this.sceneContainerStage.setTitle(GUIText.DASHBOARD);
+		this.stateMachine.execute(StateParameters.INIT);
+		this.sceneContainerStage.show();
 	}
 }

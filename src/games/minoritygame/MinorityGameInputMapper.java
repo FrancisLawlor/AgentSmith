@@ -1,7 +1,7 @@
 package games.minoritygame;
 
 public class MinorityGameInputMapper {
-	public static final int NUMBER_OF_OPTIONS = 2;
+	private static final int NUMBER_OF_OPTIONS = 2;
 	
 	public static int mapInput(int input) {
 		int filteredInput = input % NUMBER_OF_OPTIONS;

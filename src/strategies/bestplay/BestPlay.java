@@ -34,7 +34,7 @@ public class BestPlay extends Strategy {
 
 	@Override
 	public int generateChoice(HashMap<String, Object> strategyResources) {
-		if (choiceHistory.isShorterThanM()) {
+		if (this.choiceHistory.isShorterThanM()) {
 			int randomChoice = (int) (Math.random() * this.numberOfChoices);
 			
 			return MinorityGameInputMapper.mapInput(randomChoice);
@@ -50,18 +50,18 @@ public class BestPlay extends Strategy {
 			int strategyIndex = 0;
 			
 			// n-ary mapping to array index
-			for (int i = 0; i < choiceHistory.getChoiceHistoryLength(); i++) {
-				strategyIndex += strategyVector[choiceHistory.getChoiceHistoryLength() - 1 - i] * Math.pow(this.numberOfChoices, i);
+			for (int i = 0; i < this.choiceHistory.getChoiceHistoryLength(); i++) {
+				strategyIndex += this.strategyVector[this.choiceHistory.getChoiceHistoryLength() - 1 - i] * Math.pow(this.numberOfChoices, i);
 			}
 			
 			System.out.println("strategyIndex: " + strategyIndex);
-			return MinorityGameInputMapper.mapInput(strategyVector[strategyIndex]);
+			return MinorityGameInputMapper.mapInput(this.strategyVector[strategyIndex]);
 		}
 	}
 	
 	public void updateStrategy(String key, int value) {
 		if (key.equals(WINNING_CHOICE)) {
-			choiceHistory.updateChoiceHistory(value);
+			this.choiceHistory.updateChoiceHistory(value);
 		}
 	}
 }

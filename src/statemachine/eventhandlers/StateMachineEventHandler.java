@@ -15,7 +15,7 @@ public class StateMachineEventHandler implements EventHandler<ActionEvent> {
 	}
 	@Override
 	public void handle(ActionEvent event) {
-		stateMachine.execute(stateParameter);
+		this.stateMachine.execute(stateParameter);
 	}
 	
 }

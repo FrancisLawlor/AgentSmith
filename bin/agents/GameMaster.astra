@@ -28,7 +28,13 @@ agent GameMaster {
 		cartago.populateStrategiesMap("configuration/config.json");
 		cartago.createAgents();
 		
-		cartago.createNewRoundScoreRecorder(5, 5);
+		cartago.getNumberOfAgents();
+		cartago.getNumberOfRounds();
+		
+		query(numberOfRounds(int _numberOfRounds));
+		query(numberOfAgents(int _numberOfAgents));
+		
+		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
 		cartago.newRound();
 	}
 	
@@ -62,19 +68,30 @@ agent GameMaster {
 		cartago.focus(id);
 	}
     
-    rule $cartago.signal(string id, createAgent(string agentId, string agentStrategy)) {
+    rule $cartago.signal(string id, createAgent(string agentId)) {
 		system.createAgent(agentId, "agents.Player");
-		system.setMainGoal(agentId, [agentStrategy]);
+		system.setMainGoal(agentId, []);
 		console.println("created agent: " + agentId);
 	}
 	
-    rule $cartago.signal(string id, startNewRound(int numberOfAgents, int num)) {
-//    		console.println("New round started with " + numberOfAgents + " agents.");
-		+numberOfAgents(numberOfAgents);
-		+numberOfRounds(num);
+    rule $cartago.signal(string id, storeNumberOfAgents(int _numberOfAgents)) {
+		+numberOfAgents(_numberOfAgents);
+	}
+	
+	rule $cartago.signal(string id, storeNumberOfRounds(int _numberOfRounds)) {
+		+numberOfRounds(_numberOfRounds);
+	}
+	
+//	rule $cartago.signal(string id, requestNewRound()) {
+//		cartago.newRound();
+//	}
+	
+    rule $cartago.signal(string id, startNewRound()) {
+//    	console.println("New round started with " + numberOfAgents + " agents.");
+		query(numberOfAgents(int _numberOfAgents));
 		int i = 0;
 		
-		while (i < numberOfAgents) {
+		while (i < _numberOfAgents) {
 			string idString = i + "";
 			send(request, idString, playerAgentId(idString));
 			i = i + 1;
@@ -83,11 +100,11 @@ agent GameMaster {
 	
 	rule @message(request, string id, playerAgentId(string agentId)) {	
 //		console.println("Agent with id " + agentId + " has received the request for a new round.");
-		query(numberOfRounds(int num));
-		query(numberOfAgents(int agentNum));
-	
-		cartago.storeCurrentRound(agentNum);
-		cartago.createNewRoundScoreRecorder(agentNum, num);
+		query(numberOfRounds(int _numberOfRounds));
+		query(numberOfAgents(int _numberOfAgents));
+		
+		cartago.storeCurrentRound(_numberOfAgents);
+		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
 		cartago.newRound();
 	}
 	

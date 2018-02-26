@@ -47,35 +47,35 @@ public class DashboardState extends State {
 	}
 
 	private void clickStartTournament() {
-		stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 
 	private void clickAddRound() {
-		stateMachine.setCurrentState(StateName.ROUND_CREATION);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.ROUND_CREATION);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 
 	private void clickCreateAgent() {
-		stateMachine.setCurrentState(StateName.AGENT_CREATION);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.AGENT_CREATION);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 
 	private void init() {
-		sceneContainerStage.changeScene(gui.getDashBoardScene());
-		sceneContainerStage.setTitle(GUIText.DASHBOARD);	
+		this.sceneContainerStage.changeScene(gui.getDashBoardScene());
+		this.sceneContainerStage.setTitle(GUIText.DASHBOARD);	
 		
-		gui.getDashBoardScene().getAgentListView().getItems().add(new AgentInfo("james", "bestplay"));
-		gui.getDashBoardScene().getRoundListView().getItems().add(new Round());
+		this.gui.getDashBoardScene().getAgentListView().getItems().add(new AgentInfo("james", "bestplay"));
+		this.gui.getDashBoardScene().getRoundListView().getItems().add(new Round());
 	}
 
 	private void clickLoad() {
-		stateMachine.setCurrentState(StateName.LOADING_TOURNAMENT);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.LOADING_TOURNAMENT);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 	
 	private void clickSave() {
-		stateMachine.setCurrentState(StateName.SAVING_TOURNAMENT);
-		stateMachine.execute(StateParameters.INIT);
+		this.stateMachine.setCurrentState(StateName.SAVING_TOURNAMENT);
+		this.stateMachine.execute(StateParameters.INIT);
 	}
 }
