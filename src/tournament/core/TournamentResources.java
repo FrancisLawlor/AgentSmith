@@ -16,4 +16,5 @@ public class TournamentResources {
 	public static final String STORE_NUMBER_OF_ROUNDS = "storeNumberOfRounds";
 	public static final String CREATE_AGENT = "createAgent";
 	public static final String REQUEST_NEW_ROUND = "requestNewRound";
+	public static final String SEND_TOURNAMENT_DATA_AS_JSON_STRING = "sendTournamentDataAsJsonString";
 }

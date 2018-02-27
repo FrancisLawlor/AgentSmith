@@ -5,7 +5,8 @@ import java.util.HashMap;
 import strategies.core.Strategy;
 
 public class RandomStrategy extends Strategy {
-	public RandomStrategy() {
+	public RandomStrategy(HashMap<String, String> additionalParameters) {
+		super(additionalParameters);
 	}
 
 	public int generateChoice(HashMap<String, Object> strategyResources) {

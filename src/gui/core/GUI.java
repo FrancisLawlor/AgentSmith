@@ -1,6 +1,5 @@
 package gui.core;
 
-import agents.info.AgentInfo;
 import gui.panes.AgentCreationPane;
 import gui.panes.DashBoardPane;
 import gui.panes.RoundCreationPane;
@@ -14,7 +13,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import tournament.rounds.Round;
+import tournament.player.Player;
+import tournament.round.Round;
 
 public class GUI {
 	private DashBoardPane dashBoardPane;
@@ -28,7 +28,7 @@ public class GUI {
 	
 	
 	public GUI(SceneContainerStage containerStage) {
-	    ObservableList<AgentInfo> agentData = FXCollections.observableArrayList();
+	    ObservableList<Player> agentData = FXCollections.observableArrayList();
 	    ObservableList<Round> roundData = FXCollections.observableArrayList();
 	    
 	    //Fake data for illustrative purposes.

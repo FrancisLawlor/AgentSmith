@@ -3,19 +3,21 @@ package strategies.bestplay;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import games.minoritygame.MinorityGameInputMapper;
 import strategies.core.Strategy;
 
 public class BestPlay extends Strategy {
-	private static final String WINNING_CHOICE = "WINNING_CHOICE";
+	private static final String WINNING_CHOICE = "winning_choice";
+	private static final String NUMBER_OF_CHOICES = "number_of_choices";
+	private static final String HISTORY_LENGTH = "history_length";
 	
 	private ChoiceHistory choiceHistory;
 	private int[] strategyVector;
 	private int numberOfChoices;
 
-	public BestPlay(int numberOfChoices, int historyLength) {
-		this.numberOfChoices = numberOfChoices;
-		this.choiceHistory = new ChoiceHistory(historyLength);
+	public BestPlay(HashMap<String, String> additionalParameters) {
+		super(additionalParameters);
+		this.numberOfChoices = Integer.parseInt(additionalParameters.get(NUMBER_OF_CHOICES));
+		this.choiceHistory = new ChoiceHistory(Integer.parseInt(additionalParameters.get(HISTORY_LENGTH)));
 		this.strategyVector = generateStrategyVector(choiceHistory.getChoiceHistoryLength());
 	}
 
@@ -37,7 +39,7 @@ public class BestPlay extends Strategy {
 		if (this.choiceHistory.isShorterThanM()) {
 			int randomChoice = (int) (Math.random() * this.numberOfChoices);
 			
-			return MinorityGameInputMapper.mapInput(randomChoice);
+			return randomChoice;
 		} else {
 			LinkedList<Integer> previousMChoices = null;
 			
@@ -54,8 +56,7 @@ public class BestPlay extends Strategy {
 				strategyIndex += this.strategyVector[this.choiceHistory.getChoiceHistoryLength() - 1 - i] * Math.pow(this.numberOfChoices, i);
 			}
 			
-			System.out.println("strategyIndex: " + strategyIndex);
-			return MinorityGameInputMapper.mapInput(this.strategyVector[strategyIndex]);
+			return this.strategyVector[strategyIndex];
 		}
 	}
 	

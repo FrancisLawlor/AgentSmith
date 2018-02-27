@@ -1,14 +1,16 @@
 package statemachine.states;
 
 
-import agents.info.AgentInfo;
+import java.lang.reflect.InvocationTargetException;
+
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
-import tournament.rounds.Round;
+import tournament.player.Player;
+import tournament.round.Round;
 
 public class DashboardState extends State {
 	private StateMachine stateMachine;
@@ -24,7 +26,12 @@ public class DashboardState extends State {
 	public void execute(StateParameters param) {		
 		switch (param) {
 			case INIT:
-				init();
+				try {
+					init();
+				} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+						| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
 				break;
 			case CLICK_LOAD:
 				clickLoad();
@@ -61,12 +68,12 @@ public class DashboardState extends State {
 		this.stateMachine.execute(StateParameters.INIT);
 	}
 
-	private void init() {
+	private void init() throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		this.sceneContainerStage.changeScene(gui.getDashBoardScene());
 		this.sceneContainerStage.setTitle(GUIText.DASHBOARD);	
 		
-		this.gui.getDashBoardScene().getAgentListView().getItems().add(new AgentInfo("james", "bestplay"));
-		this.gui.getDashBoardScene().getRoundListView().getItems().add(new Round());
+		this.gui.getDashBoardScene().getAgentListView().getItems().add(new Player(null, null, null));
+		this.gui.getDashBoardScene().getRoundListView().getItems().add(new Round(null, null));
 	}
 
 	private void clickLoad() {

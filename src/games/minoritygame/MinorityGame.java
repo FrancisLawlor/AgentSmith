@@ -6,11 +6,13 @@ import java.util.Map;
 import games.core.Game;
 
 public class MinorityGame extends Game {
-	private static final int NUMBER_OF_OPTIONS = 2;
-	private static final String WINNING_CHOICE = "winning_choice";
+	private final int OPTION_1 = -1;
+	private final int OPTION_2 = 1;
+	private final int NUMBER_OF_OPTIONS = 2;
+	private final String WINNING_CHOICE = "winning_choice";
 	
-	public MinorityGame() {
-		
+	public MinorityGame(HashMap<String, String> additionalParameters) {
+		super(additionalParameters);
 	}
 	
 	public Map<String, Float> play(Map<String, Integer> playerGuesses) {
@@ -33,14 +35,14 @@ public class MinorityGame extends Game {
 		int minusOnes = 0;
 		
 		for (String playerId: playerGuesses.keySet()) {
-			if (playerGuesses.get(playerId) == -1) {
+			if (MinorityGameInputMapper.mapInput(playerGuesses.get(playerId)) == OPTION_1) {
 				minusOnes++;
 			} else {
 				plusOnes++;
 			}
 		}
 		
-		return plusOnes < minusOnes ? 1 : -1;
+		return plusOnes < minusOnes ? OPTION_2 : OPTION_1;
 	}
 	
 	private static int getTotalAction(Map<String, Integer> playerGuesses) {

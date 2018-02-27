@@ -1,6 +1,5 @@
 package gui.panes;
 
-import agents.info.AgentInfo;
 import gui.utils.GUIDimensions;
 import gui.utils.GUIText;
 import javafx.collections.ObservableList;
@@ -15,7 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import tournament.rounds.Round;
+import tournament.player.Player;
+import tournament.round.Round;
 
 public class DashBoardPane extends BorderPane {
 	private Button loadTournamentButton;
@@ -23,10 +23,10 @@ public class DashBoardPane extends BorderPane {
 	private Button playButton;
 	private Button addAgentButton;
 	private Button addRoundButton;
-	private ListView<AgentInfo> agentListView;
+	private ListView<Player> agentListView;
 	private ListView<Round> roundListView;
 	
-	public DashBoardPane(ObservableList<AgentInfo> agentData, ObservableList<Round> roundData) {
+	public DashBoardPane(ObservableList<Player> agentData, ObservableList<Round> roundData) {
 		VBox leftBar = configureLeftBar();
 		this.setLeft(leftBar);
 		
@@ -37,13 +37,13 @@ public class DashBoardPane extends BorderPane {
 		this.setRight(rightBar);
 	}
 
-	private BorderPane configureCenterPane(ObservableList<AgentInfo> agentData, ObservableList<Round> roundData) {
+	private BorderPane configureCenterPane(ObservableList<Player> agentData, ObservableList<Round> roundData) {
 		VBox leftSide = new VBox();
 		leftSide.setSpacing(GUIDimensions.DASHBOARD_VBOX_SPACING);
 		Label agentListViewLabel = new Label(GUIText.AGENTS_LISTVIEW_LABEL);
 		agentListViewLabel.setFont(new Font(GUIDimensions.DASHBOARD_LISTVIEW_LABEL_FONT_SIZE));
 		agentListViewLabel.setPadding(new Insets(GUIDimensions.LISTVIEW_LABEL_TOP_PADDING, GUIDimensions.LISTVIEW_LABEL_RIGHT_PADDING, GUIDimensions.LISTVIEW_LABEL_BOTTOM_PADDING, GUIDimensions.LISTVIEW_LABEL_LEFT_PADDING));
-		ListView<AgentInfo> agentListView = configureAgentListView(agentData);
+		ListView<Player> agentListView = configureAgentListView(agentData);
 		agentListView.setMinHeight(GUIDimensions.DASHBOARD_LISTVIEW_HEIGHT);
 		agentListView.setMinWidth(GUIDimensions.DASHBOARD_LISTVIEW_WIDTH);
         this.agentListView = agentListView;
@@ -91,17 +91,17 @@ public class DashBoardPane extends BorderPane {
 	    return leftBarContent;
 	}
 	
-	private ListView<AgentInfo> configureAgentListView(ObservableList<AgentInfo> agentData) {
-		final ListView<AgentInfo> agentListView = new ListView<AgentInfo>(agentData);
+	private ListView<Player> configureAgentListView(ObservableList<Player> agentData) {
+		final ListView<Player> agentListView = new ListView<Player>(agentData);
 		
-		agentListView.setCellFactory(new Callback<ListView<AgentInfo>, ListCell<AgentInfo>>() {
+		agentListView.setCellFactory(new Callback<ListView<Player>, ListCell<Player>>() {
 
 			@Override
-			public ListCell<AgentInfo> call(ListView<AgentInfo> arg) {
-				return new ListCell<AgentInfo>() {
+			public ListCell<Player> call(ListView<Player> arg) {
+				return new ListCell<Player>() {
 					
 					@Override
-					protected void updateItem(AgentInfo item, boolean emptyCell) {
+					protected void updateItem(Player item, boolean emptyCell) {
 						super.updateItem(item, emptyCell);
 						
 						if (emptyCell) {
@@ -109,7 +109,7 @@ public class DashBoardPane extends BorderPane {
 							setGraphic(null);
 						}
 						if (item != null) {
-							VBox vBox = new VBox(new Text(item.getId()), new Text(item.getStrategy()));
+							VBox vBox = new VBox(new Text(item.getId()), new Text("hardcoded"));
 							HBox hBox = new HBox(new Label("[Graphic]"), vBox);
 							hBox.setSpacing(10);
 							setGraphic(hBox);
@@ -184,7 +184,7 @@ public class DashBoardPane extends BorderPane {
 		return addRoundButton;
 	}
 
-	public ListView<AgentInfo> getAgentListView() {
+	public ListView<Player> getAgentListView() {
 		return agentListView;
 	}
 	

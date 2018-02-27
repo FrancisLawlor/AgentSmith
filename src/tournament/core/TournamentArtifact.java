@@ -1,8 +1,5 @@
 package tournament.core;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +10,13 @@ import com.google.gson.GsonBuilder;
 
 import cartago.Artifact;
 import cartago.OPERATION;
+import strategies.core.StrategiesResources;
+import tournament.data.TournamentData;
+import tournament.player.Player;
+import tournament.round.Round;
 
 public class TournamentArtifact extends Artifact{
+	private TournamentData tournamentData;
 	private Tournament tournament;
 	private static Object lock = new Object();
 	private int currentRound = 0;
@@ -25,31 +27,59 @@ public class TournamentArtifact extends Artifact{
 	private int currentNumberOfGuesses = 0;
 
 	@OPERATION
-	public void configureTournament(String configFilePath) throws IOException {
+	public void createTournament(String tournamentDataJsonString) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Gson gsonUtility = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
 		
-		BufferedReader bufferedReader = new BufferedReader(new FileReader(configFilePath));
-		String tournamentJsonString = bufferedReader.readLine();		
-		bufferedReader.close();
+		this.tournamentData = gsonUtility.fromJson(tournamentDataJsonString, TournamentData.class);
 		
-		this.tournament =  gsonUtility.fromJson(tournamentJsonString, Tournament.class);
+		this.tournament = configureTournament(this.tournamentData);		
+	}
+	
+	private Tournament configureTournament(TournamentData tournamentData) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Tournament newTournament = new Tournament();
 		
-		try {
-			for (int i = 0; i < this.tournament.getRounds().size(); i++) {
-				this.tournament.getRounds().get(i).init();
+		// Configure rounds.
+		for (int i = 0; i < this.tournamentData.getRounds().size(); i++) {
+			for (int j = 0; j < this.tournamentData.getRounds().get(i).getAmount(); j++) {
+				HashMap<String, String> additionalParameters = new HashMap<String, String>();
+				
+				for (int k = 0; k < this.tournamentData.getRounds().get(i).getGame().getAdditionalParameters().size(); k++) {
+					String name = this.tournamentData.getRounds().get(i).getGame().getAdditionalParameters().get(k).getName();
+					String value = this.tournamentData.getRounds().get(i).getGame().getAdditionalParameters().get(k).getValue();
+					additionalParameters.put(name, value);
+				}
+				Round newRound = new Round(this.tournamentData.getRounds().get(i).getGame().getName(), additionalParameters);
+
+				newTournament.getRounds().add(newRound);
 			}
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			e.printStackTrace();
 		}
+		
+		// Configure players.
+		int currentId = 0;
+		for (int i = 0; i < this.tournamentData.getAgents().size(); i++) {
+			for (int j = 0; j < this.tournamentData.getAgents().get(i).getAmount(); j++) {
+				HashMap<String, String> additionalParameters = new HashMap<String, String>();
+				for (int k = 0; k < this.tournamentData.getAgents().get(i).getStrategyData().getAdditionalParameters().size(); k++) {
+					String name = this.tournamentData.getAgents().get(i).getStrategyData().getAdditionalParameters().get(k).getName();
+					String value = this.tournamentData.getAgents().get(i).getStrategyData().getAdditionalParameters().get(k).getValue();
+					additionalParameters.put(name, value);
+				}
+				
+				Player newPlayer = new Player(currentId + "", this.tournamentData.getAgents().get(i).getStrategyData().getName() , additionalParameters);
+				newTournament.getAgents().add(newPlayer);
+				currentId++;
+			}
+		}
+		
+		return newTournament;
 	}
 	
 	@OPERATION
 	public void createAgents() {
 		synchronized (lock) {
-			for (int i = 0; i < tournament.getAgents().size(); i++) {
+			for (int i = 0; i < this.tournament.getAgents().size(); i++) {
 				signal(TournamentResources.CREATE_AGENT, this.tournament.getAgents().get(i).getId());
 			}
 		}
@@ -132,6 +162,21 @@ public class TournamentArtifact extends Artifact{
 				this.numberOfReceivedPayoffs = 0;
 				this.currentRound++;
 			}
+		}
+	}
+	
+	@OPERATION
+	public void getGuess(String agentId, int numberOfOptions) {
+		synchronized (lock) {
+			signal(StrategiesResources.GENERATED_GUESS, agentId, this.tournament.getAgents().get(Integer.parseInt(agentId)).getStrategy().generateChoice(null));
+		}
+	}
+	
+	@OPERATION
+	public void updateStrategy(String agentId, String dataKey, int dataValue) {
+		synchronized (lock) {
+			this.tournament.getAgents().get(Integer.parseInt(agentId)).getStrategy().updateStrategy(dataKey, dataValue);
+			signal(StrategiesResources.UPDATE_RECEIVED, agentId);
 		}
 	}
 }

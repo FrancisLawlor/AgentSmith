@@ -12,25 +12,17 @@ agent Player {
 	}
 	
 	rule +!main(list args) {
+		cartago.link();
 		!connectToTournamentArtifact();
-		!connectToStrategyArtifact();
 		!connectToScoreBoardArtifact();
 	}
 		
 	rule +!connectToTournamentArtifact() {
-		cartago.link();
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
 		cartago.focus(id);
 	}
 	
-	rule +!connectToStrategyArtifact() {
-		cartago.link();
-		cartago.lookupArtifact("strategy", cartago.ArtifactId strategyId);
-		cartago.focus(strategyId);
-	}
-	
 	rule +!connectToScoreBoardArtifact() {
-		cartago.link();
 		cartago.lookupArtifact("score_board", cartago.ArtifactId scoreBoardId);
 		cartago.focus(scoreBoardId);
 	}
@@ -71,8 +63,7 @@ agent Player {
 	rule $cartago.signal(string id, updateReceived(string agentId)) {
 		if (agentId == S.name()) {
 //			console.println("Strategy update by " + agentId + " has been received.");
-			send (request, "main", playerAgentId("main"));
-			cartago.testSingleAgent();
+			send (request, "game_master", playerAgentId("game_master"));
 		}
 	}
 }

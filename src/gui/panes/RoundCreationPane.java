@@ -59,7 +59,7 @@ public class RoundCreationPane extends BorderPane {
 		gameHBox.getChildren().addAll(new Label(GUIText.GAME_MENU_BUTTON_LABEL), gameMenuButton);
 		centerVBox.getChildren().add(gameHBox);
 		
-		// Horizontal Seperator
+		// Horizontal Separator
 		Separator horizontalSeparator = new Separator();
 		centerVBox.getChildren().add(horizontalSeparator);
 		
