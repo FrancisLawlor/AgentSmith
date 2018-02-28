@@ -7,8 +7,10 @@ import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
+import tournament.data.TournamentData;
 import statemachine.states.AgentCreationState;
 import statemachine.states.DashboardState;
+import statemachine.states.LoadTournamentFileState;
 import statemachine.states.RoundCreationState;
 import statemachine.states.StartState;
 import statemachine.states.State;
@@ -19,13 +21,15 @@ public class StateMachine {
 	private Map<StateName, State> stateMap = new HashMap<StateName, State>();
 	private SceneContainerStage containerStage = new SceneContainerStage();
 	private GUI gui = new GUI(containerStage);
+	private TournamentData GUItournamentData = new TournamentData();
 	
 	public StateMachine() {
-		stateMap.put(StateName.START, new StartState(this, containerStage, gui));
-		stateMap.put(StateName.DASHBOARD, new DashboardState(this, containerStage, gui));
-		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, containerStage, gui));
-		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, containerStage, gui));
-		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, containerStage, gui));
+		stateMap.put(StateName.START, new StartState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUItournamentData));
 	}
 	
 	public void setCurrentState(StateName newState) {

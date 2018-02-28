@@ -1,21 +1,32 @@
 package gui.panes;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import filemanagement.utils.FileResources;
 import gui.utils.GUIDimensions;
 import gui.utils.GUIText;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
-import tournament.player.Player;
-import tournament.round.Round;
+import tournament.data.AdditionalParameterData;
+import tournament.data.AgentData;
+import tournament.data.RoundData;
 
 public class DashBoardPane extends BorderPane {
 	private Button loadTournamentButton;
@@ -23,10 +34,10 @@ public class DashBoardPane extends BorderPane {
 	private Button playButton;
 	private Button addAgentButton;
 	private Button addRoundButton;
-	private ListView<Player> agentListView;
-	private ListView<Round> roundListView;
+	private ListView<AgentData> agentListView;
+	private ListView<RoundData> roundListView;
 	
-	public DashBoardPane(ObservableList<Player> agentData, ObservableList<Round> roundData) {
+	public DashBoardPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftBar = configureLeftBar();
 		this.setLeft(leftBar);
 		
@@ -37,13 +48,13 @@ public class DashBoardPane extends BorderPane {
 		this.setRight(rightBar);
 	}
 
-	private BorderPane configureCenterPane(ObservableList<Player> agentData, ObservableList<Round> roundData) {
+	private BorderPane configureCenterPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftSide = new VBox();
 		leftSide.setSpacing(GUIDimensions.DASHBOARD_VBOX_SPACING);
 		Label agentListViewLabel = new Label(GUIText.AGENTS_LISTVIEW_LABEL);
 		agentListViewLabel.setFont(new Font(GUIDimensions.DASHBOARD_LISTVIEW_LABEL_FONT_SIZE));
 		agentListViewLabel.setPadding(new Insets(GUIDimensions.LISTVIEW_LABEL_TOP_PADDING, GUIDimensions.LISTVIEW_LABEL_RIGHT_PADDING, GUIDimensions.LISTVIEW_LABEL_BOTTOM_PADDING, GUIDimensions.LISTVIEW_LABEL_LEFT_PADDING));
-		ListView<Player> agentListView = configureAgentListView(agentData);
+		ListView<AgentData> agentListView = configureAgentListView(agentData);
 		agentListView.setMinHeight(GUIDimensions.DASHBOARD_LISTVIEW_HEIGHT);
 		agentListView.setMinWidth(GUIDimensions.DASHBOARD_LISTVIEW_WIDTH);
         this.agentListView = agentListView;
@@ -57,7 +68,7 @@ public class DashBoardPane extends BorderPane {
 		Label roundListViewLabel = new Label(GUIText.ROUND_LISTVIEW_LABEL);
 		roundListViewLabel.setFont(new Font(GUIDimensions.DASHBOARD_LISTVIEW_LABEL_FONT_SIZE));
 		roundListViewLabel.setPadding(new Insets(GUIDimensions.LISTVIEW_LABEL_TOP_PADDING, GUIDimensions.LISTVIEW_LABEL_RIGHT_PADDING, GUIDimensions.LISTVIEW_LABEL_BOTTOM_PADDING, GUIDimensions.LISTVIEW_LABEL_LEFT_PADDING));
-		ListView<Round> roundListView = configureRoundListView(roundData);
+		ListView<RoundData> roundListView = configureRoundListView(roundData);
 		roundListView.setMinHeight(GUIDimensions.DASHBOARD_LISTVIEW_HEIGHT);
 		roundListView.setMinWidth(GUIDimensions.DASHBOARD_LISTVIEW_WIDTH);
         this.roundListView = roundListView;
@@ -91,17 +102,17 @@ public class DashBoardPane extends BorderPane {
 	    return leftBarContent;
 	}
 	
-	private ListView<Player> configureAgentListView(ObservableList<Player> agentData) {
-		final ListView<Player> agentListView = new ListView<Player>(agentData);
+	private ListView<AgentData> configureAgentListView(ObservableList<AgentData> agentData) {
+		final ListView<AgentData> agentListView = new ListView<AgentData>(agentData);
 		
-		agentListView.setCellFactory(new Callback<ListView<Player>, ListCell<Player>>() {
+		agentListView.setCellFactory(new Callback<ListView<AgentData>, ListCell<AgentData>>() {
 
 			@Override
-			public ListCell<Player> call(ListView<Player> arg) {
-				return new ListCell<Player>() {
+			public ListCell<AgentData> call(ListView<AgentData> arg) {
+				return new ListCell<AgentData>() {
 					
 					@Override
-					protected void updateItem(Player item, boolean emptyCell) {
+					protected void updateItem(AgentData item, boolean emptyCell) {
 						super.updateItem(item, emptyCell);
 						
 						if (emptyCell) {
@@ -109,8 +120,34 @@ public class DashBoardPane extends BorderPane {
 							setGraphic(null);
 						}
 						if (item != null) {
-							VBox vBox = new VBox(new Text(item.getId()), new Text("hardcoded"));
-							HBox hBox = new HBox(new Label("[Graphic]"), vBox);
+							VBox additionalParametersVBox = new VBox();
+							
+							if (item.getStrategyData().getAdditionalParameters().size() > 0) {
+								additionalParametersVBox.getChildren().add(new Text(GUIText.ADDITIONAL_PARAMETERS_LISTVIEW + ":"));
+
+								for (AdditionalParameterData additionalParameterData: item.getStrategyData().getAdditionalParameters()) {
+									additionalParametersVBox.getChildren().add(new Text("\t" + additionalParameterData.getName() + ": " + additionalParameterData.getValue()));
+								}
+							}
+							
+							VBox vBox = new VBox(new Text(GUIText.STRATEGY_NAME_LISTVIEW + ":\t" + item.getStrategyData().getName()), new Text(GUIText.AMOUNT_LISTVIEW + ":\tx" + item.getAmount()), additionalParametersVBox);
+							
+							BufferedImage bufferedImage = null;
+							try {
+								File imageFile = new File(FileResources.AGENT_ICON_PATH);
+								bufferedImage = ImageIO.read(imageFile);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+							Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+							ImageView agentIcon = new ImageView();
+							agentIcon.setImage(image);
+							agentIcon.setFitHeight(40);
+							agentIcon.setFitWidth(40);
+							agentIcon.preserveRatioProperty();
+					
+							HBox hBox = new HBox(agentIcon, vBox);
 							hBox.setSpacing(10);
 							setGraphic(hBox);
 						}
@@ -122,17 +159,17 @@ public class DashBoardPane extends BorderPane {
 		return agentListView;
 	}
 	
-	private ListView<Round> configureRoundListView(ObservableList<Round> roundData) {
-		final ListView<Round> roundListView = new ListView<Round>(roundData);
+	private ListView<RoundData> configureRoundListView(ObservableList<RoundData> roundData) {
+		final ListView<RoundData> roundListView = new ListView<RoundData>(roundData);
 		
-		roundListView.setCellFactory(new Callback<ListView<Round>, ListCell<Round>>() {
+		roundListView.setCellFactory(new Callback<ListView<RoundData>, ListCell<RoundData>>() {
 
 			@Override
-			public ListCell<Round> call(ListView<Round> arg) {
-				return new ListCell<Round>() {
+			public ListCell<RoundData> call(ListView<RoundData> arg) {
+				return new ListCell<RoundData>() {
 					
 					@Override
-					protected void updateItem(Round item, boolean emptyCell) {
+					protected void updateItem(RoundData item, boolean emptyCell) {
 						super.updateItem(item, emptyCell);
 						
 						if (emptyCell) {
@@ -140,8 +177,34 @@ public class DashBoardPane extends BorderPane {
 							setGraphic(null);
 						}
 						if (item != null) {
-							VBox vBox = new VBox(new Text("game"), new Text("game"));
-							HBox hBox = new HBox(new Label("[Graphic]"), vBox);
+							VBox additionalParametersVBox = new VBox();
+							
+							if (item.getGame().getAdditionalParameters().size() > 0) {
+								additionalParametersVBox.getChildren().add(new Text(GUIText.ADDITIONAL_PARAMETERS_LISTVIEW + ":"));
+								
+								for (AdditionalParameterData additionalParameterData: item.getGame().getAdditionalParameters()) {
+									additionalParametersVBox.getChildren().add(new Text("\t" + additionalParameterData.getName() + ": " + additionalParameterData.getValue()));
+								}
+							}
+							
+							VBox vBox = new VBox(new Text(GUIText.GAME_NAME_LISTVIEW + ":\t" + item.getGame().getName()), new Text(GUIText.AMOUNT_LISTVIEW + ":\tx" + item.getAmount()), additionalParametersVBox);
+							
+							BufferedImage bufferedImage = null;
+							try {
+								File imageFile = new File(FileResources.TROPHY_ICON_PATH);
+								bufferedImage = ImageIO.read(imageFile);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							
+							Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+							ImageView agentIcon = new ImageView();
+							agentIcon.setImage(image);
+							agentIcon.setFitHeight(40);
+							agentIcon.setFitWidth(40);
+							agentIcon.preserveRatioProperty();
+					
+							HBox hBox = new HBox(agentIcon, vBox);
 							hBox.setSpacing(10);
 							setGraphic(hBox);
 						}
@@ -184,11 +247,11 @@ public class DashBoardPane extends BorderPane {
 		return addRoundButton;
 	}
 
-	public ListView<Player> getAgentListView() {
+	public ListView<AgentData> getAgentListView() {
 		return agentListView;
 	}
 	
-	public ListView<Round> getRoundListView() {
+	public ListView<RoundData> getRoundListView() {
 		return this.roundListView;
 	}
 }

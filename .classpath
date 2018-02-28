@@ -6,6 +6,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/Users/francis/eclipse-workspace/astra/cartago.jar"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="res"/>
 	<classpathentry kind="lib" path="/Users/francis/eclipse-workspace/astra/json-simple-1.1.1.jar"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin"/>

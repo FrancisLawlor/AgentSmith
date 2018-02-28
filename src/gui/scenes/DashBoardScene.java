@@ -5,8 +5,8 @@ import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import tournament.player.Player;
-import tournament.round.Round;
+import tournament.data.AgentData;
+import tournament.data.RoundData;
 
 public class DashBoardScene extends Scene {
 	DashBoardPane dashBoardPane;
@@ -20,11 +20,11 @@ public class DashBoardScene extends Scene {
 		return this.dashBoardPane.getPlayButton();
 	}
 	
-	public ListView<Player> getAgentListView() {
+	public ListView<AgentData> getAgentListView() {
 		return this.dashBoardPane.getAgentListView();
 	}
 	
-	public ListView<Round> getRoundListView() {
+	public ListView<RoundData> getRoundListView() {
 		return this.dashBoardPane.getRoundListView();
 	}
 	
