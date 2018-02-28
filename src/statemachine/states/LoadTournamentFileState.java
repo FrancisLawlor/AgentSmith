@@ -17,15 +17,16 @@ import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
 import tournament.data.TournamentData;
+import tournament.data.TournamentDataWrapper;
 
 public class LoadTournamentFileState extends State {
 	private StateMachine stateMachine;
 	private SceneContainerStage sceneContainerStage;
 	private GUI gui;
-	private TournamentData GUItournamentData;
+	private TournamentDataWrapper GUItournamentData;
 	private File file;
 	
-	public LoadTournamentFileState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentData GUItournamentData) {
+	public LoadTournamentFileState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentDataWrapper GUItournamentData) {
 		this.stateMachine = stateMachine;
 		this.sceneContainerStage = sceneContainerStage;
 		this.gui = gui;
@@ -63,9 +64,9 @@ public class LoadTournamentFileState extends State {
 					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 					.create();
 			
-			this.GUItournamentData = gsonUtility.fromJson(tournamentDataJsonString, TournamentData.class);
-			this.gui.updateTournamentData(this.GUItournamentData);
-			
+			this.GUItournamentData.setTournamentData(gsonUtility.fromJson(tournamentDataJsonString, TournamentData.class));
+			this.gui.updateTournamentData(this.GUItournamentData.getTournamentData());
+						
 			this.stateMachine.setCurrentState(StateName.DASHBOARD);
 			this.stateMachine.execute(StateParameters.INIT);
 		} catch (IOException | ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {

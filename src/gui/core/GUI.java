@@ -33,8 +33,6 @@ public class GUI {
 	
 	
 	public GUI(SceneContainerStage containerStage) {
-	    
-	    
 	    //Fake data for illustrative purposes.
 	    ObservableList<AdditionalParameter> additionalParameters = FXCollections.observableArrayList();
 	    additionalParameters.add(new AdditionalParameter(new Label("History Length"), new TextField()));

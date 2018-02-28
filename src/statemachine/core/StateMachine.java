@@ -8,6 +8,7 @@ import gui.core.SceneContainerStage;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
 import tournament.data.TournamentData;
+import tournament.data.TournamentDataWrapper;
 import statemachine.states.AgentCreationState;
 import statemachine.states.DashboardState;
 import statemachine.states.LoadTournamentFileState;
@@ -22,7 +23,7 @@ public class StateMachine {
 	private Map<StateName, State> stateMap = new HashMap<StateName, State>();
 	private SceneContainerStage containerStage = new SceneContainerStage();
 	private GUI gui = new GUI(containerStage);
-	private TournamentData GUItournamentData = new TournamentData();
+	private TournamentDataWrapper GUItournamentData = new TournamentDataWrapper(new TournamentData());
 	
 	public StateMachine() {
 		stateMap.put(StateName.START, new StartState(this, this.containerStage, this.gui));

@@ -15,15 +15,15 @@ import javafx.stage.FileChooser;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
-import tournament.data.TournamentData;
+import tournament.data.TournamentDataWrapper;
 
 public class SaveTournamentFileState extends State {
 	private StateMachine stateMachine;
 	private SceneContainerStage sceneContainerStage;
-	private TournamentData GUItournamentData;
+	private TournamentDataWrapper GUItournamentData;
 	private File file;
 	
-	public SaveTournamentFileState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, TournamentData GUItournamentData) {
+	public SaveTournamentFileState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, TournamentDataWrapper GUItournamentData) {
 		this.stateMachine = stateMachine;
 		this.sceneContainerStage = sceneContainerStage;
 		this.GUItournamentData = GUItournamentData;
@@ -57,8 +57,8 @@ public class SaveTournamentFileState extends State {
 			Gson gsonUtility = new GsonBuilder()
 					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 					.create();
-						
-			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.GUItournamentData), filePath);
+			
+			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.GUItournamentData.getTournamentData()), filePath);
 			
 			this.stateMachine.setCurrentState(StateName.DASHBOARD);
 			this.stateMachine.execute(StateParameters.INIT);
