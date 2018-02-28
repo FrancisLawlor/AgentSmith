@@ -44,11 +44,19 @@ public class DashBoardScene extends Scene {
 		return this.dashBoardPane.getClearAgentsButton();
 	}
 	
+	public Button getRemoveSelectedAgentButton() {
+		return this.dashBoardPane.getRemoveSelectedAgentButton();
+	}
+	
 	public Button getAddRoundButton() {
 		return this.dashBoardPane.getAddRoundButton();
 	}
 	
 	public Button getClearRoundsButton() {
 		return this.dashBoardPane.getClearRoundsButton();
+	}
+
+	public Button getRemoveSelectedRoundButton() {
+		return this.dashBoardPane.getRemoveSelectedRoundButton();
 	}
 }

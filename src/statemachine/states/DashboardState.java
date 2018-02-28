@@ -46,11 +46,20 @@ public class DashboardState extends State {
 			case CLICK_CLEAR_AGENTS:
 				clickClearAgents();
 				break;
+			case CLICK_REMOVE_SELECTED_AGENT:
+				clickRemoveSelectedAgent();
+				break;
 			case CLICK_ADD_ROUND:
 				clickAddRound();
 				break;
 			case CLICK_CLEAR_ROUNDS:
 				clickClearRounds();
+				break;
+			case CLICK_REMOVE_SELECTED_ROUND:
+				clickRemoveSelectedRound();
+				break;
+			case CLICK_ROUNDS_LISTVIEW:
+				clickRoundsListView();
 				break;
 			case CLICK_START_TOURNAMENT:
 				clickStartTournament();
@@ -59,6 +68,48 @@ public class DashboardState extends State {
 				break;
 		}
 	}
+	
+	private void clickRemoveSelectedRound() {
+		if (gui.getDashBoardScene().getRoundListView().getSelectionModel().getSelectedItem() != null) {
+			int removalIndex = gui.getDashBoardScene().getRoundListView().getSelectionModel().getSelectedIndex();
+			this.GUITournamentData.getTournamentData().getRounds().remove(removalIndex);
+			
+			try {
+				this.gui.updateTournamentData(GUITournamentData.getTournamentData());
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void clickRemoveSelectedAgent() {
+		if (gui.getDashBoardScene().getAgentListView().getSelectionModel().getSelectedItem() != null) {
+			int removalIndex = gui.getDashBoardScene().getAgentListView().getSelectionModel().getSelectedIndex();
+			this.GUITournamentData.getTournamentData().getAgents().remove(removalIndex);
+			
+			try {
+				this.gui.updateTournamentData(GUITournamentData.getTournamentData());
+			} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void clickRoundsListView() {
+//		int removalIndex = gui.getDashBoardScene().getRoundListView().getSelectionModel().getSelectedIndex();
+//		this.GUITournamentData.getTournamentData().getRounds().remove(removalIndex);
+//		
+//		try {
+//			this.gui.updateTournamentData(GUITournamentData.getTournamentData());
+//		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+//				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+//			e.printStackTrace();
+//		}
+	}
+
+//    Recommendation recommendation = gui.getDashBoardScene().getListView().getSelectionModel().getSelectedItem();
 
 	private void clickClearAgents() {
 		this.GUITournamentData.getTournamentData().getAgents().clear();

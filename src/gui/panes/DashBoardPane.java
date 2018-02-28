@@ -38,6 +38,8 @@ public class DashBoardPane extends BorderPane {
 	private ListView<RoundData> roundListView;
 	private Button clearAgentsButton;
 	private Button clearRoundsButton;
+	private Button removeSelectedAgentButton;
+	private Button removeSelectedRoundButton;
 	
 	public DashBoardPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftBar = configureLeftBar();
@@ -67,8 +69,10 @@ public class DashBoardPane extends BorderPane {
         this.addAgentButton = addAgentButton;
         Button clearAgentsButton = new Button(GUIText.CLEAR_AGENTS_BUTTON);
         this.clearAgentsButton = clearAgentsButton;
+        Button removeSelectedAgentButton = new Button(GUIText.REMOVE_SELECTED_AGENT);
+        this.removeSelectedAgentButton = removeSelectedAgentButton;
         
-        agentListViewButtons.getChildren().addAll(addAgentButton, clearAgentsButton);
+        agentListViewButtons.getChildren().addAll(addAgentButton, clearAgentsButton, removeSelectedAgentButton);
         
         leftSide.getChildren().addAll(agentListViewLabel, agentListView, agentListViewButtons);
         
@@ -88,8 +92,10 @@ public class DashBoardPane extends BorderPane {
         this.addRoundButton = addRoundButton;
         Button clearRoundsButton = new Button(GUIText.CLEAR_ROUNDS_BUTTON);
         this.clearRoundsButton = clearRoundsButton;
+        Button removeSelectedRoundButton = new Button(GUIText.REMOVE_SELECTED_ROUND);
+        this.removeSelectedRoundButton = removeSelectedRoundButton;
         
-        roundListViewButtons.getChildren().addAll(addRoundButton, clearRoundsButton);
+        roundListViewButtons.getChildren().addAll(addRoundButton, clearRoundsButton, removeSelectedRoundButton);
 
         rightSide.getChildren().addAll(roundListViewLabel, roundListView, roundListViewButtons);
         
@@ -159,8 +165,8 @@ public class DashBoardPane extends BorderPane {
 							Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 							ImageView agentIcon = new ImageView();
 							agentIcon.setImage(image);
-							agentIcon.setFitHeight(40);
-							agentIcon.setFitWidth(40);
+							agentIcon.setFitHeight(GUIDimensions.LISTVIEW_ICON_DIMENSION);
+							agentIcon.setFitWidth(GUIDimensions.LISTVIEW_ICON_DIMENSION);
 							agentIcon.preserveRatioProperty();
 					
 							HBox hBox = new HBox(agentIcon, vBox);
@@ -214,13 +220,13 @@ public class DashBoardPane extends BorderPane {
 							}
 							
 							Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-							ImageView agentIcon = new ImageView();
-							agentIcon.setImage(image);
-							agentIcon.setFitHeight(40);
-							agentIcon.setFitWidth(40);
-							agentIcon.preserveRatioProperty();
+							ImageView trophyIcon = new ImageView();
+							trophyIcon.setImage(image);
+							trophyIcon.setFitHeight(GUIDimensions.LISTVIEW_ICON_DIMENSION);
+							trophyIcon.setFitWidth(GUIDimensions.LISTVIEW_ICON_DIMENSION);
+							trophyIcon.preserveRatioProperty();
 					
-							HBox hBox = new HBox(agentIcon, vBox);
+							HBox hBox = new HBox(trophyIcon, vBox);
 							hBox.setSpacing(10);
 							setGraphic(hBox);
 						}
@@ -263,6 +269,10 @@ public class DashBoardPane extends BorderPane {
 		return this.clearAgentsButton;
 	}
 	
+	public Button getRemoveSelectedAgentButton() {
+		return this.removeSelectedAgentButton;
+	}
+	
 	public Button getAddRoundButton() {
 		return this.addRoundButton;
 	}
@@ -270,7 +280,11 @@ public class DashBoardPane extends BorderPane {
 	public Button getClearRoundsButton() {
 		return this.clearRoundsButton;
 	}
-
+	
+	public Button getRemoveSelectedRoundButton() {
+		return this.removeSelectedRoundButton;
+	}
+	
 	public ListView<AgentData> getAgentListView() {
 		return this.agentListView;
 	}
