@@ -9,16 +9,19 @@ import gui.utils.GUIText;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
+import tournament.data.TournamentDataWrapper;
 
 public class DashboardState extends State {
 	private StateMachine stateMachine;
 	private SceneContainerStage sceneContainerStage;
 	private GUI gui;
+	private TournamentDataWrapper GUITournamentData;
 	
-	public DashboardState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui) {
+	public DashboardState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentDataWrapper GUITournamentData) {
 		this.stateMachine = stateMachine;
 		this.sceneContainerStage = sceneContainerStage;
 		this.gui = gui;
+		this.GUITournamentData = GUITournamentData;
 	}
 
 	public void execute(StateParameters param) {		
@@ -40,14 +43,40 @@ public class DashboardState extends State {
 			case CLICK_CREATE_AGENT:
 				clickCreateAgent();
 				break;
+			case CLICK_CLEAR_AGENTS:
+				clickClearAgents();
+				break;
 			case CLICK_ADD_ROUND:
 				clickAddRound();
+				break;
+			case CLICK_CLEAR_ROUNDS:
+				clickClearRounds();
 				break;
 			case CLICK_START_TOURNAMENT:
 				clickStartTournament();
 				break;
 			default:
 				break;
+		}
+	}
+
+	private void clickClearAgents() {
+		this.GUITournamentData.getTournamentData().getAgents().clear();
+		try {
+			this.gui.updateTournamentData(GUITournamentData.getTournamentData());
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void clickClearRounds() {
+		this.GUITournamentData.getTournamentData().getRounds().clear();
+		try {
+			this.gui.updateTournamentData(GUITournamentData.getTournamentData());
+		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
+				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			e.printStackTrace();
 		}
 	}
 

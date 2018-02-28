@@ -40,7 +40,15 @@ public class DashBoardScene extends Scene {
 		return this.dashBoardPane.getAddAgentButton();
 	}
 	
+	public Button getClearAgentsButton() {
+		return this.dashBoardPane.getClearAgentsButton();
+	}
+	
 	public Button getAddRoundButton() {
 		return this.dashBoardPane.getAddRoundButton();
+	}
+	
+	public Button getClearRoundsButton() {
+		return this.dashBoardPane.getClearRoundsButton();
 	}
 }

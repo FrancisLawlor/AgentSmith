@@ -23,16 +23,16 @@ public class StateMachine {
 	private Map<StateName, State> stateMap = new HashMap<StateName, State>();
 	private SceneContainerStage containerStage = new SceneContainerStage();
 	private GUI gui = new GUI(containerStage);
-	private TournamentDataWrapper GUItournamentData = new TournamentDataWrapper(new TournamentData());
+	private TournamentDataWrapper GUITournamentData = new TournamentDataWrapper(new TournamentData());
 	
 	public StateMachine() {
 		stateMap.put(StateName.START, new StartState(this, this.containerStage, this.gui));
-		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui, GUITournamentData));
 		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui));
-		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUItournamentData));
-		stateMap.put(StateName.SAVING_TOURNAMENT, new SaveTournamentFileState(this, this.containerStage, this.GUItournamentData));
+		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUITournamentData));
+		stateMap.put(StateName.SAVING_TOURNAMENT, new SaveTournamentFileState(this, this.containerStage, this.GUITournamentData));
 	}
 	
 	public void setCurrentState(StateName newState) {

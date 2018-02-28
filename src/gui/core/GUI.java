@@ -67,10 +67,12 @@ public class GUI {
 	}
 
 	public void updateTournamentData(TournamentData tournamentData) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		this.roundData.clear();
+		this.agentData.clear();
+		
 		for (int i = 0; i < tournamentData.getRounds().size(); i++) {
 			this.roundData.add(tournamentData.getRounds().get(i));
 		}
-		
 		for (int i = 0; i < tournamentData.getAgents().size(); i++) {
 			this.agentData.add(tournamentData.getAgents().get(i));
 		}

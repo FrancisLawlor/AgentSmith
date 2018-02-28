@@ -61,6 +61,7 @@ public class LoadTournamentFileState extends State {
 			String tournamentDataJsonString = FileLoader.loadJSONFile(filePath);
 			
 			Gson gsonUtility = new GsonBuilder()
+					.setLenient()
 					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 					.create();
 			

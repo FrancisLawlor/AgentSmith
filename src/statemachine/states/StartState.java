@@ -31,6 +31,8 @@ public class StartState extends State {
 		this.gui.getDashBoardScene().getSaveTournamentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_SAVE, stateMachine));
 		this.gui.getDashBoardScene().getAddAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_AGENT, stateMachine));
 		this.gui.getDashBoardScene().getAddRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_ADD_ROUND, stateMachine));
+		this.gui.getDashBoardScene().getClearAgentsButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CLEAR_AGENTS, stateMachine));
+		this.gui.getDashBoardScene().getClearRoundsButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CLEAR_ROUNDS, stateMachine));
 		this.gui.getDashBoardScene().getPlayButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_START_TOURNAMENT, stateMachine));
 		this.gui.getDashBoardScene().getAgentListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_AGENTS_LISTVIEW, stateMachine));
 		this.gui.getDashBoardScene().getRoundListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_ROUNDS_LISTVIEW, stateMachine));

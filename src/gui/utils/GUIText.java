@@ -29,4 +29,6 @@ public class GUIText {
 	public static final String STRATEGY_NAME_LISTVIEW = "Strategy";
 	public static final String AMOUNT_LISTVIEW = "Amount";
 	public static final String GAME_NAME_LISTVIEW = "Game";
+	public static final String CLEAR_AGENTS_BUTTON = "Clear agents";
+	public static final String CLEAR_ROUNDS_BUTTON = "Clear rounds";
 }

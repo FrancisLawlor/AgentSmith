@@ -36,6 +36,8 @@ public class DashBoardPane extends BorderPane {
 	private Button addRoundButton;
 	private ListView<AgentData> agentListView;
 	private ListView<RoundData> roundListView;
+	private Button clearAgentsButton;
+	private Button clearRoundsButton;
 	
 	public DashBoardPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftBar = configureLeftBar();
@@ -58,10 +60,17 @@ public class DashBoardPane extends BorderPane {
 		agentListView.setMinHeight(GUIDimensions.DASHBOARD_LISTVIEW_HEIGHT);
 		agentListView.setMinWidth(GUIDimensions.DASHBOARD_LISTVIEW_WIDTH);
         this.agentListView = agentListView;
+        
+        HBox agentListViewButtons = new HBox();
+        agentListViewButtons.setSpacing(GUIDimensions.LISTVIEW_BUTTON_SPACING);
         Button addAgentButton = new Button(GUIText.ADD_AGENT_BUTTON);
         this.addAgentButton = addAgentButton;
+        Button clearAgentsButton = new Button(GUIText.CLEAR_AGENTS_BUTTON);
+        this.clearAgentsButton = clearAgentsButton;
         
-        leftSide.getChildren().addAll(agentListViewLabel, agentListView, addAgentButton);
+        agentListViewButtons.getChildren().addAll(addAgentButton, clearAgentsButton);
+        
+        leftSide.getChildren().addAll(agentListViewLabel, agentListView, agentListViewButtons);
         
 		VBox rightSide = new VBox();
 		rightSide.setSpacing(GUIDimensions.DASHBOARD_VBOX_SPACING);
@@ -72,10 +81,17 @@ public class DashBoardPane extends BorderPane {
 		roundListView.setMinHeight(GUIDimensions.DASHBOARD_LISTVIEW_HEIGHT);
 		roundListView.setMinWidth(GUIDimensions.DASHBOARD_LISTVIEW_WIDTH);
         this.roundListView = roundListView;
+        
+        HBox roundListViewButtons = new HBox();
+        roundListViewButtons.setSpacing(GUIDimensions.LISTVIEW_BUTTON_SPACING);
         Button addRoundButton = new Button(GUIText.ADD_ROUND_BUTTON);
         this.addRoundButton = addRoundButton;
+        Button clearRoundsButton = new Button(GUIText.CLEAR_ROUNDS_BUTTON);
+        this.clearRoundsButton = clearRoundsButton;
         
-        rightSide.getChildren().addAll(roundListViewLabel, roundListView, addRoundButton);
+        roundListViewButtons.getChildren().addAll(addRoundButton, clearRoundsButton);
+
+        rightSide.getChildren().addAll(roundListViewLabel, roundListView, roundListViewButtons);
         
 		BorderPane centerPane = new BorderPane();
 		
@@ -228,27 +244,35 @@ public class DashBoardPane extends BorderPane {
 	}
 
 	public Button getLoadTournamentButton() {
-		return loadTournamentButton;
+		return this.loadTournamentButton;
 	}
 
 	public Button getSaveTournamentButton() {
-		return saveTournamentButton;
+		return this.saveTournamentButton;
 	}
 
 	public Button getPlayButton() {
-		return playButton;
+		return this.playButton;
 	}
 	
 	public Button getAddAgentButton() {
-		return addAgentButton;
+		return this.addAgentButton;
+	}
+	
+	public Button getClearAgentsButton() {
+		return this.clearAgentsButton;
 	}
 	
 	public Button getAddRoundButton() {
-		return addRoundButton;
+		return this.addRoundButton;
+	}
+	
+	public Button getClearRoundsButton() {
+		return this.clearRoundsButton;
 	}
 
 	public ListView<AgentData> getAgentListView() {
-		return agentListView;
+		return this.agentListView;
 	}
 	
 	public ListView<RoundData> getRoundListView() {
