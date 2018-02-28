@@ -12,6 +12,7 @@ import statemachine.states.AgentCreationState;
 import statemachine.states.DashboardState;
 import statemachine.states.LoadTournamentFileState;
 import statemachine.states.RoundCreationState;
+import statemachine.states.SaveTournamentFileState;
 import statemachine.states.StartState;
 import statemachine.states.State;
 import statemachine.states.TournamentPlayingState;
@@ -30,6 +31,7 @@ public class StateMachine {
 		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUItournamentData));
+		stateMap.put(StateName.SAVING_TOURNAMENT, new SaveTournamentFileState(this, this.containerStage, this.GUItournamentData));
 	}
 	
 	public void setCurrentState(StateName newState) {
