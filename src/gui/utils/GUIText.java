@@ -15,13 +15,11 @@ public class GUIText {
 	public static final String ROUND_LISTVIEW_LABEL = "Rounds";
 	public static final String ADD_AGENT_BUTTON = "Add agents";
 	public static final String ADD_ROUND_BUTTON = "Add rounds";
-	public static final String STRATEGY_MENU_BUTTON = "Strategy";
 	public static final String STRATEGY_TEXT_FIELD_LABEL = "Choose a strategy";
 	public static final String AGENT_NAME_TEXT_FIELD_LABEL = "Agent name";
 	public static final String CREATE_AGENT_BUTTON = "Create agent";
-	public static final String GAME_MENU_BUTTON = "Select game";
 	public static final String CREATE_ROUND_BUTTON = "Create round";
-	public static final String GAME_MENU_BUTTON_LABEL = "Select a game";
+	public static final String GAME_TEXT_FIELD_LABEL = "Choose a game";
 	public static final String TOURNAMENT_PLAYING_TEXT = "Waiting for tournament to finish...";
 	public static final String CREATE_AGENT_HEADING = "Create Agent";
 	public static final String CREATE_ROUND_HEADING = "Create Round";
@@ -35,4 +33,5 @@ public class GUIText {
 	public static final String REMOVE_SELECTED_ROUND = "Remove selected";
 	public static final String BROWSE_STRATEGY_BUTTON_LABEL = "Browse strategies";
 	public static final String AMOUNT_LABEL = "Amount";
+	public static final String BROWSE_GAME_BUTTON_LABEL = "Browse games";
 }

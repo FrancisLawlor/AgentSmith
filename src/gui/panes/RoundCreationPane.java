@@ -7,9 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,8 +16,10 @@ import javafx.scene.layout.VBox;
 public class RoundCreationPane extends BorderPane {
 	private Button backButton;
 	private Button createRoundButton;
-	private MenuButton gameMenuButton;
 	private ObservableList<AdditionalParameter> additionalGameParameters;
+	private TextField gameTextField;
+	private Button browseGameButton;
+	private TextField amountTextField;
 	
 	public RoundCreationPane(ObservableList<AdditionalParameter> additionalGameParameters) {
 		this.additionalGameParameters = additionalGameParameters;
@@ -49,15 +50,19 @@ public class RoundCreationPane extends BorderPane {
 		VBox centerVBox = new VBox();
 		centerVBox.setSpacing(10);
 		centerVBox.setPadding(new Insets(10));
-				
-		// Round drop down
-		HBox gameHBox = new HBox();
-		gameHBox.setSpacing(10);
-		MenuButton gameMenuButton = new MenuButton(GUIText.GAME_MENU_BUTTON);
-		this.gameMenuButton = gameMenuButton;
-		gameMenuButton.getItems().addAll(new MenuItem("Minority Game"));
-		gameHBox.getChildren().addAll(new Label(GUIText.GAME_MENU_BUTTON_LABEL), gameMenuButton);
-		centerVBox.getChildren().add(gameHBox);
+		
+		// Strategy info
+		HBox nameHBox = new HBox();
+		nameHBox.setSpacing(10);
+		TextField gameTextField = new TextField();
+		this.gameTextField = gameTextField;
+		Button browseGameButton = new Button(GUIText.BROWSE_GAME_BUTTON_LABEL);
+		this.browseGameButton = browseGameButton;
+		TextField amountTextField = new TextField();
+		this.amountTextField = amountTextField;
+		nameHBox.getChildren().addAll(new Label(GUIText.GAME_TEXT_FIELD_LABEL), gameTextField, 
+				browseGameButton, new Label(GUIText.AMOUNT_LABEL), amountTextField);
+		centerVBox.getChildren().add(nameHBox);
 		
 		// Horizontal Separator
 		Separator horizontalSeparator = new Separator();
@@ -93,11 +98,19 @@ public class RoundCreationPane extends BorderPane {
 		return this.createRoundButton;
 	}
 	
-	public MenuButton getGameMenuButton() {
-		return this.gameMenuButton;
-	}
-	
 	public ObservableList<AdditionalParameter> getAdditionalGameParameters() {
 		return this.additionalGameParameters;
+	}
+
+	public TextField getGameTextField() {
+		return this.gameTextField;
+	}
+
+	public Button getBrowseGameButton() {
+		return this.browseGameButton;
+	}
+
+	public TextField getAmountTextField() {
+		return amountTextField;
 	}
 }

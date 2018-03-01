@@ -9,7 +9,6 @@ import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
 import gui.utils.InputValidator;
-import javafx.scene.control.TextField;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
@@ -62,7 +61,6 @@ public class AgentCreationState extends State {
 		} else {
 			cancelledFileSelection();
 		}
-		
 	}
 
 	private void cancelledFileSelection() {

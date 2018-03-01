@@ -42,7 +42,8 @@ public class StartState extends State {
 		this.gui.getAgentCreationScene().getCreateAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_AGENT, stateMachine));
 		this.gui.getAgentCreationScene().getBrowseStrategyButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BROWSE_STRATEGIES, stateMachine));
 		this.gui.getRoundCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
-		this.gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_ROUND, stateMachine));
+		this.gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_ROUND, stateMachine));
+		this.gui.getRoundCreationScene().getBrowseGameButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BROWSE_GAMES, stateMachine));
 	}
 
 	@Override

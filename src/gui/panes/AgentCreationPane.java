@@ -51,7 +51,7 @@ public class AgentCreationPane extends BorderPane {
 		centerVBox.setSpacing(10);
 		centerVBox.setPadding(new Insets(10));
 		
-		// Agent name text field
+		// Agent strategy text field
 		HBox nameHBox = new HBox();
 		nameHBox.setSpacing(10);
 		TextField strategyTextField = new TextField();

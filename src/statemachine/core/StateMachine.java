@@ -27,9 +27,9 @@ public class StateMachine {
 	
 	public StateMachine() {
 		stateMap.put(StateName.START, new StartState(this, this.containerStage, this.gui));
-		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui, GUITournamentData));
-		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, this.containerStage, this.gui, GUITournamentData));
-		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui, this.GUITournamentData));
+		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, this.containerStage, this.gui, this.GUITournamentData));
+		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui, this.GUITournamentData));
 		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUITournamentData));
 		stateMap.put(StateName.SAVING_TOURNAMENT, new SaveTournamentFileState(this, this.containerStage, this.GUITournamentData));
