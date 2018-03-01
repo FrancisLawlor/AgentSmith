@@ -19,4 +19,5 @@ public class GUIDimensions {
 	public static final double PROGRESS_INDICATOR_MAX_DIMENSION = 300;
 	public static final double LISTVIEW_BUTTON_SPACING = 10;
 	public static final double LISTVIEW_ICON_DIMENSION = 70;
+	public static final int CENTER_PANE_LENGTH = 2;
 }

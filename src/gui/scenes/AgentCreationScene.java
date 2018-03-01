@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class AgentCreationScene extends Scene {
 	AgentCreationPane agentCreationPane;
@@ -38,5 +39,13 @@ public class AgentCreationScene extends Scene {
 	
 	public TextField getAmountTextField() {
 		return this.agentCreationPane.getAmountTextField();
+	}
+	
+	public void updateAdditionalParameterTextFields() {
+		this.agentCreationPane.updateAdditionalParameterTextFields();;
+	}
+
+	public VBox getCenterPane() {
+		return this.agentCreationPane.getCenterPane();
 	}
 }

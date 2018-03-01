@@ -1,10 +1,12 @@
 package strategies.random;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import strategies.core.IStrategy;
 import strategies.core.Strategy;
 
-public class RandomStrategy extends Strategy {
+public class RandomStrategy extends Strategy implements IStrategy {
 	public RandomStrategy(HashMap<String, String> additionalParameters) {
 		super(additionalParameters);
 	}
@@ -20,6 +22,25 @@ public class RandomStrategy extends Strategy {
 	}
 
 	@Override
-	public void updateStrategy(String key, int value) {		
+	public void updateStrategy(String key, int value) {
+		System.out.println("Updated Random Strategy");
+	}
+
+	@Override
+	public byte[] getIconAsBytes() throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getStrategyName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getAdditionalParameterNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

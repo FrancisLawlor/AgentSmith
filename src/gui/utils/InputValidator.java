@@ -20,4 +20,12 @@ public class InputValidator {
 		
 		return true;
 	}
+	
+	public static boolean isEmptyString(String input) {
+		if (input == null) {
+			return false;
+		}
+		
+		return input.length() == 0;
+	}
 }

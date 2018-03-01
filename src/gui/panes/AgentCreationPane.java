@@ -20,13 +20,14 @@ public class AgentCreationPane extends BorderPane {
 	private ObservableList<AdditionalParameter> additionalParameters;
 	private Button browseStrategyButton;
 	private TextField amountTextField;
+	private VBox centerPane;
 	
 	public AgentCreationPane(ObservableList<AdditionalParameter> additionalParameters) {
 		this.additionalParameters = additionalParameters;
 		VBox leftBar = configureLeftBar();
 		this.setLeft(leftBar);
 		
-		VBox centerPane = configureCenterPane(additionalParameters);
+		this.centerPane = configureCenterPane();
 		this.setCenter(centerPane);
 		
 		BorderPane rightBar = configureRightBar();
@@ -46,7 +47,7 @@ public class AgentCreationPane extends BorderPane {
 	    return leftBarContent;
 	}
 	
-	private VBox configureCenterPane(ObservableList<AdditionalParameter> additionalParameters) {
+	private VBox configureCenterPane() {
 		VBox centerVBox = new VBox();
 		centerVBox.setSpacing(10);
 		centerVBox.setPadding(new Insets(10));
@@ -67,15 +68,7 @@ public class AgentCreationPane extends BorderPane {
 		// Horizontal Seperator
 		Separator horizontalSeparator = new Separator();
 		centerVBox.getChildren().add(horizontalSeparator);
-		
-		// Additional Parameters		
-		for (AdditionalParameter additionalParameter: additionalParameters) {
-			HBox additionalParameterHBox = new HBox();
-			additionalParameterHBox.setSpacing(10);
-			additionalParameterHBox.getChildren().addAll(additionalParameter.getLabel(), additionalParameter.getTextField());
-			centerVBox.getChildren().add(additionalParameterHBox);
-		}
-		
+				
 		return centerVBox;
 	}
 	
@@ -112,5 +105,18 @@ public class AgentCreationPane extends BorderPane {
 	
 	public TextField getAmountTextField() {
 		return this.amountTextField;
+	}
+	
+	public void updateAdditionalParameterTextFields() {
+		for (AdditionalParameter additionalParameter: this.additionalParameters) {
+			HBox additionalParameterHBox = new HBox();
+			additionalParameterHBox.setSpacing(10);
+			additionalParameterHBox.getChildren().addAll(additionalParameter.getLabel(), additionalParameter.getTextField());
+			this.centerPane.getChildren().add(additionalParameterHBox);
+		}
+	}
+	
+	public VBox getCenterPane() {
+		return this.centerPane;
 	}
 }

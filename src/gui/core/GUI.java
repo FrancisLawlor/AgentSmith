@@ -34,16 +34,18 @@ public class GUI {
 	
 	public GUI(SceneContainerStage containerStage) {
 	    //Fake data for illustrative purposes.
-	    ObservableList<AdditionalParameter> additionalParameters = FXCollections.observableArrayList();
-	    additionalParameters.add(new AdditionalParameter(new Label("History Length"), new TextField()));
+	    ObservableList<AdditionalParameter> additionalStrategyParameters = FXCollections.observableArrayList();
+	    ObservableList<AdditionalParameter> additionalRoundParameters = FXCollections.observableArrayList();
+
+//	    additionalParameters.add(new AdditionalParameter(new Label("History Length"), new TextField()));
 
 		this.dashBoardPane = new DashBoardPane(this.agentData, this.roundData);
 		this.dashBoardScene = new DashBoardScene(this.dashBoardPane);
 		
-		this.agentCreationPane = new AgentCreationPane(additionalParameters);
+		this.agentCreationPane = new AgentCreationPane(additionalStrategyParameters);
 		this.agentCreationScene = new AgentCreationScene(this.agentCreationPane);
 		
-		this.roundCreationPane = new RoundCreationPane(additionalParameters);
+		this.roundCreationPane = new RoundCreationPane(additionalRoundParameters);
 		this.roundCreationScene = new RoundCreationScene(this.roundCreationPane);
 		
 		this.tournamentPlayingPane = new TournamentPlayingPane();

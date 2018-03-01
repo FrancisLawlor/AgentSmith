@@ -53,7 +53,7 @@ public class RoundCreationState extends State {
 
 
 	private void clickBrowseGames() {
-		this.sceneContainerStage.setTitle(GUIText.LOAD_TOURNAMENT);
+		this.sceneContainerStage.setTitle(GUIText.SELECT_FILE);
 		
 		File gameFile = FileSelectionUtility.chooseFile(this.sceneContainerStage);
 		
