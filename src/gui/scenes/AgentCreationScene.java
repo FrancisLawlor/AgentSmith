@@ -6,7 +6,6 @@ import gui.utils.GUIDimensions;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 
 public class AgentCreationScene extends Scene {
@@ -25,15 +24,19 @@ public class AgentCreationScene extends Scene {
 		return this.agentCreationPane.getCreateAgentButton();
 	}
 	
-	public MenuButton getStrategyMenuButton() {
-		return this.agentCreationPane.getStrategyMenuButton();
-	}
-	
-	public TextField getNameTextField() {
-		return this.agentCreationPane.getNameTextField();
+	public TextField getStrategyTextField() {
+		return this.agentCreationPane.getStrategyTextField();
 	}
 	
 	public ObservableList<AdditionalParameter> getAdditionalParameters() {
 		return this.agentCreationPane.getAdditionalParameters();
+	}
+	
+	public Button getBrowseStrategyButton() {
+		return this.agentCreationPane.getBrowseStrategyButton();
+	}
+	
+	public TextField getAmountTextField() {
+		return this.agentCreationPane.getAmountTextField();
 	}
 }

@@ -7,8 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -18,9 +16,10 @@ import javafx.scene.layout.VBox;
 public class AgentCreationPane extends BorderPane {
 	private Button backButton;
 	private Button createAgentButton;
-	private MenuButton strategyMenuButton;
-	private TextField nameTextField;
+	private TextField strategyTextField;
 	private ObservableList<AdditionalParameter> additionalParameters;
+	private Button browseStrategyButton;
+	private TextField amountTextField;
 	
 	public AgentCreationPane(ObservableList<AdditionalParameter> additionalParameters) {
 		this.additionalParameters = additionalParameters;
@@ -55,19 +54,15 @@ public class AgentCreationPane extends BorderPane {
 		// Agent name text field
 		HBox nameHBox = new HBox();
 		nameHBox.setSpacing(10);
-		TextField nameTextField = new TextField();
-		this.nameTextField = nameTextField;
-		nameHBox.getChildren().addAll(new Label(GUIText.AGENT_NAME_TEXT_FIELD_LABEL), nameTextField);
+		TextField strategyTextField = new TextField();
+		this.strategyTextField = strategyTextField;
+		Button browseStrategyButton = new Button(GUIText.BROWSE_STRATEGY_BUTTON_LABEL);
+		this.browseStrategyButton = browseStrategyButton;
+		TextField amountTextField = new TextField();
+		this.amountTextField = amountTextField;
+		nameHBox.getChildren().addAll(new Label(GUIText.STRATEGY_TEXT_FIELD_LABEL), strategyTextField, 
+				browseStrategyButton, new Label(GUIText.AMOUNT_LABEL), amountTextField);
 		centerVBox.getChildren().add(nameHBox);
-				
-		// Strategy drop down
-		HBox strategyHBox = new HBox();
-		strategyHBox.setSpacing(10);
-		MenuButton strategyMenuButton = new MenuButton(GUIText.STRATEGY_MENU_BUTTON);
-		this.strategyMenuButton = strategyMenuButton;
-		strategyMenuButton.getItems().addAll(new MenuItem("Best Play"));
-		strategyHBox.getChildren().addAll(new Label(GUIText.STRATEGY_TEXT_FIELD_LABEL), strategyMenuButton);
-		centerVBox.getChildren().add(strategyHBox);
 		
 		// Horizontal Seperator
 		Separator horizontalSeparator = new Separator();
@@ -103,15 +98,19 @@ public class AgentCreationPane extends BorderPane {
 		return this.createAgentButton;
 	}
 	
-	public MenuButton getStrategyMenuButton() {
-		return this.strategyMenuButton;
-	}
-	
-	public TextField getNameTextField() {
-		return this.nameTextField;
+	public TextField getStrategyTextField() {
+		return this.strategyTextField;
 	}
 	
 	public ObservableList<AdditionalParameter> getAdditionalParameters() {
 		return this.additionalParameters;
+	}
+	
+	public Button getBrowseStrategyButton() {
+		return this.browseStrategyButton;
+	}
+	
+	public TextField getAmountTextField() {
+		return this.amountTextField;
 	}
 }

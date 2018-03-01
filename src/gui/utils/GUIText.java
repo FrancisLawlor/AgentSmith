@@ -33,4 +33,6 @@ public class GUIText {
 	public static final String CLEAR_ROUNDS_BUTTON = "Clear rounds";
 	public static final String REMOVE_SELECTED_AGENT = "Remove selected";
 	public static final String REMOVE_SELECTED_ROUND = "Remove selected";
+	public static final String BROWSE_STRATEGY_BUTTON_LABEL = "Browse strategies";
+	public static final String AMOUNT_LABEL = "Amount";
 }

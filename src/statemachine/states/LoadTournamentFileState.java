@@ -9,10 +9,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import filemanagement.fileloader.FileLoader;
+import filemanagement.utils.FileSelectionUtility;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
-import javafx.stage.FileChooser;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
@@ -47,7 +47,7 @@ public class LoadTournamentFileState extends State {
 	private void init() {
 		this.sceneContainerStage.setTitle(GUIText.LOAD_TOURNAMENT);
 		
-		this.file = chooseFile();
+		this.file = FileSelectionUtility.chooseFile(this.sceneContainerStage);
 		
 		if (this.file != null) {
 			fileSelected(this.file.getPath());
@@ -78,17 +78,5 @@ public class LoadTournamentFileState extends State {
 	private void cancelledFileSelection() {
 		this.stateMachine.setCurrentState(StateName.DASHBOARD);
 		this.stateMachine.execute(StateParameters.INIT);
-	}
-
-	private File chooseFile() {		
-		FileChooser fileChooser = new FileChooser();
-		fileChooser.setTitle(GUIText.SELECT_FILE);
-		File file = fileChooser.showOpenDialog(this.sceneContainerStage);
-		
-        if (file != null) {
-            return file;
-        }
-		
-        return null;		
 	}
 }

@@ -1,1 +1,0 @@
-{"rounds":[{"game":{"name":"games.minoritygame.MinorityGame","additional_parameters":[]},"amount":2}],"agents":[{"strategy":{"name":"strategies.bestplay.BestPlay","additional_parameters":[{"name":"history_length","value":"8"},{"name":"number_of_choices","value":"2"}]},"amount":5}]}

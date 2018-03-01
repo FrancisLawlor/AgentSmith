@@ -39,7 +39,8 @@ public class StartState extends State {
 		this.gui.getDashBoardScene().getAgentListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_AGENTS_LISTVIEW, stateMachine));
 		this.gui.getDashBoardScene().getRoundListView().setOnMousePressed(new ListViewEventHandler(StateParameters.CLICK_ROUNDS_LISTVIEW, stateMachine));
 		this.gui.getAgentCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
-		this.gui.getAgentCreationScene().getCreateAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_AGENT, stateMachine));
+		this.gui.getAgentCreationScene().getCreateAgentButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_AGENT, stateMachine));
+		this.gui.getAgentCreationScene().getBrowseStrategyButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BROWSE_STRATEGIES, stateMachine));
 		this.gui.getRoundCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
 		this.gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CREATE_ROUND, stateMachine));
 	}
