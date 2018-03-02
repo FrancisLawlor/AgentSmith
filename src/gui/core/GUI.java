@@ -13,8 +13,6 @@ import gui.scenes.RoundCreationScene;
 import gui.scenes.TournamentPlayingScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import tournament.data.AgentData;
 import tournament.data.RoundData;
 import tournament.data.TournamentData;
@@ -33,11 +31,8 @@ public class GUI {
 	
 	
 	public GUI(SceneContainerStage containerStage) {
-	    //Fake data for illustrative purposes.
 	    ObservableList<AdditionalParameter> additionalStrategyParameters = FXCollections.observableArrayList();
 	    ObservableList<AdditionalParameter> additionalRoundParameters = FXCollections.observableArrayList();
-
-//	    additionalParameters.add(new AdditionalParameter(new Label("History Length"), new TextField()));
 
 		this.dashBoardPane = new DashBoardPane(this.agentData, this.roundData);
 		this.dashBoardScene = new DashBoardScene(this.dashBoardPane);

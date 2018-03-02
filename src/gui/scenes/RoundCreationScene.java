@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 
 public class RoundCreationScene extends Scene {
 	RoundCreationPane roundCreationPane;
@@ -38,5 +39,13 @@ public class RoundCreationScene extends Scene {
 
 	public TextField getAmountTextField() {
 		return this.roundCreationPane.getAmountTextField();
+	}
+
+	public VBox getCenterPane() {
+		return this.roundCreationPane.getCenterPane();
+	}
+
+	public void updateAdditionalParameterTextFields() {
+		this.roundCreationPane.updateAdditionalParameterTextFields();
 	}
 }

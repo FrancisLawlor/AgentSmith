@@ -65,7 +65,7 @@ public class AgentCreationPane extends BorderPane {
 				browseStrategyButton, new Label(GUIText.AMOUNT_LABEL), amountTextField);
 		centerVBox.getChildren().add(nameHBox);
 		
-		// Horizontal Seperator
+		// Horizontal Separator
 		Separator horizontalSeparator = new Separator();
 		centerVBox.getChildren().add(horizontalSeparator);
 				

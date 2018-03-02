@@ -20,14 +20,15 @@ public class RoundCreationPane extends BorderPane {
 	private TextField gameTextField;
 	private Button browseGameButton;
 	private TextField amountTextField;
+	private VBox centerPane;
 	
 	public RoundCreationPane(ObservableList<AdditionalParameter> additionalGameParameters) {
 		this.additionalGameParameters = additionalGameParameters;
 		VBox leftBar = configureLeftBar();
 		this.setLeft(leftBar);
 		
-		VBox centerPane = configureCenterPane(additionalGameParameters);
-		this.setCenter(centerPane);
+		this.centerPane = configureCenterPane(additionalGameParameters);
+		this.setCenter(this.centerPane);
 		
 		BorderPane rightBar = configureRightBar();
 		this.setRight(rightBar);
@@ -68,14 +69,6 @@ public class RoundCreationPane extends BorderPane {
 		Separator horizontalSeparator = new Separator();
 		centerVBox.getChildren().add(horizontalSeparator);
 		
-		// Additional Parameters		
-		for (AdditionalParameter additionalParameter: additionalGameParameters) {
-			HBox additionalParameterHBox = new HBox();
-			additionalParameterHBox.setSpacing(10);
-			additionalParameterHBox.getChildren().addAll(additionalParameter.getLabel(), additionalParameter.getTextField());
-			centerVBox.getChildren().add(additionalParameterHBox);
-		}
-		
 		return centerVBox;
 	}
 	
@@ -112,5 +105,18 @@ public class RoundCreationPane extends BorderPane {
 
 	public TextField getAmountTextField() {
 		return amountTextField;
+	}
+
+	public void updateAdditionalParameterTextFields() {
+		for (AdditionalParameter additionalParameter: this.additionalGameParameters) {
+			HBox additionalParameterHBox = new HBox();
+			additionalParameterHBox.setSpacing(10);
+			additionalParameterHBox.getChildren().addAll(additionalParameter.getLabel(), additionalParameter.getTextField());
+			this.centerPane.getChildren().add(additionalParameterHBox);
+		}
+	}
+	
+	public VBox getCenterPane() {
+		return this.centerPane;
 	}
 }
