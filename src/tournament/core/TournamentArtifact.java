@@ -23,7 +23,6 @@ public class TournamentArtifact extends Artifact{
 	private Map<String, Integer> currentGuesses = new HashMap<String, Integer>();
 	private Map<String, Float> currentPayoffs = new HashMap<String, Float>();
 	private int numberOfReceivedPayoffs = 0;
-	private int numberOfAgentsFinishedUpdatingStrategies = 0;
 	private int currentNumberOfGuesses = 0;
 
 	@OPERATION
@@ -103,21 +102,9 @@ public class TournamentArtifact extends Artifact{
 	public void newRound() {
 		synchronized (lock) {
 			if (this.currentRound < this.tournament.getRounds().size()) {
-				if (this.currentRound == 0) {
-					signal(TournamentResources.START_NEW_ROUND);
-				} else {
-					numberOfAgentsFinishedUpdatingStrategies++;
-					if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
-						signal(TournamentResources.START_NEW_ROUND);
-						numberOfAgentsFinishedUpdatingStrategies = 0;
-					}
-				}
+				signal(TournamentResources.START_NEW_ROUND);
 			} else {
-				numberOfAgentsFinishedUpdatingStrategies++;
-				if (numberOfAgentsFinishedUpdatingStrategies == this.tournament.getAgents().size()) {
-					signal(TournamentResources.END_TOURNAMENT);
-					numberOfAgentsFinishedUpdatingStrategies = 0;
-				}
+				signal(TournamentResources.END_TOURNAMENT);
 			}
 		}
 	}
@@ -132,12 +119,13 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void playGame(String agentId, int bid) {
 		synchronized (lock) {
+			System.out.println("bid" + bid);
 			this.currentGuesses.put(agentId, bid);
 			this.currentNumberOfGuesses++;
 			
-			if (this.currentNumberOfGuesses == this.tournament.getAgents().size()) {
+			if (this.currentNumberOfGuesses == this.tournament.getAgents().size()) {		
 				this.currentPayoffs = this.tournament.getRounds().get(this.currentRound).getGame().play(this.currentGuesses);
-				
+
 				for (String id: this.currentPayoffs.keySet()) {
 					signal(TournamentResources.GAME_FINISHED, id, this.currentPayoffs.get(id));
 				}
@@ -151,7 +139,6 @@ public class TournamentArtifact extends Artifact{
 	public void receivedPayoff() {
 		synchronized (lock) {
 			this.numberOfReceivedPayoffs++;
-			
 			if (this.numberOfReceivedPayoffs == this.tournament.getAgents().size()) {
 				Map<String, Integer> updateDataMap = this.tournament.getRounds().get(this.currentRound).getGame().getUpdateStrategyData(this.currentGuesses);
 				
@@ -168,7 +155,8 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void getGuess(String agentId, int numberOfOptions) {
 		synchronized (lock) {
-			signal(StrategiesResources.GENERATED_GUESS, agentId, this.tournament.getAgents().get(Integer.parseInt(agentId)).getStrategy().generateChoice(null));
+			signal(StrategiesResources.GENERATED_GUESS, agentId, 
+					this.tournament.getAgents().get(Integer.parseInt(agentId)).getStrategy().generateChoice(null), this.tournament.getAgents().size());
 		}
 	}
 	

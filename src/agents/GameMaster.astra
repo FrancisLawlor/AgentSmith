@@ -74,10 +74,15 @@ agent GameMaster {
 	
 	rule @message(request, string id, playerAgentId(string agentId)) {	
 //		console.println("Agent with id " + agentId + " has received the request for a new round.");
+		query(numberOfAgents(int _numberOfAgents));		
+		cartago.storeCurrentRound(_numberOfAgents);
+	}
+	
+	rule $cartago.signal(string id, finishedStoringCurrentRound()) {	
+		console.println("Finished storing current round.");
 		query(numberOfRounds(int _numberOfRounds));
 		query(numberOfAgents(int _numberOfAgents));
 		
-		cartago.storeCurrentRound(_numberOfAgents);
 		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
 		cartago.newRound();
 	}

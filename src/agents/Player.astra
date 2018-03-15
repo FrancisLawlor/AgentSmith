@@ -9,6 +9,8 @@ agent Player {
 		formula result(int);
 		formula playerAgentId(string);
 		formula payoff(float);
+		formula currentBid(int);
+		formula numberOfAgents(int);
 	}
 	
 	rule +!main(list args) {
@@ -39,24 +41,35 @@ agent Player {
 		}
 	}
 	
-	rule $cartago.signal(string id, generatedGuess(string agentId, int guess)) {
+	rule $cartago.signal(string id, generatedGuess(string agentId, int guess, int numberOfAgents)) {
 		if (agentId == S.name()) {
+			+numberOfAgents(numberOfAgents);
 			console.println(agentId + "\'s generated guess: " + guess);
-			cartago.playGame(agentId, guess);
-			cartago.recordBid(agentId, guess);
+			cartago.recordBid(agentId, guess, numberOfAgents);
+		}
+	}
+	
+	rule $cartago.signal(string id, bidReceived(string agentId, int currentBid)) {
+		if (agentId == S.name()) {
+			cartago.playGame(S.name(), currentBid);
 		}
 	}
 	
 	rule $cartago.signal(string id, gameFinished(string agentId, float payoff)) {
 		if (agentId == S.name()) {
-//			console.println("Agent with id " + agentId + "\'s' payoff: " + payoff);
-			cartago.receivedPayoff();
-			cartago.recordPayoff(agentId, payoff);
+//			console.println("Agent with id " + agentId + "\'s' payoff is: " + payoff);
+			query(numberOfAgents(int _numberOfAgents));
+			cartago.recordPayoff(agentId, payoff, _numberOfAgents);
 		}
 	}
 	
+	rule $cartago.signal(string id, allPayoffsRecorded()) {
+//		console.println("Agent with id " + S.name() + " has finished recording payoff.");
+		cartago.receivedPayoff();
+	}	
+	
 	rule $cartago.signal(string id, sendUpdateKeyValuePair(string updateDataKey, int updateDataValue)) {
-//		console.println("Received <" + updateDataKey + ", " + updateDataValue + ">");
+//		console.println("Agent " + S.name() + " received <" + updateDataKey + ", " + updateDataValue + ">");
 		cartago.updateStrategy(S.name(), updateDataKey, updateDataValue);
 	}
 	
