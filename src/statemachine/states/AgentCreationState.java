@@ -79,7 +79,7 @@ public class AgentCreationState extends State {
 		this.gui.getAgentCreationScene().getStrategyTextField().setText(path);
 		
 		try {
-			IStrategy strategy = (IStrategy) JarLoader.loadStrategy(path);
+			IStrategy strategy = (IStrategy) JarLoader.loadStrategy(path, null);
 			this.gui.getAgentCreationScene().getAdditionalParameters().clear();
 			
 			for (int i = 0; i < strategy.getAdditionalParameterNames().length; i++) {

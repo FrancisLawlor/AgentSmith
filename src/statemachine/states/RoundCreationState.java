@@ -79,7 +79,7 @@ public class RoundCreationState extends State {
 		this.gui.getRoundCreationScene().getGameTextField().setText(path);
 		
 		try {
-			IGame game = (IGame) JarLoader.loadGame(path);
+			IGame game = (IGame) JarLoader.loadGame(path, null);
 			this.gui.getRoundCreationScene().getAdditionalGameParameters().clear();
 			
 			for (int i = 0; i < game.getAdditionalParameterNames().length; i++) {

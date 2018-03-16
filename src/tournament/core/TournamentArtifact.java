@@ -1,6 +1,7 @@
 package tournament.core;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class TournamentArtifact extends Artifact{
 	private int currentNumberOfGuesses = 0;
 
 	@OPERATION
-	public void createTournament(String tournamentDataJsonString) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public void createTournament(String tournamentDataJsonString) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, MalformedURLException {
 		Gson gsonUtility = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
@@ -36,7 +37,7 @@ public class TournamentArtifact extends Artifact{
 		this.tournament = configureTournament(this.tournamentData);		
 	}
 	
-	private Tournament configureTournament(TournamentData tournamentData) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private Tournament configureTournament(TournamentData tournamentData) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, MalformedURLException {
 		Tournament newTournament = new Tournament();
 		
 		// Configure rounds.
@@ -119,7 +120,6 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void playGame(String agentId, int bid) {
 		synchronized (lock) {
-			System.out.println("bid" + bid);
 			this.currentGuesses.put(agentId, bid);
 			this.currentNumberOfGuesses++;
 			

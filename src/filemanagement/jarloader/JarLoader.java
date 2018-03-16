@@ -14,13 +14,13 @@ import strategies.core.IStrategy;
 import strategies.core.StrategiesResources;
 
 public class JarLoader {
-	public static IStrategy loadStrategy(String jarPath) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
+	public static IStrategy loadStrategy(String jarPath, HashMap<String, String> additionalParameters) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		File jarFile = new File(jarPath);   
 		String className = StrategiesResources.JAR_CLASS_NAME;   
 		URL jarfile = new URL("jar", "","file:" + jarFile.getAbsolutePath()+"!/");    
 		URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {jarfile });   
 		Class<?> loadedClass = classLoader.loadClass(className);
-		Object[] parameters = {null};
+		Object[] parameters = {additionalParameters};
 		Class<?>[] types = {new HashMap<String, String>().getClass()};
 		Constructor<?> constructor = loadedClass.getConstructor(types);
 		IStrategy strategy = (IStrategy) constructor.newInstance(parameters);
@@ -28,13 +28,13 @@ public class JarLoader {
 		return strategy;
 	}
 	
-	public static IGame loadGame(String jarPath) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
+	public static IGame loadGame(String jarPath, HashMap<String, String> additionalParameters) throws MalformedURLException, ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, SecurityException, IllegalArgumentException, InvocationTargetException {
 		File jarFile = new File(jarPath);   
 		String className = GamesResources.JAR_CLASS_NAME;   
 		URL jarfile = new URL("jar", "","file:" + jarFile.getAbsolutePath()+"!/");    
 		URLClassLoader classLoader = URLClassLoader.newInstance(new URL[] {jarfile });   
 		Class<?> loadedClass = classLoader.loadClass(className);
-		Object[] parameters = {null};
+		Object[] parameters = {additionalParameters};
 		Class<?>[] types = {new HashMap<String, String>().getClass()};
 		Constructor<?> constructor = loadedClass.getConstructor(types);
 		IGame game = (IGame) constructor.newInstance(parameters);

@@ -1,10 +1,16 @@
 package games.score;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import cartago.Artifact;
 import cartago.OPERATION;
+import filemanagement.fileloader.FileSaver;
 import games.core.GamesResources;
 
 public class ScoreBoardArtifact extends Artifact {
@@ -85,6 +91,17 @@ public class ScoreBoardArtifact extends Artifact {
 				}
 			}
 			
+		}
+	}
+	
+	@OPERATION
+	public void saveTournamentData() throws IOException {
+		synchronized (lock) {
+			Gson gsonUtility = new GsonBuilder()
+					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+					.create();
+			
+			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), "/Users/francis/Desktop/dab.json");
 		}
 	}
 }

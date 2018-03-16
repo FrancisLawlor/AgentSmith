@@ -43,4 +43,10 @@ public class RandomStrategy extends Strategy implements IStrategy {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void init(HashMap<String, String> additionalParameters) {
+		// TODO Auto-generated method stub
+		
+	}
 }

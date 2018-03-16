@@ -705,7 +705,7 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {90,53,93,5},
+				"agents.GameMaster", new int[] {90,53,94,5},
 				new Statement[] {
 					new ModuleCall("console",
 						"agents.GameMaster", new int[] {91,8,91,46},
@@ -727,6 +727,22 @@ public class GameMaster extends ASTRAClass {
 					new ModuleCall("cartago",
 						"agents.GameMaster", new int[] {92,8,92,33},
 						new Predicate("printTournament", new Term[] {}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					),
+					new ModuleCall("cartago",
+						"agents.GameMaster", new int[] {93,8,93,36},
+						new Predicate("saveTournamentData", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
 								return true;

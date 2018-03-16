@@ -48,8 +48,6 @@ public class StartState extends State {
 
 	@Override
 	public void execute(StateParameters param) {
-//		String[] params = {};
-//		TournamentConfigurator.main(params);
 		this.stateMachine.setCurrentState(StateName.DASHBOARD);
 		this.sceneContainerStage.setTitle(GUIText.DASHBOARD);
 		this.stateMachine.execute(StateParameters.INIT);

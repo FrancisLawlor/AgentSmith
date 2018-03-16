@@ -3,6 +3,11 @@ package statemachine.states;
 
 import java.lang.reflect.InvocationTargetException;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import agents.AgentSystemInitialiser;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
@@ -134,6 +139,13 @@ public class DashboardState extends State {
 	private void clickStartTournament() {
 		this.stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
 		this.stateMachine.execute(StateParameters.INIT);
+		
+		Gson gsonUtility = new GsonBuilder()
+				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+				.create();
+				
+		String[] params = {gsonUtility.toJson(this.GUITournamentData.getTournamentData())};
+		AgentSystemInitialiser.main(params);
 	}
 
 	private void clickAddRound() {
