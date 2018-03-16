@@ -90,6 +90,6 @@ agent GameMaster {
 	rule $cartago.signal(string id, endTournament()) {
 		console.println("Tournament is over.");
 		cartago.printTournament();
-		cartago.saveTournamentData();
+		send(request, "main", playerAgentId("main"));
 	}
 }

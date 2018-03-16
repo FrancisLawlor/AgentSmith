@@ -55,7 +55,7 @@ public class TournamentArtifact extends Artifact{
 				newTournament.getRounds().add(newRound);
 			}
 		}
-		
+
 		// Configure players.
 		int currentId = 0;
 		for (int i = 0; i < this.tournamentData.getAgents().size(); i++) {

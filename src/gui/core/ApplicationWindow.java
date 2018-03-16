@@ -11,7 +11,7 @@ public class ApplicationWindow extends Application {
     		StateMachine stateMachine = new StateMachine();
     		
     		stateMachine.setCurrentState(StateName.START);
-    		
+    	
     		stateMachine.execute(StateParameters.INIT);
 	}
     

@@ -740,21 +740,12 @@ public class GameMaster extends ASTRAClass {
 							}
 						}
 					),
-					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {93,8,93,36},
-						new Predicate("saveTournamentData", new Term[] {}),
-						new DefaultModuleCallAdaptor() {
-							public boolean inline() {
-								return true;
-							}
-
-							public boolean invoke(Intention intention, Predicate predicate) {
-								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
-							}
-							public boolean suppressNotification() {
-								return true;
-							}
-						}
+					new Send("agents.GameMaster", new int[] {93,8,93,52},
+						new Performative("request"),
+						Primitive.newPrimitive("main"),
+						new Predicate("playerAgentId", new Term[] {
+							Primitive.newPrimitive("main")
+						})
 					)
 				}
 			)

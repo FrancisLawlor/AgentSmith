@@ -5,6 +5,10 @@ agent AgentSystemInitialiser {
 	module Console console;
 	module System system;
 	
+	types actions {
+		formula playerAgentId(string);
+	}
+	
 	rule +!main(list args) {
 		cartago.startService();
 		cartago.link();
@@ -39,5 +43,9 @@ agent AgentSystemInitialiser {
     rule +!connectToTournamentArtifact() {
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
 		cartago.focus(id);
+	}
+
+	rule @message(request, string id, playerAgentId(string agentId)) {
+		cartago.saveResults("rofl");
 	}
 }

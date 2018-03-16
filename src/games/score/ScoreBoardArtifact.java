@@ -95,13 +95,13 @@ public class ScoreBoardArtifact extends Artifact {
 	}
 	
 	@OPERATION
-	public void saveTournamentData() throws IOException {
+	public void saveResults(String filePath) throws IOException {
 		synchronized (lock) {
 			Gson gsonUtility = new GsonBuilder()
 					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 					.create();
 			
-			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), "/Users/francis/Desktop/dab.json");
+			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), filePath);
 		}
 	}
 }

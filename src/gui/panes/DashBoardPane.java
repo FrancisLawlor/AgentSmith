@@ -3,6 +3,7 @@ package gui.panes;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import javax.imageio.ImageIO;
 
@@ -16,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -40,6 +42,7 @@ public class DashBoardPane extends BorderPane {
 	private Button clearRoundsButton;
 	private Button removeSelectedAgentButton;
 	private Button removeSelectedRoundButton;
+	private TextField resultFilePathTextField;
 	
 	public DashBoardPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftBar = configureLeftBar();

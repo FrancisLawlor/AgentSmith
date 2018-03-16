@@ -17,10 +17,10 @@ import astra.reasoner.util.*;
 
 
 public class AgentSystemInitialiser extends ASTRAClass {
-	public AgentSystemInitialiser(String tournamentConfigurationJsonString) {
+	public AgentSystemInitialiser(String tournamentJSONString, String resultsFilePath) {
 		setParents(new Class[] {astra.lang.Agent.class});
 		addRule(new Rule(
-			"agents.AgentSystemInitialiser", new int[] {8,9,8,28},
+			"agents.AgentSystemInitialiser", new int[] {12,9,12,28},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("main", new Term[] {
@@ -30,10 +30,10 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.AgentSystemInitialiser", new int[] {8,27,22,5},
+				"agents.AgentSystemInitialiser", new int[] {12,27,26,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {9,8,9,30},
+						"agents.AgentSystemInitialiser", new int[] {13,8,13,30},
 						new Predicate("startService", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -47,7 +47,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {10,8,10,22},
+						"agents.AgentSystemInitialiser", new int[] {14,8,14,22},
 						new Predicate("link", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -61,7 +61,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new Subgoal(
-						"agents.AgentSystemInitialiser", new int[] {12,8,22,5},
+						"agents.AgentSystemInitialiser", new int[] {16,8,26,5},
 						new Goal(
 							new Predicate("setupTournamentLoaderArtifact", new Term[] {
 								new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentLoaderArtifact",false)
@@ -69,13 +69,13 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						)
 					),
 					new Subgoal(
-						"agents.AgentSystemInitialiser", new int[] {13,8,22,5},
+						"agents.AgentSystemInitialiser", new int[] {17,8,26,5},
 						new Goal(
 							new Predicate("connectToTournamentLoaderArtifact", new Term[] {})
 						)
 					),
 					new Subgoal(
-						"agents.AgentSystemInitialiser", new int[] {15,8,22,5},
+						"agents.AgentSystemInitialiser", new int[] {19,8,26,5},
 						new Goal(
 							new Predicate("setupTournamentArtifact", new Term[] {
 								new Variable(new ObjectType(cartago.ArtifactId.class), "tournamentArtifact",false)
@@ -83,15 +83,15 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						)
 					),
 					new Subgoal(
-						"agents.AgentSystemInitialiser", new int[] {16,8,22,5},
+						"agents.AgentSystemInitialiser", new int[] {20,8,26,5},
 						new Goal(
 							new Predicate("connectToTournamentArtifact", new Term[] {})
 						)
 					),
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {18,8,18,41},
+						"agents.AgentSystemInitialiser", new int[] {22,8,22,41},
 						new Predicate("createTournament", new Term[] {
-							Primitive.newPrimitive(tournamentConfigurationJsonString)
+							Primitive.newPrimitive(tournamentJSONString)
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -107,7 +107,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("system",
-						"agents.AgentSystemInitialiser", new int[] {19,8,19,62},
+						"agents.AgentSystemInitialiser", new int[] {23,8,23,62},
 						new Predicate("createAgent", new Term[] {
 							Primitive.newPrimitive("game_master"),
 							Primitive.newPrimitive("agents.GameMaster")
@@ -126,7 +126,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("system",
-						"agents.AgentSystemInitialiser", new int[] {20,8,20,45},
+						"agents.AgentSystemInitialiser", new int[] {24,8,24,45},
 						new Predicate("setMainGoal", new Term[] {
 							Primitive.newPrimitive("game_master"),
 							new ListTerm(new Term[] {
@@ -147,7 +147,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.AgentSystemInitialiser", new int[] {21,8,21,53},
+						"agents.AgentSystemInitialiser", new int[] {25,8,25,53},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("created agent: game_master")
 						}),
@@ -167,7 +167,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.AgentSystemInitialiser", new int[] {24,9,24,87},
+			"agents.AgentSystemInitialiser", new int[] {28,9,28,87},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("setupTournamentLoaderArtifact", new Term[] {
@@ -177,10 +177,10 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.AgentSystemInitialiser", new int[] {24,86,27,5},
+				"agents.AgentSystemInitialiser", new int[] {28,86,31,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {25,8,25,139},
+						"agents.AgentSystemInitialiser", new int[] {29,8,29,139},
 						new Predicate("makeArtifact", new Term[] {
 							Primitive.newPrimitive("tournament_loader"),
 							Primitive.newPrimitive("tournament.core.TournamentLoaderArtifact"),
@@ -219,7 +219,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.AgentSystemInitialiser", new int[] {26,8,26,61},
+						"agents.AgentSystemInitialiser", new int[] {30,8,30,61},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("Tournament loader artifact created")
 						}),
@@ -239,7 +239,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.AgentSystemInitialiser", new int[] {29,9,29,48},
+			"agents.AgentSystemInitialiser", new int[] {33,9,33,48},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("connectToTournamentLoaderArtifact", new Term[] {})
@@ -247,10 +247,10 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.AgentSystemInitialiser", new int[] {29,47,32,5},
+				"agents.AgentSystemInitialiser", new int[] {33,47,36,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {30,8,30,74},
+						"agents.AgentSystemInitialiser", new int[] {34,8,34,74},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("tournament_loader"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id",false)
@@ -269,7 +269,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {31,8,31,25},
+						"agents.AgentSystemInitialiser", new int[] {35,8,35,25},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id")
 						}),
@@ -290,7 +290,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.AgentSystemInitialiser", new int[] {34,9,34,75},
+			"agents.AgentSystemInitialiser", new int[] {38,9,38,75},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("setupTournamentArtifact", new Term[] {
@@ -300,10 +300,10 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.AgentSystemInitialiser", new int[] {34,74,37,5},
+				"agents.AgentSystemInitialiser", new int[] {38,74,41,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {35,8,35,120},
+						"agents.AgentSystemInitialiser", new int[] {39,8,39,120},
 						new Predicate("makeArtifact", new Term[] {
 							Primitive.newPrimitive("tournament"),
 							Primitive.newPrimitive("tournament.core.TournamentArtifact"),
@@ -342,7 +342,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("console",
-						"agents.AgentSystemInitialiser", new int[] {36,8,36,54},
+						"agents.AgentSystemInitialiser", new int[] {40,8,40,54},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("Tournament artifact created")
 						}),
@@ -362,7 +362,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.AgentSystemInitialiser", new int[] {39,9,39,42},
+			"agents.AgentSystemInitialiser", new int[] {43,9,43,42},
 			new GoalEvent('+',
 				new Goal(
 					new Predicate("connectToTournamentArtifact", new Term[] {})
@@ -370,10 +370,10 @@ public class AgentSystemInitialiser extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.AgentSystemInitialiser", new int[] {39,41,42,5},
+				"agents.AgentSystemInitialiser", new int[] {43,41,46,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {40,8,40,67},
+						"agents.AgentSystemInitialiser", new int[] {44,8,44,67},
 						new Predicate("lookupArtifact", new Term[] {
 							Primitive.newPrimitive("tournament"),
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id",false)
@@ -392,9 +392,43 @@ public class AgentSystemInitialiser extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.AgentSystemInitialiser", new int[] {41,8,41,25},
+						"agents.AgentSystemInitialiser", new int[] {45,8,45,25},
 						new Predicate("focus", new Term[] {
 							new Variable(new ObjectType(cartago.ArtifactId.class), "id")
+						}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.AgentSystemInitialiser","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					)
+				}
+			)
+		));
+		addRule(new Rule(
+			"agents.AgentSystemInitialiser", new int[] {48,9,48,70},
+			new MessageEvent(
+				new Performative("request"),
+				new Variable(Type.STRING, "id",false),
+				new Predicate("playerAgentId", new Term[] {
+					new Variable(Type.STRING, "agentId",false)
+				})
+			),
+			Predicate.TRUE,
+			new Block(
+				"agents.AgentSystemInitialiser", new int[] {48,69,50,5},
+				new Statement[] {
+					new ModuleCall("cartago",
+						"agents.AgentSystemInitialiser", new int[] {49,8,49,35},
+						new Predicate("saveResults", new Term[] {
+							Primitive.newPrimitive(resultsFilePath)
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -434,7 +468,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 
 		String name = java.lang.System.getProperty("astra.name", "main");
 		try {
-			astra.core.Agent agent = new AgentSystemInitialiser(args[0]).newInstance(name);
+			astra.core.Agent agent = new AgentSystemInitialiser(args[0], args[1]).newInstance(name);
 			agent.initialize(new Goal(new Predicate("main", new Term[] { argList })));
 			Scheduler.schedule(agent);
 		} catch (AgentCreationException e) {

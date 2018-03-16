@@ -1,6 +1,8 @@
 package statemachine.states;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import com.google.gson.FieldNamingPolicy;
@@ -8,9 +10,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import agents.AgentSystemInitialiser;
+import filemanagement.utils.FileResources;
+import filemanagement.utils.FileSelectionUtility;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
+import javafx.concurrent.Task;
+import javafx.stage.FileChooser;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
@@ -137,15 +143,61 @@ public class DashboardState extends State {
 	}
 
 	private void clickStartTournament() {
-		this.stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
-		this.stateMachine.execute(StateParameters.INIT);
+		this.sceneContainerStage.setTitle(GUIText.SELECT_FILE);
 		
+		File resultFile = chooseSaveLocation();
+		
+		if (resultFile != null) {
+			fileSelected(resultFile.getPath());
+		} else {
+			cancelledFileSelection();
+		}
+	}
+	
+	private File chooseSaveLocation() {		
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(FileResources.SAVE_FILE_DESCRIPTION, FileResources.JSON_EXTENSION));
+		fileChooser.setTitle(GUIText.SELECT_FILE);
+		File file = fileChooser.showSaveDialog(this.sceneContainerStage);
+		
+        if (file != null) {
+            return file;
+        }
+		
+        return null;		
+	}
+	
+	private void fileSelected(String path) {
 		Gson gsonUtility = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
-				
-		String[] params = {gsonUtility.toJson(this.GUITournamentData.getTournamentData())};
-		AgentSystemInitialiser.main(params);
+		
+		String[] params = {gsonUtility.toJson(this.GUITournamentData.getTournamentData()), path};
+		
+		stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
+		stateMachine.execute(StateParameters.INIT);
+		
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws Exception {
+				AgentSystemInitialiser.main(params);
+				return null;
+			}
+		};
+		task.setOnSucceeded(e -> {
+			this.stateMachine.setCurrentState(StateName.DASHBOARD);
+			this.stateMachine.execute(StateParameters.INIT);
+			System.out.println("These are results");
+		});
+		new Thread(task).start();
+		
+		this.stateMachine.setCurrentState(StateName.DASHBOARD);
+		this.stateMachine.execute(StateParameters.RETURN);
+	}
+
+	private void cancelledFileSelection() {
+		this.stateMachine.setCurrentState(StateName.DASHBOARD);
+		this.stateMachine.execute(StateParameters.RETURN);	
 	}
 
 	private void clickAddRound() {

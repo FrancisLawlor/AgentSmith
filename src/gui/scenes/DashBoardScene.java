@@ -1,10 +1,13 @@
 package gui.scenes;
 
+import java.lang.reflect.Type;
+
 import gui.panes.DashBoardPane;
 import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import tournament.data.AgentData;
 import tournament.data.RoundData;
 
