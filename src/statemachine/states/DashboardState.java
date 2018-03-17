@@ -23,6 +23,7 @@ import filemanagement.utils.FileResources;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
+import integration.AgentSystemIntegrator;
 import javafx.concurrent.Task;
 import javafx.stage.FileChooser;
 import statemachine.core.StateMachine;
@@ -177,13 +178,7 @@ public class DashboardState extends State {
         return null;		
 	}
 	
-	private void fileSelected(String path) {
-		Gson gsonUtility = new GsonBuilder()
-				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-				.create();
-		
-		String[] params = {gsonUtility.toJson(this.GUITournamentData.getTournamentData()), path};
-		
+	private void fileSelected(String resultsFileSavePath) {
 		stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
 		stateMachine.execute(StateParameters.INIT);
 		
@@ -191,28 +186,12 @@ public class DashboardState extends State {
 			Task<Void> task = new Task<Void>() {
 				@Override
 				public Void call() throws Exception {
-//					AgentSystemInitialiser.main(params);
-					initialiseAgentSystem();
+					Gson gsonUtility = new GsonBuilder()
+							.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+							.create();
+					
+					AgentSystemIntegrator.initialiseAgentSystem(gsonUtility.toJson(GUITournamentData.getTournamentData()), resultsFileSavePath);
 					return null;
-				}
-
-				private void initialiseAgentSystem() {
-					Scheduler.setStrategy(new AdaptiveSchedulerStrategy());
-					ListTerm argList = new ListTerm();
-					for (String arg: params) {
-						argList.add(Primitive.newPrimitive(arg));
-					}
-
-					String name = java.lang.System.getProperty("astra.name", "main");
-					try {
-						astra.core.Agent agent = new AgentSystemInitialiser(params[0], params[1]).newInstance(name);
-						agent.initialize(new Goal(new Predicate("main", new Term[] { argList })));
-						Scheduler.schedule(agent);
-					} catch (AgentCreationException e) {
-						e.printStackTrace();
-					} catch (ASTRAClassNotFoundException e) {
-						e.printStackTrace();
-					};					
 				}
 			};
 			task.setOnSucceeded(e -> {
@@ -223,44 +202,10 @@ public class DashboardState extends State {
 			this.isFirstConnectionToAgentSystem = false;
 		} else {
 			Task<Void> task = new Task<Void>() {
-
-//				@Override
-//				public Void call() throws Exception {
-//
-//					String name = java.lang.System.getProperty("astra.name", "tournament_restarter");
-//					try {
-//						astra.core.Agent agent = new TournamentRestarter().newInstance(name);
-//						agent.initialize(new Goal(new Predicate("main", new Term[] {})));
-//						Scheduler.schedule(agent);
-//					} catch (AgentCreationException e) {
-//						e.printStackTrace();
-//					} catch (ASTRAClassNotFoundException e) {
-//						e.printStackTrace();
-//					};
-//					
-////					TournamentRestarter.main(params);
-//					return null;
-//				}
-				
 				@Override
 				public Void call() throws Exception {
-//					AgentSystemInitialiser.main(params);
-					startNextNRounds();
+					AgentSystemIntegrator.startNextNRounds(currentPhase);
 					return null;
-				}
-
-				private void startNextNRounds() {
-					currentPhase++;
-					String name = java.lang.System.getProperty("astra.name", "tournament_restarter" + currentPhase);
-					try {
-						astra.core.Agent agent = new TournamentRestarter().newInstance(name);
-						agent.initialize(new Goal(new Predicate("main", new Term[] { new ListTerm() })));
-						Scheduler.schedule(agent);
-					} catch (AgentCreationException e) {
-						e.printStackTrace();
-					} catch (ASTRAClassNotFoundException e) {
-						e.printStackTrace();
-					};					
 				}
 			};
 			task.setOnSucceeded(e -> {

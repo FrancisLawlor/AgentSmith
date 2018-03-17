@@ -13,7 +13,6 @@ agent GameMaster {
 	}
 	
 	rule +!main(list args) {
-		console.println("bojack horseman");
 		cartago.link();
 		
 		!connectToTournamentArtifact();				
