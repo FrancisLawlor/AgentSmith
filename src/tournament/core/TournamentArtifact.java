@@ -25,6 +25,8 @@ public class TournamentArtifact extends Artifact{
 	private Map<String, Float> currentPayoffs = new HashMap<String, Float>();
 	private int numberOfReceivedPayoffs = 0;
 	private int currentNumberOfGuesses = 0;
+	private int roundsPerRun = 5;
+	private int roundsCompleted = 0;
 
 	@OPERATION
 	public void createTournament(String tournamentDataJsonString) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, MalformedURLException {
@@ -102,10 +104,15 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void newRound() {
 		synchronized (lock) {
-			if (this.currentRound < this.tournament.getRounds().size()) {
-				signal(TournamentResources.START_NEW_ROUND);
+			if (this.roundsCompleted < this.roundsPerRun) {
+				this.roundsCompleted++;
+				if (this.currentRound < this.tournament.getRounds().size()) {
+					signal(TournamentResources.START_NEW_ROUND);
+				} else {
+					signal(TournamentResources.END_TOURNAMENT);
+				}
 			} else {
-				signal(TournamentResources.END_TOURNAMENT);
+				this.roundsCompleted = 0;
 			}
 		}
 	}
@@ -167,4 +174,11 @@ public class TournamentArtifact extends Artifact{
 			signal(StrategiesResources.UPDATE_RECEIVED, agentId);
 		}
 	}
+	
+	@OPERATION
+	public void startNRounds() {
+		synchronized (lock) {
+			signal(TournamentResources.START_NEXT_N_ROUNDS);
+		}
+	}	
 }

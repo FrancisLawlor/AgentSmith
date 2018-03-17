@@ -9,16 +9,16 @@ agent GameMaster {
 		formula playerAgentId(string);
 		formula numberOfRounds(int);
 		formula numberOfAgents(int);
+		formula restart(string);
 	}
 	
 	rule +!main(list args) {
+		console.println("bojack horseman");
 		cartago.link();
 		
-		!connectToTournamentArtifact();		
-		
-		!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact);
+		!connectToTournamentArtifact();				
 		!connectToScoreBoardArtifact();
-		
+
 		cartago.createAgents();
 		
 		cartago.getNumberOfAgents();
@@ -26,7 +26,6 @@ agent GameMaster {
 		
 		query(numberOfRounds(int _numberOfRounds));
 		query(numberOfAgents(int _numberOfAgents));
-		
 		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
 		cartago.newRound();
 	}
@@ -35,11 +34,6 @@ agent GameMaster {
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
 		cartago.focus(id);
 	}
-    
-    rule +!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact) {
-		cartago.makeArtifact("score_board", "games.score.ScoreBoardArtifact", cartago.params([]), scoreBoardArtifact);
-		console.println("Scoreboard artifact created");
-    }
     
     rule +!connectToScoreBoardArtifact() {
 		cartago.lookupArtifact("score_board", cartago.ArtifactId id);
@@ -90,6 +84,13 @@ agent GameMaster {
 	rule $cartago.signal(string id, endTournament()) {
 		console.println("Tournament is over.");
 		cartago.printTournament();
-		send(request, "main", playerAgentId("main"));
+	}
+	
+	rule $cartago.signal(string id, startNextNRounds()) {
+		query(numberOfRounds(int _numberOfRounds));
+		query(numberOfAgents(int _numberOfAgents));
+		
+		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
+		cartago.newRound();
 	}
 }

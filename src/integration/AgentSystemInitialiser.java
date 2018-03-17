@@ -1,4 +1,4 @@
-package agents;
+package integration;
 /**
  * GENERATED CODE - DO NOT CHANGE
  */

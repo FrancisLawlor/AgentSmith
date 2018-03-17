@@ -91,6 +91,7 @@ public class ScoreBoardArtifact extends Artifact {
 				}
 			}
 			
+			signal(GamesResources.TERMINATE_GAME_MASTER);
 		}
 	}
 	

@@ -30,7 +30,7 @@ public class TournamentPlayingState extends State {
 
 	private void init() {
 		this.sceneContainerStage.changeScene(gui.getTournamentPlayingScene());
-		this.sceneContainerStage.setTitle(GUIText.CREATE_ROUND_HEADING);
+		this.sceneContainerStage.setTitle(GUIText.TOURNAMENT_PLAYING_TEXT);
 		
 		// Start the agent system.
 		// Wait for it to finish.

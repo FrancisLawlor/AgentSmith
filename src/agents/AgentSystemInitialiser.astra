@@ -19,6 +19,9 @@ agent AgentSystemInitialiser {
 		!setupTournamentArtifact(cartago.ArtifactId tournamentArtifact);
 		!connectToTournamentArtifact();
 		
+		!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact);
+		!connectToScoreBoardArtifact();
+		
 		cartago.createTournament("lmfao");
 		system.createAgent("game_master", "agents.GameMaster");
 		system.setMainGoal("game_master", []);
@@ -42,6 +45,16 @@ agent AgentSystemInitialiser {
     
     rule +!connectToTournamentArtifact() {
 		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
+	
+	rule +!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact) {
+		cartago.makeArtifact("score_board", "games.score.ScoreBoardArtifact", cartago.params([]), scoreBoardArtifact);
+		console.println("Scoreboard artifact created");
+    }
+    
+    rule +!connectToScoreBoardArtifact() {
+		cartago.lookupArtifact("score_board", cartago.ArtifactId id);
 		cartago.focus(id);
 	}
 

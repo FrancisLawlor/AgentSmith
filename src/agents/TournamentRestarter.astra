@@ -1,0 +1,23 @@
+package agents;
+
+agent TournamentRestarter {
+	module Cartago cartago;
+	module System system;
+	
+	types beliefs {
+		formula restart(string);
+	}
+	
+	rule +!main(list args) {
+		cartago.link();
+		!connectToTournamentArtifact();
+
+		cartago.startNRounds();
+		system.terminate();
+	}
+	
+	rule +!connectToTournamentArtifact() {
+		cartago.lookupArtifact("tournament", cartago.ArtifactId id);
+		cartago.focus(id);
+	}
+}
