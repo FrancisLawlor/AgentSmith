@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class AgentCreationScene extends Scene {
-	AgentCreationPane agentCreationPane;
+	private AgentCreationPane agentCreationPane;
 	
 	public AgentCreationScene(AgentCreationPane agentCreationPane) {
 		super(agentCreationPane, GUIDimensions.MAIN_WINDOW_WIDTH, GUIDimensions.MAIN_WINDOW_HEIGHT);

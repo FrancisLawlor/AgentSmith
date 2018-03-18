@@ -5,11 +5,13 @@ import java.lang.reflect.InvocationTargetException;
 import gui.panes.AgentCreationPane;
 import gui.panes.DashBoardPane;
 import gui.panes.RoundCreationPane;
+import gui.panes.TournamentPhasePane;
 import gui.panes.TournamentPlayingPane;
 import gui.panes.additionalparameters.AdditionalParameter;
 import gui.scenes.AgentCreationScene;
 import gui.scenes.DashBoardScene;
 import gui.scenes.RoundCreationScene;
+import gui.scenes.TournamentPhaseScene;
 import gui.scenes.TournamentPlayingScene;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -26,6 +28,8 @@ public class GUI {
 	private RoundCreationScene roundCreationScene;
 	private TournamentPlayingPane tournamentPlayingPane;
 	private TournamentPlayingScene tournamentPlayingScene;
+	private TournamentPhasePane tournamentPhasePane;
+	private TournamentPhaseScene tournamentPhaseScene;
 	private ObservableList<AgentData> agentData = FXCollections.observableArrayList();
     private ObservableList<RoundData> roundData = FXCollections.observableArrayList();
 	
@@ -45,6 +49,9 @@ public class GUI {
 		
 		this.tournamentPlayingPane = new TournamentPlayingPane();
 		this.tournamentPlayingScene = new TournamentPlayingScene(this.tournamentPlayingPane);
+		
+		this.tournamentPhasePane = new TournamentPhasePane();
+		this.tournamentPhaseScene = new TournamentPhaseScene(this.tournamentPhasePane);
 	}
 	
 	public DashBoardScene getDashBoardScene() {
@@ -61,6 +68,10 @@ public class GUI {
 	
 	public TournamentPlayingScene getTournamentPlayingScene() {
 		return this.tournamentPlayingScene;
+	}
+	
+	public TournamentPhaseScene getTournamentPhaseScene() {
+		return this.tournamentPhaseScene;
 	}
 
 	public void updateTournamentData(TournamentData tournamentData) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {

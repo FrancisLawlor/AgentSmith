@@ -44,7 +44,7 @@ public class TournamentPlayingState extends State {
 			}
 		};
 		task.setOnSucceeded(e -> {
-			System.out.println("These are results");
+			System.out.println("TournamentPlayingState: These are results");
 		});
 		new Thread(task).start();
 	}

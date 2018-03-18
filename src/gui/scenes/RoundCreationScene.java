@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
 public class RoundCreationScene extends Scene {
-	RoundCreationPane roundCreationPane;
+	private RoundCreationPane roundCreationPane;
 	
 	public RoundCreationScene(RoundCreationPane roundCreationPane) {
 		super(roundCreationPane, GUIDimensions.MAIN_WINDOW_WIDTH, GUIDimensions.MAIN_WINDOW_HEIGHT);

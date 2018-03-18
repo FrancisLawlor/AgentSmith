@@ -1,18 +1,15 @@
 package gui.scenes;
 
-import java.lang.reflect.Type;
-
 import gui.panes.DashBoardPane;
 import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
 import tournament.data.AgentData;
 import tournament.data.RoundData;
 
 public class DashBoardScene extends Scene {
-	DashBoardPane dashBoardPane;
+	private DashBoardPane dashBoardPane;
 	
 	public DashBoardScene(DashBoardPane dashBoardPane) {
 		super(dashBoardPane, GUIDimensions.MAIN_WINDOW_WIDTH, GUIDimensions.MAIN_WINDOW_HEIGHT);

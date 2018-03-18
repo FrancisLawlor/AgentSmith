@@ -44,6 +44,7 @@ public class StartState extends State {
 		this.gui.getRoundCreationScene().getBackButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BACK, stateMachine));
 		this.gui.getRoundCreationScene().getCreateRoundButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CREATE_ROUND, stateMachine));
 		this.gui.getRoundCreationScene().getBrowseGameButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_BROWSE_GAMES, stateMachine));
+		this.gui.getTournamentPhaseScene().getContinueButton().setOnAction(new StateMachineEventHandler(StateParameters.CLICK_CONTINUE, stateMachine));
 	}
 
 	@Override
