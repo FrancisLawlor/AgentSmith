@@ -17,6 +17,7 @@ import astra.formula.Predicate;
 import astra.term.ListTerm;
 import astra.term.Primitive;
 import astra.term.Term;
+import filemanagement.tempfiles.TempFileWrapper;
 import filemanagement.utils.FileResources;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
@@ -34,14 +35,16 @@ public class TournamentPlayingState extends State {
 	private GUI gui;
 	private TournamentDataWrapper GUITournamentData;
 	private volatile int currentPhase = 0;
-	private int numberOfRoundsPerPhase = 5;
 	private int numberOfPhases;
+	private TempFileWrapper tempFileWrapper;
+	private int numberOfRoundsPerPhase;
 
-	public TournamentPlayingState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentDataWrapper GUITournamentData) {
+	public TournamentPlayingState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentDataWrapper GUITournamentData, TempFileWrapper tempFileWrapper) {
 		this.stateMachine = stateMachine;
 		this.sceneContainerStage = sceneContainerStage;
 		this.gui = gui;
 		this.GUITournamentData = GUITournamentData;
+		this.tempFileWrapper = tempFileWrapper;
 	}
 
 	public void execute(StateParameters param) {		
@@ -79,13 +82,11 @@ public class TournamentPlayingState extends State {
 				};					
 			}
 		};
-		task.setOnSucceeded(e -> {
-			this.currentPhase++;
-
-			if (this.currentPhase >= this.numberOfPhases) {
+		task.setOnSucceeded(e -> {			
+			if (this.currentPhase == this.numberOfPhases) {
 				this.stateMachine.setCurrentState(StateName.DASHBOARD);
 				this.stateMachine.execute(StateParameters.INIT);
-			} else {
+			} else {		
 				this.stateMachine.setCurrentState(StateName.TOURNAMENT_PHASE);
 				this.stateMachine.execute(StateParameters.RETURN);
 			}
@@ -94,6 +95,7 @@ public class TournamentPlayingState extends State {
 	}
 
 	private void init() {
+		this.numberOfRoundsPerPhase = Integer.parseInt(gui.getDashBoardScene().getNTextField().getText());
 		this.numberOfPhases = calculateNumberOfPhases();
 		
 		this.sceneContainerStage.setTitle(GUIText.SELECT_FILE);
@@ -120,7 +122,7 @@ public class TournamentPlayingState extends State {
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
 		
-		String[] params = {gsonUtility.toJson(this.GUITournamentData.getTournamentData()), path};
+		String[] params = { gsonUtility.toJson(this.GUITournamentData.getTournamentData()), path, this.tempFileWrapper.getTempFile().getAbsolutePath(), this.numberOfRoundsPerPhase + "" };
 		
 		Task<Void> task = new Task<Void>() {
 			@Override
@@ -138,7 +140,7 @@ public class TournamentPlayingState extends State {
 
 				String name = java.lang.System.getProperty("astra.name", "main");
 				try {
-					astra.core.Agent agent = new AgentSystemInitialiser(params[0], params[1]).newInstance(name);
+					astra.core.Agent agent = new AgentSystemInitialiser(params[0], params[1], params[2], params[3]).newInstance(name);
 					agent.initialize(new Goal(new Predicate("main", new Term[] { argList })));
 					Scheduler.schedule(agent);
 				} catch (AgentCreationException e) {
@@ -148,7 +150,7 @@ public class TournamentPlayingState extends State {
 				};					
 			}
 		};
-		task.setOnSucceeded(e -> {
+		task.setOnSucceeded(e -> {	
 			stateMachine.setCurrentState(StateName.TOURNAMENT_PHASE);
 			stateMachine.execute(StateParameters.INIT);
 		});
@@ -173,23 +175,23 @@ public class TournamentPlayingState extends State {
 		
 		if (totalNumberOfRounds <= this.numberOfRoundsPerPhase) {
 			return 1;
-		}
-		
-		if (totalNumberOfRounds % this.numberOfRoundsPerPhase == 0) {
-			return totalNumberOfRounds / this.numberOfRoundsPerPhase;
 		} else {
-			int remainderRounds = totalNumberOfRounds % this.numberOfRoundsPerPhase;
-			int numberOfWholePhases = (totalNumberOfRounds - remainderRounds) / this.numberOfRoundsPerPhase;
-			
-			return numberOfWholePhases + 1;
+			if (totalNumberOfRounds % this.numberOfRoundsPerPhase == 0) {
+				return totalNumberOfRounds / this.numberOfRoundsPerPhase;
+			} else {
+				int remainderRounds = totalNumberOfRounds % this.numberOfRoundsPerPhase;
+				int numberOfWholePhases = (totalNumberOfRounds - remainderRounds) / this.numberOfRoundsPerPhase;
+				
+				return numberOfWholePhases + 1;
+			}
 		}
 	}
 
 	private int calculateTotalNumberOfRounds() {
 		int totalNumberOfRounds = 0;
 		
-		for (int i = 0; i < GUITournamentData.getTournamentData().getRounds().size(); i++) {
-			totalNumberOfRounds += GUITournamentData.getTournamentData().getRounds().get(i).getAmount();
+		for (int i = 0; i < this.GUITournamentData.getTournamentData().getRounds().size(); i++) {
+			totalNumberOfRounds += this.GUITournamentData.getTournamentData().getRounds().get(i).getAmount();
 		}
 		
 		return totalNumberOfRounds;

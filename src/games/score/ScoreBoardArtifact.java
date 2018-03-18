@@ -105,4 +105,15 @@ public class ScoreBoardArtifact extends Artifact {
 			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), filePath);
 		}
 	}
+	
+	@OPERATION
+	public void storePreviousPhase(String tempFilePath) throws IOException {
+		synchronized (lock) {			
+			Gson gsonUtility = new GsonBuilder()
+					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+					.create();
+			
+			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), tempFilePath);
+		}
+	}
 }

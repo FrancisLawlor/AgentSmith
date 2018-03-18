@@ -1,7 +1,7 @@
 package gui.utils;
 
 public class GUIDimensions {
-	public static final int MAIN_WINDOW_WIDTH = 900;
+	public static final int MAIN_WINDOW_WIDTH = 930;
 	public static final int MAIN_WINDOW_HEIGHT = 600;
 	public static final int PROMPT_WIDTH = 270;
 	public static final int PROMPT_HEIGHT = 120;
@@ -20,4 +20,6 @@ public class GUIDimensions {
 	public static final double LISTVIEW_BUTTON_SPACING = 10;
 	public static final double LISTVIEW_ICON_DIMENSION = 70;
 	public static final int CENTER_PANE_LENGTH = 2;
+	public static final double MAX_N_TEXTFIELD_WIDTH = 54;
+	public static final double PLAY_BUTTON_MAX_WIDTH = 500;
 }

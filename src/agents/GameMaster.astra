@@ -7,6 +7,7 @@ agent GameMaster {
 	
 	types actions {
 		formula playerAgentId(string);
+		formula phaseSaver(string);
 		formula numberOfRounds(int);
 		formula numberOfAgents(int);
 		formula restart(string);
@@ -69,6 +70,7 @@ agent GameMaster {
 //		console.println("Agent with id " + agentId + " has received the request for a new round.");
 		query(numberOfAgents(int _numberOfAgents));		
 		cartago.storeCurrentRound(_numberOfAgents);
+		send (request, "main", phaseSaver("game_master"));
 	}
 	
 	rule $cartago.signal(string id, finishedStoringCurrentRound()) {	
@@ -83,6 +85,7 @@ agent GameMaster {
 	rule $cartago.signal(string id, endTournament()) {
 		console.println("Tournament is over.");
 		cartago.printTournament();
+		send (request, "main", playerAgentId("game_master"));
 	}
 	
 	rule $cartago.signal(string id, startNextNRounds()) {

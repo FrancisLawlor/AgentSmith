@@ -10,6 +10,6 @@ public class FileSaver {
 		
 		fileWriter = new FileWriter(new File(filePath));
 		fileWriter.write(jsonString);
-		fileWriter.close();
+		fileWriter.close();		
 	}
 }

@@ -25,11 +25,13 @@ public class TournamentArtifact extends Artifact{
 	private Map<String, Float> currentPayoffs = new HashMap<String, Float>();
 	private int numberOfReceivedPayoffs = 0;
 	private int currentNumberOfGuesses = 0;
-	private int roundsPerRun = 5;
 	private int roundsCompleted = 0;
+	private int roundsPerPhase;
 
 	@OPERATION
-	public void createTournament(String tournamentDataJsonString) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, MalformedURLException {
+	public void createTournament(String tournamentDataJsonString, String numberOfRoundsPerPhase) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, MalformedURLException {
+		this.roundsPerPhase = Integer.parseInt(numberOfRoundsPerPhase);
+		
 		Gson gsonUtility = new GsonBuilder()
 				.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 				.create();
@@ -104,7 +106,7 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void newRound() {
 		synchronized (lock) {
-			if (this.roundsCompleted < this.roundsPerRun) {
+			if (this.roundsCompleted < this.roundsPerPhase) {
 				this.roundsCompleted++;
 				if (this.currentRound < this.tournament.getRounds().size()) {
 					signal(TournamentResources.START_NEW_ROUND);

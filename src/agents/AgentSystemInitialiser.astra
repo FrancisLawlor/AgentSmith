@@ -22,7 +22,7 @@ agent AgentSystemInitialiser {
 		!setupScoreBoardArtifact(cartago.ArtifactId scoreBoardArtifact);
 		!connectToScoreBoardArtifact();
 		
-		cartago.createTournament("tournament_json_string_is_passed_here");
+		cartago.createTournament("tournament_json_string_is_passed_here", "number_of_rounds_per_phase");
 		system.createAgent("game_master", "agents.GameMaster");
 		system.setMainGoal("game_master", []);
 		console.println("created agent: game_master");
@@ -61,4 +61,8 @@ agent AgentSystemInitialiser {
 	rule @message(request, string id, playerAgentId(string agentId)) {
 		cartago.saveResults("path_to_storage_location_of_results.json");
 	}
+	
+	rule @message(request, string id, playerAgentId(string agentId)) {
+		cartago.storePreviousPhase("path_to_temporary_file");
+	}	
 }

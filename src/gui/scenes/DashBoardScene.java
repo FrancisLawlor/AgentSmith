@@ -5,6 +5,7 @@ import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import tournament.data.AgentData;
 import tournament.data.RoundData;
 
@@ -58,5 +59,9 @@ public class DashBoardScene extends Scene {
 
 	public Button getRemoveSelectedRoundButton() {
 		return this.dashBoardPane.getRemoveSelectedRoundButton();
+	}
+	
+	public TextField getNTextField() {
+		return this.dashBoardPane.getNTextField();
 	}
 }

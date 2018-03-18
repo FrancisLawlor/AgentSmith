@@ -36,4 +36,5 @@ public class GUIText {
 	public static final String BROWSE_GAME_BUTTON_LABEL = "Browse games";
 	public static final String CONTINUE = "Continue";
 	public static final String TOURNAMENT_PHASE_TEXT = "Current phase data";
+	public static final String N_LABEL_TEXT = "N = ";
 }

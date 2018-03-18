@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -40,6 +41,7 @@ public class DashBoardPane extends BorderPane {
 	private Button clearRoundsButton;
 	private Button removeSelectedAgentButton;
 	private Button removeSelectedRoundButton;
+	private TextField nTextField;
 	
 	public DashBoardPane(ObservableList<AgentData> agentData, ObservableList<RoundData> roundData) {
 		VBox leftBar = configureLeftBar();
@@ -242,10 +244,25 @@ public class DashBoardPane extends BorderPane {
 		BorderPane rightBarContent = new BorderPane();
 		rightBarContent.setPadding(new Insets(GUIDimensions.START_TOURNAMENT_BUTTON_INSETS));
 	    
-	    Button playButton = new Button(GUIText.START_TOURNAMENT_BUTTON);
-	    rightBarContent.setBottom(playButton);
-	    this.playButton = playButton;
-        
+		VBox inputVBox = new VBox();
+		inputVBox.setSpacing(GUIDimensions.DASHBOARD_VBOX_SPACING);
+
+		HBox nInputHBox = new HBox();
+		Label nLabel = new Label(GUIText.N_LABEL_TEXT);
+		TextField nTextField = new TextField();
+		nTextField.setMaxWidth(GUIDimensions.MAX_N_TEXTFIELD_WIDTH);
+		this.nTextField = nTextField;
+		nInputHBox.getChildren().addAll(nLabel, nTextField);
+		
+		Button playButton = new Button(GUIText.START_TOURNAMENT_BUTTON);
+		playButton.setMaxWidth(GUIDimensions.PLAY_BUTTON_MAX_WIDTH);
+		this.playButton = playButton;
+		
+		inputVBox.getChildren().add(nInputHBox);
+		inputVBox.getChildren().add(playButton);
+
+		rightBarContent.setBottom(inputVBox);
+		
 		return rightBarContent;
 	}
 
@@ -291,5 +308,9 @@ public class DashBoardPane extends BorderPane {
 	
 	public ListView<RoundData> getRoundListView() {
 		return this.roundListView;
+	}
+	
+	public TextField getNTextField() {
+		return this.nTextField;
 	}
 }

@@ -1,8 +1,11 @@
 package statemachine.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import filemanagement.tempfiles.TempFileWrapper;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import statemachine.utils.StateName;
@@ -25,14 +28,21 @@ public class StateMachine {
 	private SceneContainerStage containerStage = new SceneContainerStage();
 	private GUI gui = new GUI(containerStage);
 	private TournamentDataWrapper GUITournamentData = new TournamentDataWrapper(new TournamentData());
+	private TempFileWrapper tempFileWrapper;
 	
 	public StateMachine() {
+		try {
+			this.tempFileWrapper = new TempFileWrapper(File.createTempFile("previousPhaseResults", ".json"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		stateMap.put(StateName.START, new StartState(this, this.containerStage, this.gui));
 		stateMap.put(StateName.DASHBOARD, new DashboardState(this, this.containerStage, this.gui, this.GUITournamentData));
 		stateMap.put(StateName.AGENT_CREATION, new AgentCreationState(this, this.containerStage, this.gui, this.GUITournamentData));
 		stateMap.put(StateName.ROUND_CREATION, new RoundCreationState(this, this.containerStage, this.gui, this.GUITournamentData));
-		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui, this.GUITournamentData));
-		stateMap.put(StateName.TOURNAMENT_PHASE, new TournamentPhaseState(this, this.containerStage, this.gui));
+		stateMap.put(StateName.TOURNAMENT_PLAYING, new TournamentPlayingState(this, this.containerStage, this.gui, this.GUITournamentData, this.tempFileWrapper));
+		stateMap.put(StateName.TOURNAMENT_PHASE, new TournamentPhaseState(this, this.containerStage, this.gui, this.tempFileWrapper));
 		stateMap.put(StateName.LOADING_TOURNAMENT, new LoadTournamentFileState(this, this.containerStage, this.gui, this.GUITournamentData));
 		stateMap.put(StateName.SAVING_TOURNAMENT, new SaveTournamentFileState(this, this.containerStage, this.GUITournamentData));
 	}

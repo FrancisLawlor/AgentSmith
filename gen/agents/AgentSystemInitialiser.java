@@ -17,7 +17,7 @@ import astra.reasoner.util.*;
 
 
 public class AgentSystemInitialiser extends ASTRAClass {
-	public AgentSystemInitialiser(String tournamentJSONString, String resultsFilePath) {
+	public AgentSystemInitialiser(String tournamentJSONString, String resultsFilePath, String tempFilePath, String N) {
 		setParents(new Class[] {astra.lang.Agent.class});
 		addRule(new Rule(
 			"agents.AgentSystemInitialiser", new int[] {12,9,12,28},
@@ -105,7 +105,8 @@ public class AgentSystemInitialiser extends ASTRAClass {
 					new ModuleCall("cartago",
 						"agents.AgentSystemInitialiser", new int[] {25,8,25,41},
 						new Predicate("createTournament", new Term[] {
-							Primitive.newPrimitive(tournamentJSONString)
+							Primitive.newPrimitive(tournamentJSONString),
+							Primitive.newPrimitive(N)
 						}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -583,6 +584,40 @@ public class AgentSystemInitialiser extends ASTRAClass {
 				}
 			)
 		));
+		addRule(new Rule(
+				"agents.AgentSystemInitialiser", new int[] {65,9,65,70},
+				new MessageEvent(
+					new Performative("request"),
+					new Variable(Type.STRING, "id",false),
+					new Predicate("phaseSaver", new Term[] {
+						new Variable(Type.STRING, "agentId",false)
+					})
+				),
+				Predicate.TRUE,
+				new Block(
+					"agents.AgentSystemInitialiser", new int[] {65,69,67,5},
+					new Statement[] {
+						new ModuleCall("cartago",
+							"agents.AgentSystemInitialiser", new int[] {66,8,66,60},
+							new Predicate("storePreviousPhase", new Term[] {
+								Primitive.newPrimitive(tempFilePath)
+							}),
+							new DefaultModuleCallAdaptor() {
+								public boolean inline() {
+									return true;
+								}
+
+								public boolean invoke(Intention intention, Predicate predicate) {
+									return ((astra.lang.Cartago) intention.getModule("agents.AgentSystemInitialiser","cartago")).auto_action(intention,evaluate(intention,predicate));
+								}
+								public boolean suppressNotification() {
+									return true;
+								}
+							}
+						)
+					}
+				)
+			));
 	}
 
 	public void initialize(astra.core.Agent agent) {
@@ -605,7 +640,7 @@ public class AgentSystemInitialiser extends ASTRAClass {
 
 		String name = java.lang.System.getProperty("astra.name", "main");
 		try {
-			astra.core.Agent agent = new AgentSystemInitialiser(args[0], args[1]).newInstance(name);
+			astra.core.Agent agent = new AgentSystemInitialiser(args[0], args[1], args[2], args[3]).newInstance(name);
 			agent.initialize(new Goal(new Predicate("main", new Term[] { argList })));
 			Scheduler.schedule(agent);
 		} catch (AgentCreationException e) {
