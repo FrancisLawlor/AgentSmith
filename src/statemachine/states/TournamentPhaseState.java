@@ -3,10 +3,8 @@ package statemachine.states;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
-import javafx.concurrent.Task;
-import javafx.scene.control.Tooltip;
-import javafx.scene.text.Text;
 import statemachine.core.StateMachine;
+import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
 
 public class TournamentPhaseState extends State {
@@ -28,13 +26,22 @@ public class TournamentPhaseState extends State {
 			case CLICK_CONTINUE:
 				clicksContinue();
 				break;
+			case RETURN:
+				phaseFinished();
+				break;
 			default:
 				break;
 		}
 	}
 
+	private void phaseFinished() {
+		this.sceneContainerStage.changeScene(gui.getTournamentPhaseScene());
+		this.sceneContainerStage.setTitle(GUIText.TOURNAMENT_PHASE_TEXT);		
+	}
+
 	private void clicksContinue() {
-		System.out.println("continue");
+		stateMachine.setCurrentState(StateName.TOURNAMENT_PLAYING);
+		stateMachine.execute(StateParameters.RETURN);
 	}
 
 	private void init() {
