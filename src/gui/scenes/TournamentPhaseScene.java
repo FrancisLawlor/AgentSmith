@@ -1,10 +1,14 @@
 package gui.scenes;
 
+import java.util.Map;
+
+import games.score.RoundScoreRecorder;
 import gui.panes.TournamentPhasePane;
 import gui.utils.GUIDimensions;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
+import tournament.data.CumulativePayoffsData;
 
 public class TournamentPhaseScene extends Scene {	
 	private TournamentPhasePane tournamentPhasePane;
@@ -20,5 +24,9 @@ public class TournamentPhaseScene extends Scene {
 	
 	public Button getContinueButton() {
 		return this.tournamentPhasePane.getContinueButton();
+	}
+
+	public void updateRoundData(Map<String, Float> displayData) {
+		this.tournamentPhasePane.updateRoundData(displayData);	
 	}
 }

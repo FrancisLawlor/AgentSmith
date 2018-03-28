@@ -20,4 +20,5 @@ public class TournamentResources {
 	public static final String BID_RECEIVED = "bidReceived";
 	public static final String TERMINATE = "terminate";
 	public static final String START_NEXT_N_ROUNDS = "startNextNRounds";
+	public static final String CURRENT_ROUND = "current_round";
 }

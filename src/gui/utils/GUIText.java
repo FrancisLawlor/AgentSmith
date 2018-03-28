@@ -21,6 +21,7 @@ public class GUIText {
 	public static final String CREATE_ROUND_BUTTON = "Create round";
 	public static final String GAME_TEXT_FIELD_LABEL = "Choose a game";
 	public static final String TOURNAMENT_PLAYING_TEXT = "Waiting for tournament to finish...";
+	public static final String TOURNAMENT_IN_PROGRESS = "Tournament in progress";
 	public static final String CREATE_AGENT_HEADING = "Create Agent";
 	public static final String CREATE_ROUND_HEADING = "Create Round";
 	public static final String ADDITIONAL_PARAMETERS_LISTVIEW = "Additional parameters";

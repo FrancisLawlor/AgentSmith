@@ -12,11 +12,13 @@ import cartago.Artifact;
 import cartago.OPERATION;
 import filemanagement.fileloader.FileSaver;
 import games.core.GamesResources;
+import tournament.core.TournamentResources;
 
 public class ScoreBoardArtifact extends Artifact {
 	private Object lock = new Object();
 	private Map<Integer, RoundScoreRecorder> scoreHistory = new HashMap<Integer, RoundScoreRecorder>();
 	private RoundScoreRecorder currentRoundScoreRecorder;
+	private Map<String, Float> cumulativePayoffs = new HashMap<>();
 	private int numberOfAgentsFinishedUpdatingStrategies = 0;
 	private int currentRound = 0;
 	private int currentNumberOfBids = 0;
@@ -54,12 +56,25 @@ public class ScoreBoardArtifact extends Artifact {
 			this.currentRoundScoreRecorder.updatePlayerPayoffs(agentId, payoff);
 
 			if (this.currentNumberOfRecordedPayoffs == numberOfAgents) {
+				updateCumulativePayoffs(this.currentRoundScoreRecorder);
 				signal(GamesResources.ALL_PAYOFFS_RECORDED);
 				this.currentNumberOfRecordedPayoffs = 0;
 			}		
 		}
 	}
 		
+	private void updateCumulativePayoffs(RoundScoreRecorder currentRoundScoreRecorder) {
+		for (String key: this.currentRoundScoreRecorder.getPlayerPayoffs().keySet()) {
+			if (this.cumulativePayoffs.containsKey(key)) {
+				this.cumulativePayoffs.put(key, this.cumulativePayoffs.get(key) + this.currentRoundScoreRecorder.getPlayerPayoffs().get(key));
+			} else {
+				this.cumulativePayoffs.put(key, this.currentRoundScoreRecorder.getPlayerPayoffs().get(key));
+			}
+			
+			this.cumulativePayoffs.put(TournamentResources.CURRENT_ROUND, (float) this.currentRound);
+		}
+	}
+
 	@OPERATION
 	public void storeCurrentRound(int numberOfAgents) {
 		synchronized (lock) {
@@ -113,7 +128,7 @@ public class ScoreBoardArtifact extends Artifact {
 					.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
 					.create();
 			
-			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), tempFilePath);
+			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.cumulativePayoffs), tempFilePath);
 		}
 	}
 }
