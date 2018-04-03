@@ -22,6 +22,7 @@ import filemanagement.utils.FileResources;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
+import gui.utils.InputValidator;
 import javafx.concurrent.Task;
 import javafx.stage.FileChooser;
 import statemachine.core.StateMachine;
@@ -95,7 +96,11 @@ public class TournamentPlayingState extends State {
 	}
 
 	private void init() {
-		this.numberOfRoundsPerPhase = Integer.parseInt(gui.getDashBoardScene().getNTextField().getText());
+		if (InputValidator.isEmptyString(gui.getDashBoardScene().getNTextField().getText()) || !InputValidator.isValidInteger(gui.getDashBoardScene().getNTextField().getText())) {
+			this.numberOfRoundsPerPhase = 1;
+		} else {
+			this.numberOfRoundsPerPhase = Integer.parseInt(gui.getDashBoardScene().getNTextField().getText());
+		}
 		this.numberOfPhases = calculateNumberOfPhases();
 		
 		this.sceneContainerStage.setTitle(GUIText.SELECT_FILE);
