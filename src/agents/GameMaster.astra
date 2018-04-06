@@ -55,7 +55,6 @@ agent GameMaster {
 	}
 	
     rule $cartago.signal(string id, startNewRound()) {
-//    	console.println("New round started with " + numberOfAgents + " agents.");
 		query(numberOfAgents(int _numberOfAgents));
 		int i = 0;
 		
@@ -67,14 +66,12 @@ agent GameMaster {
 	}
 	
 	rule @message(request, string id, playerAgentId(string agentId)) {	
-//		console.println("Agent with id " + agentId + " has received the request for a new round.");
 		query(numberOfAgents(int _numberOfAgents));		
 		cartago.storeCurrentRound(_numberOfAgents);
 		send (request, "main", phaseSaver("game_master"));
 	}
 	
 	rule $cartago.signal(string id, finishedStoringCurrentRound()) {	
-		console.println("Finished storing current round.");
 		query(numberOfRounds(int _numberOfRounds));
 		query(numberOfAgents(int _numberOfAgents));
 		
@@ -84,7 +81,6 @@ agent GameMaster {
 	
 	rule $cartago.signal(string id, endTournament()) {
 		console.println("Tournament is over.");
-		cartago.printTournament();
 		send (request, "main", playerAgentId("game_master"));
 	}
 	
@@ -92,6 +88,7 @@ agent GameMaster {
 		query(numberOfRounds(int _numberOfRounds));
 		query(numberOfAgents(int _numberOfAgents));
 		
+		cartago.progressReport();
 		cartago.createNewRoundScoreRecorder(_numberOfAgents, _numberOfRounds);
 		cartago.newRound();
 	}

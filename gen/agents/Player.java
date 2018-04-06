@@ -174,10 +174,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {32,69,35,5},
+				"agents.Player", new int[] {32,69,34,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {34,8,34,43},
+						"agents.Player", new int[] {33,8,33,43},
 						new Predicate("getNumberOfOptions", new Term[] {
 							new Variable(Type.STRING, "agentId")
 						}),
@@ -198,7 +198,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {37,9,37,91},
+			"agents.Player", new int[] {36,9,36,91},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -219,10 +219,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {37,90,42,5},
+				"agents.Player", new int[] {36,90,40,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {38,8,42,5},
+						"agents.Player", new int[] {37,8,40,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -240,10 +240,10 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {38,33,41,9},
+							"agents.Player", new int[] {37,33,39,9},
 							new Statement[] {
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {40,12,40,55},
+									"agents.Player", new int[] {38,12,38,55},
 									new Predicate("getGuess", new Term[] {
 										new ModuleTerm("S", Type.STRING,
 											new Predicate("name", new Term[] {}),
@@ -280,7 +280,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {44,9,44,100},
+			"agents.Player", new int[] {42,9,42,100},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -302,10 +302,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {44,99,50,5},
+				"agents.Player", new int[] {42,99,47,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {45,8,50,5},
+						"agents.Player", new int[] {43,8,47,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -323,16 +323,16 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {45,33,49,9},
+							"agents.Player", new int[] {43,33,46,9},
 							new Statement[] {
 								new BeliefUpdate('+',
-									"agents.Player", new int[] {46,12,49,9},
+									"agents.Player", new int[] {44,12,46,9},
 									new Predicate("numberOfAgents", new Term[] {
 										new Variable(Type.INTEGER, "numberOfAgents")
 									})
 								),
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {48,12,48,61},
+									"agents.Player", new int[] {45,12,45,61},
 									new Predicate("recordBid", new Term[] {
 										new Variable(Type.STRING, "agentId"),
 										new Variable(Type.INTEGER, "guess"),
@@ -358,7 +358,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {52,9,52,82},
+			"agents.Player", new int[] {49,9,49,82},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -379,10 +379,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {52,81,56,5},
+				"agents.Player", new int[] {49,81,53,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {53,8,56,5},
+						"agents.Player", new int[] {50,8,53,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -400,10 +400,10 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {53,33,55,9},
+							"agents.Player", new int[] {50,33,52,9},
 							new Statement[] {
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {54,12,54,50},
+									"agents.Player", new int[] {51,12,51,50},
 									new Predicate("playGame", new Term[] {
 										new ModuleTerm("S", Type.STRING,
 											new Predicate("name", new Term[] {}),
@@ -440,7 +440,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {58,9,58,81},
+			"agents.Player", new int[] {55,9,55,81},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -461,10 +461,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {58,80,64,5},
+				"agents.Player", new int[] {55,80,60,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {59,8,64,5},
+						"agents.Player", new int[] {56,8,60,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -482,16 +482,16 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {59,33,63,9},
+							"agents.Player", new int[] {56,33,59,9},
 							new Statement[] {
 								new Query(
-									"agents.Player", new int[] {61,12,61,54},
+									"agents.Player", new int[] {57,12,57,54},
 									new Predicate("numberOfAgents", new Term[] {
 										new Variable(Type.INTEGER, "_numberOfAgents",false)
 									})
 								),
 								new ModuleCall("cartago",
-									"agents.Player", new int[] {62,12,62,66},
+									"agents.Player", new int[] {58,12,58,66},
 									new Predicate("recordPayoff", new Term[] {
 										new Variable(Type.STRING, "agentId"),
 										new Variable(Type.FLOAT, "payoff"),
@@ -517,7 +517,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {66,9,66,59},
+			"agents.Player", new int[] {62,9,62,59},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -535,10 +535,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {66,58,69,5},
+				"agents.Player", new int[] {62,58,64,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {68,8,68,32},
+						"agents.Player", new int[] {63,8,63,32},
 						new Predicate("receivedPayoff", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -557,7 +557,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {71,9,71,104},
+			"agents.Player", new int[] {66,9,66,104},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -578,10 +578,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {71,103,74,5},
+				"agents.Player", new int[] {66,103,68,5},
 				new Statement[] {
 					new ModuleCall("cartago",
-						"agents.Player", new int[] {73,8,73,72},
+						"agents.Player", new int[] {67,8,67,72},
 						new Predicate("updateStrategy", new Term[] {
 							new ModuleTerm("S", Type.STRING,
 								new Predicate("name", new Term[] {}),
@@ -616,7 +616,7 @@ public class Player extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.Player", new int[] {76,9,76,69},
+			"agents.Player", new int[] {70,9,70,69},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -636,10 +636,10 @@ public class Player extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.Player", new int[] {76,68,81,5},
+				"agents.Player", new int[] {70,68,74,5},
 				new Statement[] {
 					new If(
-						"agents.Player", new int[] {77,8,81,5},
+						"agents.Player", new int[] {71,8,74,5},
 						new Comparison("==",
 							new Variable(Type.STRING, "agentId"),
 							new ModuleTerm("S", Type.STRING,
@@ -657,9 +657,9 @@ public class Player extends ASTRAClass {
 							)
 						),
 						new Block(
-							"agents.Player", new int[] {77,33,80,9},
+							"agents.Player", new int[] {71,33,73,9},
 							new Statement[] {
-								new Send("agents.Player", new int[] {79,12,79,71},
+								new Send("agents.Player", new int[] {72,12,72,71},
 									new Performative("request"),
 									Primitive.newPrimitive("game_master"),
 									new Predicate("playerAgentId", new Term[] {

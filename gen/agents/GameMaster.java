@@ -427,37 +427,37 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {57,53,67,5},
+				"agents.GameMaster", new int[] {57,53,66,5},
 				new Statement[] {
 					new Query(
-						"agents.GameMaster", new int[] {59,8,59,50},
+						"agents.GameMaster", new int[] {58,8,58,50},
 						new Predicate("numberOfAgents", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents",false)
 						})
 					),
 					new Declaration(
 						new Variable(Type.INTEGER, "i"),
-						"agents.GameMaster", new int[] {60,8,67,5},
+						"agents.GameMaster", new int[] {59,8,66,5},
 						Primitive.newPrimitive(0)
 					),
 					new While(
-						"agents.GameMaster", new int[] {62,8,67,5},
+						"agents.GameMaster", new int[] {61,8,66,5},
 						new Comparison("<",
 							new Variable(Type.INTEGER, "i"),
 							new Variable(Type.INTEGER, "_numberOfAgents")
 						),
 						new Block(
-							"agents.GameMaster", new int[] {62,36,66,9},
+							"agents.GameMaster", new int[] {61,36,65,9},
 							new Statement[] {
 								new Declaration(
 									new Variable(Type.STRING, "idString"),
-									"agents.GameMaster", new int[] {63,12,66,9},
+									"agents.GameMaster", new int[] {62,12,65,9},
 									Operator.newOperator('+',
 										new Variable(Type.INTEGER, "i"),
 										Primitive.newPrimitive("")
 									)
 								),
-								new Send("agents.GameMaster", new int[] {64,12,64,60},
+								new Send("agents.GameMaster", new int[] {63,12,63,60},
 									new Performative("request"),
 									new Variable(Type.STRING, "idString"),
 									new Predicate("playerAgentId", new Term[] {
@@ -466,7 +466,7 @@ public class GameMaster extends ASTRAClass {
 								),
 								new Assignment(
 									new Variable(Type.INTEGER, "i"),
-									"agents.GameMaster", new int[] {65,12,66,9},
+									"agents.GameMaster", new int[] {64,12,65,9},
 									Operator.newOperator('+',
 										new Variable(Type.INTEGER, "i"),
 										Primitive.newPrimitive(1)
@@ -479,7 +479,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {69,9,69,70},
+			"agents.GameMaster", new int[] {68,9,68,70},
 			new MessageEvent(
 				new Performative("request"),
 				new Variable(Type.STRING, "id",false),
@@ -489,16 +489,16 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {69,69,74,5},
+				"agents.GameMaster", new int[] {68,69,72,5},
 				new Statement[] {
 					new Query(
-						"agents.GameMaster", new int[] {71,8,71,50},
+						"agents.GameMaster", new int[] {69,8,69,50},
 						new Predicate("numberOfAgents", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents",false)
 						})
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {72,8,72,50},
+						"agents.GameMaster", new int[] {70,8,70,50},
 						new Predicate("storeCurrentRound", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents")
 						}),
@@ -515,7 +515,7 @@ public class GameMaster extends ASTRAClass {
 							}
 						}
 					),
-					new Send("agents.GameMaster", new int[] {73,8,73,57},
+					new Send("agents.GameMaster", new int[] {71,8,71,57},
 						new Performative("request"),
 						Primitive.newPrimitive("main"),
 						new Predicate("phaseSaver", new Term[] {
@@ -526,7 +526,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {76,9,76,68},
+			"agents.GameMaster", new int[] {74,9,74,68},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -544,39 +544,22 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {76,67,83,5},
+				"agents.GameMaster", new int[] {74,67,80,5},
 				new Statement[] {
-					new ModuleCall("console",
-						"agents.GameMaster", new int[] {77,8,77,58},
-						new Predicate("println", new Term[] {
-							Primitive.newPrimitive("Finished storing current round.")
-						}),
-						new DefaultModuleCallAdaptor() {
-							public boolean inline() {
-								return false;
-							}
-
-							public boolean invoke(Intention intention, Predicate predicate) {
-								return ((astra.lang.Console) intention.getModule("agents.GameMaster","console")).println(
-									(java.lang.String) intention.evaluate(predicate.getTerm(0))
-								);
-							}
-						}
-					),
 					new Query(
-						"agents.GameMaster", new int[] {78,8,78,50},
+						"agents.GameMaster", new int[] {75,8,75,50},
 						new Predicate("numberOfRounds", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfRounds",false)
 						})
 					),
 					new Query(
-						"agents.GameMaster", new int[] {79,8,79,50},
+						"agents.GameMaster", new int[] {76,8,76,50},
 						new Predicate("numberOfAgents", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents",false)
 						})
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {81,8,81,77},
+						"agents.GameMaster", new int[] {78,8,78,77},
 						new Predicate("createNewRoundScoreRecorder", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents"),
 							new Variable(Type.INTEGER, "_numberOfRounds")
@@ -595,7 +578,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {82,8,82,26},
+						"agents.GameMaster", new int[] {79,8,79,26},
 						new Predicate("newRound", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {
@@ -614,7 +597,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {85,9,85,54},
+			"agents.GameMaster", new int[] {82,9,82,54},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -632,10 +615,10 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {85,53,89,5},
+				"agents.GameMaster", new int[] {82,53,85,5},
 				new Statement[] {
 					new ModuleCall("console",
-						"agents.GameMaster", new int[] {86,8,86,46},
+						"agents.GameMaster", new int[] {83,8,83,46},
 						new Predicate("println", new Term[] {
 							Primitive.newPrimitive("Tournament is over.")
 						}),
@@ -651,23 +634,7 @@ public class GameMaster extends ASTRAClass {
 							}
 						}
 					),
-					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {87,8,87,33},
-						new Predicate("printTournament", new Term[] {}),
-						new DefaultModuleCallAdaptor() {
-							public boolean inline() {
-								return true;
-							}
-
-							public boolean invoke(Intention intention, Predicate predicate) {
-								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
-							}
-							public boolean suppressNotification() {
-								return true;
-							}
-						}
-					),
-					new Send("agents.GameMaster", new int[] {88,8,88,60},
+					new Send("agents.GameMaster", new int[] {84,8,84,60},
 						new Performative("request"),
 						Primitive.newPrimitive("main"),
 						new Predicate("playerAgentId", new Term[] {
@@ -678,7 +645,7 @@ public class GameMaster extends ASTRAClass {
 			)
 		));
 		addRule(new Rule(
-			"agents.GameMaster", new int[] {91,9,91,57},
+			"agents.GameMaster", new int[] {87,9,87,57},
 			new ModuleEvent("cartago",
 				"$cse",
 				new Predicate("signal", new Term[] {
@@ -696,22 +663,38 @@ public class GameMaster extends ASTRAClass {
 			),
 			Predicate.TRUE,
 			new Block(
-				"agents.GameMaster", new int[] {91,56,97,5},
+				"agents.GameMaster", new int[] {87,56,94,5},
 				new Statement[] {
 					new Query(
-						"agents.GameMaster", new int[] {92,8,92,50},
+						"agents.GameMaster", new int[] {88,8,88,50},
 						new Predicate("numberOfRounds", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfRounds",false)
 						})
 					),
 					new Query(
-						"agents.GameMaster", new int[] {93,8,93,50},
+						"agents.GameMaster", new int[] {89,8,89,50},
 						new Predicate("numberOfAgents", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents",false)
 						})
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {95,8,95,77},
+						"agents.GameMaster", new int[] {91,8,91,32},
+						new Predicate("progressReport", new Term[] {}),
+						new DefaultModuleCallAdaptor() {
+							public boolean inline() {
+								return true;
+							}
+
+							public boolean invoke(Intention intention, Predicate predicate) {
+								return ((astra.lang.Cartago) intention.getModule("agents.GameMaster","cartago")).auto_action(intention,evaluate(intention,predicate));
+							}
+							public boolean suppressNotification() {
+								return true;
+							}
+						}
+					),
+					new ModuleCall("cartago",
+						"agents.GameMaster", new int[] {92,8,92,77},
 						new Predicate("createNewRoundScoreRecorder", new Term[] {
 							new Variable(Type.INTEGER, "_numberOfAgents"),
 							new Variable(Type.INTEGER, "_numberOfRounds")
@@ -730,7 +713,7 @@ public class GameMaster extends ASTRAClass {
 						}
 					),
 					new ModuleCall("cartago",
-						"agents.GameMaster", new int[] {96,8,96,26},
+						"agents.GameMaster", new int[] {93,8,93,26},
 						new Predicate("newRound", new Term[] {}),
 						new DefaultModuleCallAdaptor() {
 							public boolean inline() {

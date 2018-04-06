@@ -116,6 +116,24 @@ public class ScoreBoardArtifact extends Artifact {
 	}
 	
 	@OPERATION
+	public void progressReport() {
+		synchronized (lock) {
+			if (this.currentRound != 0) {
+				System.out.println("\nProgress report after " + this.currentRound + " rounds:");
+				System.out.println("Agent ID\t|\tPayoff");
+				
+				float total = 0;
+				for (int i = 0; i < this.cumulativePayoffs.size() - 1; i++) {
+					total += this.cumulativePayoffs.get(i + "");
+					System.out.println(i + ": \t\t|\t\t" + this.cumulativePayoffs.get(i + ""));
+				}
+				
+				System.out.println("Group payoff: " + total);
+			}
+		}	
+	}
+	
+	@OPERATION
 	public void saveResults(String filePath) throws IOException {
 		synchronized (lock) {
 			Gson gsonUtility = new GsonBuilder()
