@@ -110,13 +110,15 @@ public class TournamentPhasePane extends BorderPane {
 		payoffColumn.setMinWidth(406);
 		payoffColumn.setCellValueFactory(new PropertyValueFactory<RowData , String>("payoff"));
 	    		
-		for (int i = 0; i < displayData.size() - 1; i++) {
-			roundData.add(new RowData(i + "", displayData.get(i + "") + ""));
+		if (displayData != null) {
+			for (int i = 0; i < displayData.size() - 1; i++) {
+				roundData.add(new RowData(i + "", displayData.get(i + "") + ""));
+			}
+			
+			roundTable.setItems(roundData);
+			roundTable.getColumns().addAll(idColumn, payoffColumn);
+			tableVBox.getChildren().addAll(new Text("After " + (Math.round(displayData.get(TournamentResources.CURRENT_ROUND)) + 1) + " rounds."), roundTable);
 		}
-		
-		roundTable.setItems(roundData);
-		roundTable.getColumns().addAll(idColumn, payoffColumn);
-		tableVBox.getChildren().addAll(new Text("After " + (Math.round(displayData.get(TournamentResources.CURRENT_ROUND)) + 1) + " rounds."), roundTable);
 		
 		this.centerPane.setContent(tableVBox);
 	}

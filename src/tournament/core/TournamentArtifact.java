@@ -185,7 +185,6 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void startNRounds() {
 		synchronized (lock) {
-			System.out.println("flolf: " + this.tournament.getRounds().size() + " " + this.currentRound + " " + (this.tournament.getRounds().size() - this.currentRound));
 			if ((this.tournament.getRounds().size() - this.currentRound) == this.roundsPerPhase) {
 				this.roundsPerPhase++;
 			}
