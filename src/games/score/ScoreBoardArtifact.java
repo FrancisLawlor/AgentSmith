@@ -141,6 +141,12 @@ public class ScoreBoardArtifact extends Artifact {
 					.create();
 			
 			FileSaver.saveJsonStringToFile(gsonUtility.toJson(this.scoreHistory), filePath);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.exit(0);
 		}
 	}
 	
