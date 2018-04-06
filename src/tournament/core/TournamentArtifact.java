@@ -84,6 +84,11 @@ public class TournamentArtifact extends Artifact{
 	public void createAgents() {
 		synchronized (lock) {
 			for (int i = 0; i < this.tournament.getAgents().size(); i++) {
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				signal(TournamentResources.CREATE_AGENT, this.tournament.getAgents().get(i).getId());
 			}
 		}
@@ -180,6 +185,10 @@ public class TournamentArtifact extends Artifact{
 	@OPERATION
 	public void startNRounds() {
 		synchronized (lock) {
+			System.out.println("flolf: " + this.tournament.getRounds().size() + " " + this.currentRound + " " + (this.tournament.getRounds().size() - this.currentRound));
+			if ((this.tournament.getRounds().size() - this.currentRound) == this.roundsPerPhase) {
+				this.roundsPerPhase++;
+			}
 			signal(TournamentResources.START_NEXT_N_ROUNDS);
 		}
 	}	

@@ -80,6 +80,11 @@ public class ScoreBoardArtifact extends Artifact {
 		synchronized (lock) {
 			this.numberOfAgentsFinishedUpdatingStrategies++;
 			if (this.numberOfAgentsFinishedUpdatingStrategies == numberOfAgents) {
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				this.scoreHistory.put(this.currentRound, this.currentRoundScoreRecorder);
 				this.numberOfAgentsFinishedUpdatingStrategies = 0;
 				this.currentRound++;
