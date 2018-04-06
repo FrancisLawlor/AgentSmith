@@ -2,7 +2,6 @@ package gui.panes;
 
 import java.util.Map;
 
-import games.score.RoundScoreRecorder;
 import gui.utils.GUIDimensions;
 import gui.utils.GUIText;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,7 +17,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import tournament.core.TournamentResources;
-import tournament.data.CumulativePayoffsData;
 
 public class TournamentPhasePane extends BorderPane {
 	private Button continueButton;
@@ -67,7 +65,7 @@ public class TournamentPhasePane extends BorderPane {
 		this.phaseDataText = phaseDataText;
 		scrollPane.setContent(phaseDataText);
 		
-	    	return scrollPane;
+	    return scrollPane;
 	}
 	
 	private VBox configureLeftBar() {

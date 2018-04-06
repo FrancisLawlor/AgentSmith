@@ -14,21 +14,27 @@ import filemanagement.tempfiles.TempFileWrapper;
 import gui.core.GUI;
 import gui.core.SceneContainerStage;
 import gui.utils.GUIText;
+import javafx.concurrent.Task;
 import statemachine.core.StateMachine;
 import statemachine.utils.StateName;
 import statemachine.utils.StateParameters;
+import tournament.data.TournamentDataWrapper;
 
 public class TournamentPhaseState extends State {
 	private StateMachine stateMachine;
 	private SceneContainerStage sceneContainerStage;
 	private GUI gui;
 	private TempFileWrapper tempFileWrapper;
+	private TournamentDataWrapper GUITournamentData;
+	private boolean first = true;
+	private boolean firstContinue = true;
 	
-	public TournamentPhaseState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TempFileWrapper tempFileWrapper) {
+	public TournamentPhaseState(StateMachine stateMachine, SceneContainerStage sceneContainerStage, GUI gui, TournamentDataWrapper GUITournamentData, TempFileWrapper tempFileWrapper) {
 		this.stateMachine = stateMachine;
 		this.sceneContainerStage = sceneContainerStage;
 		this.gui = gui;
 		this.tempFileWrapper = tempFileWrapper;
+		this.GUITournamentData = GUITournamentData;
 	}
 
 	public void execute(StateParameters param) {		
@@ -72,9 +78,13 @@ public class TournamentPhaseState extends State {
 		java.lang.reflect.Type type = new TypeToken<Map<String, Float>>(){}.getType();
 		Map<String, Float> displayData = gsonUtility.fromJson(displayTextBuilder.toString(), type);
 		
-		this.gui.getTournamentPhaseScene().updateRoundData(displayData);
-//		this.gui.getTournamentPhaseScene().getPhaseDataText().setText(PhaseDataFormatter.formatPhaseDataDisplayString(displayTextBuilder.toString()));
-		
+		if (firstContinue) {
+			this.gui.getTournamentPhaseScene().getPhaseDataText().setText(GUIText.WAITING_FOR_DATA);
+			firstContinue = false;
+		} else {
+			this.gui.getTournamentPhaseScene().updateRoundData(displayData);
+		}
+			
 		this.sceneContainerStage.changeScene(gui.getTournamentPhaseScene());
 		this.sceneContainerStage.setTitle(GUIText.TOURNAMENT_PHASE_TEXT);		
 	}
@@ -102,13 +112,35 @@ public class TournamentPhaseState extends State {
 			e1.printStackTrace();
 		}
 		
-		this.gui.getTournamentPhaseScene().getPhaseDataText().setText(displayTextBuilder.toString());
+		if (first) {
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws Exception {
+					disableButton();
+					return null;
+				}
+
+				private void disableButton() throws InterruptedException {
+					gui.getTournamentPhaseScene().getContinueButton().setDisable(true);
+					int amount = 0;
+					
+					for (int i = 0; i < GUITournamentData.getTournamentData().getAgents().size(); i++) {
+						amount += GUITournamentData.getTournamentData().getAgents().get(i).getAmount();
+					}
+					
+					Thread.sleep(500 * amount);					
+				}
+			};
+			task.setOnSucceeded(e -> {	
+				this.gui.getTournamentPhaseScene().getContinueButton().setDisable(false);
+				first = false;
+			});
+			
+			new Thread(task).start();
+		}
+		this.gui.getTournamentPhaseScene().getPhaseDataText().setText(GUIText.WAITING_FOR_AGENTS);
 		
 		this.sceneContainerStage.changeScene(gui.getTournamentPhaseScene());
 		this.sceneContainerStage.setTitle(GUIText.TOURNAMENT_PHASE_TEXT);
-		
-		// TODO Put current phase data in ScrollPane Text
-		// Placeholder code:
-		
 	}
 }

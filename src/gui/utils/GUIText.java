@@ -38,4 +38,6 @@ public class GUIText {
 	public static final String CONTINUE = "Continue";
 	public static final String TOURNAMENT_PHASE_TEXT = "Current phase data";
 	public static final String N_LABEL_TEXT = "N = ";
+	public static final String WAITING_FOR_AGENTS = "Waiting for agents to spawn...";
+	public static final String WAITING_FOR_DATA = "Waiting for data...";
 }
